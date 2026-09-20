@@ -1,0 +1,99 @@
+import { notFound } from 'next/navigation';
+import Image from 'next/image';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { createApiClient, ENDPOINTS } from '@repo/api-client';
+import { getCategoryBySlug } from '@repo/constants';
+import { Link } from '../../../../i18n/navigation.js';
+import { Breadcrumb } from '../../components/Breadcrumb.jsx';
+
+const apiClient = createApiClient({ baseUrl: process.env.NEXT_PUBLIC_API_URL });
+
+async function fetchPost(slug) {
+  try {
+    const data = await apiClient.get(ENDPOINTS.blogBySlug(slug));
+    return data.post;
+  } catch {
+    return null;
+  }
+}
+
+export async function generateMetadata({ params }) {
+  const post = await fetchPost(params.slug);
+  if (!post) return {};
+
+  return {
+    title: post.seoTitle || post.title,
+    description: post.seoDescription || post.content.slice(0, 155),
+    alternates: { canonical: `/${params.locale}/blog/${post.slug}` },
+    openGraph: {
+      title: post.title,
+      description: post.content.slice(0, 155),
+      images: post.coverImage ? [apiClient.assetUrl(post.coverImage)] : undefined,
+      type: 'article',
+    },
+  };
+}
+
+export default async function BlogPostPage({ params }) {
+  setRequestLocale(params.locale);
+  const post = await fetchPost(params.slug);
+  if (!post) notFound();
+
+  const t = await getTranslations();
+  const category = post.relatedCategory ? getCategoryBySlug(post.relatedCategory) : null;
+
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    datePublished: post.publishedAt,
+    image: post.coverImage ? [apiClient.assetUrl(post.coverImage)] : undefined,
+  };
+
+  return (
+    <main className="container" style={{ maxWidth: 720, paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+
+      <Breadcrumb
+        locale={params.locale}
+        items={[
+          { name: 'Davet360', href: '' },
+          { name: t('blog.heading'), href: '/blog' },
+          { name: post.title, href: `/blog/${post.slug}` },
+        ]}
+      />
+
+      {post.coverImage && (
+        <div
+          style={{
+            position: 'relative',
+            overflow: 'hidden',
+            aspectRatio: '16 / 7',
+            borderRadius: 'var(--radius-lg)',
+            marginBottom: 'var(--space-lg)',
+          }}
+        >
+          <Image
+            src={apiClient.assetUrl(post.coverImage)}
+            alt={post.title}
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 720px"
+            style={{ objectFit: 'cover' }}
+          />
+        </div>
+      )}
+
+      <h1>{post.title}</h1>
+      <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.8, marginTop: 'var(--space-lg)' }}>{post.content}</div>
+
+      {category && (
+        <p style={{ marginTop: 'var(--space-xl)' }}>
+          <Link href={`/${category.slug}`} className="ui-button ui-button--secondary">
+            {t(`categories.${category.slug}`)}
+          </Link>
+        </p>
+      )}
+    </main>
+  );
+}

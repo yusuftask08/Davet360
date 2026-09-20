@@ -1,0 +1,289 @@
+{
+  "nav": {
+    "blog": "Blog",
+    "login": "Log In",
+    "account": "My Account",
+    "favorites": "My Favorites",
+    "logout": "Log Out"
+  },
+  "footer": {
+    "tagline": "Find the right vendor across Turkey for weddings, engagements, henna nights, circumcision ceremonies, birthdays and more.",
+    "companyHeading": "Company",
+    "about": "About Us",
+    "contact": "Contact",
+    "legalHeading": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use",
+    "vendorsHeading": "For Businesses",
+    "addBusiness": "List Your Business",
+    "rights": "All rights reserved."
+  },
+  "pages": {
+    "about": {
+      "title": "About Us",
+      "intro": "Davet360 is a marketplace that makes it easy to find the right vendor across Turkey for weddings, engagements, henna nights, circumcision ceremonies, birthdays and many other special occasions.",
+      "missionHeading": "Our Mission",
+      "missionText": "To help people organize the most special moments of their lives with a trustworthy, transparent and easy experience — and to help vendors connect with the right customers and grow their business.",
+      "howHeading": "How We Work",
+      "howText": "Every business on our platform is reviewed and approved by our team before going live, so our users connect with verified, genuine vendors.",
+      "freeHeading": "Currently Free",
+      "freeText": "Davet360 is completely free for both customers and businesses right now. Our priority is building a real community first — optional support and advanced features for vendors will come later."
+    },
+    "contact": {
+      "title": "Contact",
+      "intro": "Reach out with questions, feedback or partnership inquiries.",
+      "nameLabel": "Your Name",
+      "emailLabel": "Email",
+      "messageLabel": "Your Message",
+      "submit": "Send",
+      "submitting": "Sending...",
+      "success": "Your message has been sent, we'll get back to you soon.",
+      "altchaWaiting": "Please wait for the verification widget to finish"
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "intro": "This page explains what data we collect when you use Davet360 and how we use it.",
+      "sections": [
+        {
+          "heading": "Data We Collect",
+          "body": "When you create an account, we collect your name, email address, and optionally your phone number. If you register as a vendor, your business details (name, description, contact info, images) are also stored."
+        },
+        {
+          "heading": "How We Use Data",
+          "body": "Your data is used only to manage your account, forward your quote requests to the relevant vendor, and improve the platform. Your data is never sold to third parties."
+        },
+        {
+          "heading": "Cookies & Analytics",
+          "body": "We use essential technical data for session management. For visitor statistics we use Umami analytics, self-hosted on our own server and collecting no personal data — we do not use third-party trackers like Google Analytics."
+        },
+        {
+          "heading": "Data Security",
+          "body": "Your password is never stored in plain text (it's hashed with bcrypt). All traffic is encrypted with HTTPS. Your data is hosted on our own servers, not transferred to third-party cloud services."
+        },
+        {
+          "heading": "Your Rights",
+          "body": "You have the right to access, correct, delete, or object to the processing of your data. You can exercise these rights by reaching out via our contact page."
+        },
+        {
+          "heading": "Account Deletion",
+          "body": "If you'd like to delete your account and associated data, contact us via our contact page."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms of Use",
+      "intro": "By using Davet360, you agree to the following terms.",
+      "sections": [
+        {
+          "heading": "Service Description",
+          "body": "Davet360 is a directory/marketplace platform connecting users looking for vendors for weddings, engagements and other special events with businesses offering those services. No payment or booking is processed through the platform — contact and agreements happen directly between the parties."
+        },
+        {
+          "heading": "Account Responsibility",
+          "body": "You are responsible for all activity on your account. Do not share your password with anyone."
+        },
+        {
+          "heading": "Vendor Obligations",
+          "body": "Businesses registering as vendors commit to providing accurate and up-to-date information. Listings with misleading or false information will be rejected or removed by admins."
+        },
+        {
+          "heading": "Content Moderation",
+          "body": "All vendor applications and reviews go through admin approval. The platform reserves the right to reject or remove inappropriate content."
+        },
+        {
+          "heading": "Disclaimer",
+          "body": "Davet360 is not responsible for the quality of services provided by vendors listed on the platform. Vendor selection and agreement terms are entirely the user's responsibility."
+        },
+        {
+          "heading": "Pricing",
+          "body": "The platform is currently completely free for both customers and businesses. Any future optional paid services will be announced in advance."
+        },
+        {
+          "heading": "Changes",
+          "body": "These terms may be updated from time to time. The current version is always published on this page."
+        }
+      ]
+    }
+  },
+  "categories": {
+    "dugun-mekani": "Wedding Venue",
+    "dugun-organizasyonu": "Wedding Planning",
+    "nisan-organizasyonu": "Engagement Party",
+    "kina-gecesi": "Henna Night Organizer",
+    "sunnet-organizasyonu": "Circumcision Ceremony Organizer",
+    "dogum-gunu-organizasyonu": "Birthday Party Organizer",
+    "baby-shower": "Baby Shower Organizer",
+    "mezuniyet-organizasyonu": "Graduation Party Organizer",
+    "kurumsal-etkinlik": "Corporate Event Organizer",
+    "orkestra-muzik": "Orchestra / Music",
+    "fotograf-video": "Photo & Video",
+    "catering-ikram": "Catering",
+    "pasta-tatli": "Cake & Desserts",
+    "dekorasyon-balon": "Decoration & Balloons",
+    "davetiye": "Invitations & Stationery",
+    "gelinlik-damatlik": "Bridal & Groom Wear",
+    "kuafor-makyaj": "Bridal Hair & Makeup",
+    "animasyon-cocuk": "Kids Entertainment & Characters"
+  },
+  "home": {
+    "title": "Find the right vendor for your wedding with Davet360",
+    "description": "Compare wedding venues, engagement organizers, orchestras and photo/video services, get a free quote with one form.",
+    "browseCategories": "Browse Categories",
+    "trustApproved": "Verified vendors",
+    "trustFreeQuote": "Free quote requests",
+    "trustWhatsapp": "Quick contact via WhatsApp",
+    "categoriesHeading": "Categories",
+    "categoriesSubheading": "Pick the category that fits your needs",
+    "browseVendors": "Browse vendors →"
+  },
+  "categoryIntros": {
+    "dugun-mekani": "Compare capacity, location and catering options to find the right venue for your wedding.",
+    "dugun-organizasyonu": "Discover professional wedding planners who manage everything from concept to the big day.",
+    "nisan-organizasyonu": "Compare venues, decoration and planning services for your engagement ceremony in one place.",
+    "kina-gecesi": "Find organizers, music and decoration vendors to make your traditional henna night unforgettable.",
+    "sunnet-organizasyonu": "Meet trusted vendors offering venues, entertainment and planning for circumcision ceremonies.",
+    "dogum-gunu-organizasyonu": "Compare party planners, cake makers and decorators for birthday and milestone celebrations.",
+    "baby-shower": "Discover vendors specializing in baby shower celebrations for expecting parents.",
+    "mezuniyet-organizasyonu": "Browse venues and planning services for your graduation celebration.",
+    "kurumsal-etkinlik": "Find professional vendors for corporate events, product launches and business gatherings.",
+    "orkestra-muzik": "Compare orchestras, DJs and soloists for your wedding, engagement and special occasions.",
+    "fotograf-video": "Discover professional wedding photographers and videographers to capture your memories.",
+    "catering-ikram": "Compare catering companies providing food and refreshment services for your event.",
+    "pasta-tatli": "Find skilled bakers for wedding cakes, dessert tables and celebration cakes.",
+    "dekorasyon-balon": "Decorate your event with expert venue decoration and balloon styling vendors.",
+    "davetiye": "Browse design and printing services for elegant invitations and event stationery.",
+    "gelinlik-damatlik": "Discover trusted boutiques and designers to find your dream wedding dress or suit.",
+    "kuafor-makyaj": "Compare bridal hair and makeup artists to look flawless on your special day.",
+    "animasyon-cocuk": "Find entertainers, characters and kids' activities for your family-friendly event."
+  },
+  "category": {
+    "cityLabel": "City",
+    "cityPlaceholder": "e.g. Istanbul",
+    "vendorCount": "{count} vendors",
+    "empty": "No verified vendors in this category yet.",
+    "emptyCtaText": "Do you offer this service? Be the first one listed here.",
+    "emptyCtaButton": "List Your Business",
+    "nationwide": "Nationwide",
+    "pickCity": "Pick a city",
+    "allCities": "{category} vendors in all cities",
+    "maxBudgetLabel": "Max Budget (₺)",
+    "minCapacityLabel": "Min Capacity",
+    "filterButton": "Filter"
+  },
+  "vendor": {
+    "getQuote": "Get a Quote",
+    "whatsapp": "Message on WhatsApp",
+    "reviewsHeading": "Reviews",
+    "noReviews": "No approved reviews yet.",
+    "locationHeading": "Location",
+    "verified": "✓ Davet360 Verified",
+    "verifiedShort": "Davet360 Verified",
+    "capacity": "Capacity: {count} guests",
+    "galleryHeading": "Gallery",
+    "similarHeading": "Similar Vendors"
+  },
+  "leadForm": {
+    "name": "Your Name",
+    "phone": "Phone",
+    "eventDate": "Event Date",
+    "message": "Your Note",
+    "submit": "Get a Quote",
+    "submitting": "Sending...",
+    "success": "Your request was sent, thank you! The vendor will get in touch with you soon.",
+    "genericError": "Something went wrong, please try again.",
+    "altchaWaiting": "Please wait for the verification widget to finish"
+  },
+  "reviewForm": {
+    "ratingLabel": "Rating",
+    "commentLabel": "Your Review",
+    "submit": "Submit Review",
+    "submitting": "Sending...",
+    "success": "Your review was received and will be published after admin approval. Thank you!",
+    "loginPrompt": "Please",
+    "loginLink": "log in"
+  },
+  "favoriteButton": {
+    "add": "♡ Add to Favorites",
+    "added": "♥ In Favorites"
+  },
+  "auth": {
+    "loginTitle": "Log In",
+    "registerTitle": "Create an Account",
+    "registerSubtitle": "Create an account to save favorites and leave reviews.",
+    "nameLabel": "Full Name",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone (optional)",
+    "passwordLabel": "Password",
+    "loginSubmit": "Log In",
+    "loginSubmitting": "Logging in...",
+    "registerSubmit": "Sign Up",
+    "registerSubmitting": "Signing up...",
+    "noAccount": "Don't have an account?",
+    "registerLink": "Sign up",
+    "hasAccount": "Already have an account?",
+    "loginLink": "Log in",
+    "altchaWaiting": "Please wait for the verification widget to finish",
+    "termsAgreement": "I have read and agree to the <terms>Terms of Use</terms> and <privacy>Privacy Policy</privacy>.",
+    "termsRequired": "You must agree to the terms to continue",
+    "forgotPasswordLink": "Forgot password?",
+    "forgotPasswordTitle": "Forgot Password",
+    "forgotPasswordSubtitle": "Enter your email and we'll send you a reset link.",
+    "forgotPasswordSubmit": "Send Reset Link",
+    "forgotPasswordSuccess": "If that email is registered, a reset link has been sent. Check your inbox.",
+    "resetPasswordTitle": "Set New Password",
+    "newPasswordLabel": "New Password",
+    "resetPasswordSubmit": "Update Password",
+    "resetPasswordSuccess": "Your password has been updated. You can log in now.",
+    "resetPasswordInvalidLink": "This link is invalid. Please start the password reset again.",
+    "backToLogin": "Back to login"
+  },
+  "account": {
+    "title": "My Account",
+    "profileHeading": "Profile Information",
+    "nameLabel": "Full Name",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "saveButton": "Save",
+    "saved": "Saved.",
+    "passwordHeading": "Change Password",
+    "currentPasswordLabel": "Current Password",
+    "newPasswordLabel": "New Password",
+    "changePasswordButton": "Change Password",
+    "passwordChanged": "Your password has been updated.",
+    "leadsHeading": "My Quote Requests",
+    "noLeads": "You haven't sent any quote requests yet.",
+    "reviewsHeading": "My Reviews",
+    "noReviews": "You haven't written any reviews yet.",
+    "favoritesLink": "My Favorites →",
+    "statusPending": "Under Review",
+    "statusApproved": "Published",
+    "statusRejected": "Rejected"
+  },
+  "favorites": {
+    "heading": "My Favorites",
+    "loading": "Loading...",
+    "loginRequired": "You need to log in to see your favorites.",
+    "loginLink": "Log in",
+    "empty": "You haven't added any favorites yet."
+  },
+  "search": {
+    "placeholder": "Search vendors or services...",
+    "heading": "Search results for \"{query}\"",
+    "resultsCount": "{count} results",
+    "empty": "No results found. Try a different search term.",
+    "noQuery": "Enter a search term to begin."
+  },
+  "blog": {
+    "heading": "Wedding Guide",
+    "empty": "No posts published yet.",
+    "readMore": "Read more →"
+  },
+  "errors": {
+    "pageTitle": "Something went wrong",
+    "pageDescription": "An unexpected error occurred while loading the page. Please try again.",
+    "retry": "Try Again",
+    "goHome": "Go Home",
+    "notFoundTitle": "Page not found",
+    "notFoundDescription": "The page you're looking for may have moved or never existed."
+  }
+}

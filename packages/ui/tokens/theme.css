@@ -1,0 +1,61 @@
+/*
+  Bu dosya tokens/*.js dosyalarındaki değerlerin CSS karşılığıdır.
+  Yeni proje için tema değiştirirken HER İKİSİ birlikte güncellenir.
+*/
+:root {
+  --color-primary: #B8355F;
+  --color-primary-dark: #7A2145;
+  --color-primary-light: #F6DCE6;
+  --color-accent: #D9A441;
+  --color-accent-dark: #B9822B;
+  --color-ink: #211D1B;
+  --color-paper: #FBF7F2;
+  --color-surface: #FFFFFF;
+  --color-border: #EAE3DA;
+  --color-neutral-50: #FBF7F2;
+  --color-neutral-100: #F3EDE5;
+  --color-neutral-300: #DED5C8;
+  --color-neutral-500: #8A8074;
+  --color-neutral-700: #4A443C;
+  --color-neutral-900: #211D1B;
+  --color-success: #2E7D32;
+  --color-error: #C62828;
+  --color-warning: #B8860B;
+  --gradient-hero: linear-gradient(135deg, #7A2145 0%, #B8355F 55%, #D9A441 130%);
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+
+  --font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 20px;
+  --font-size-xl: 28px;
+  --font-size-2xl: 36px;
+  --font-size-3xl: 48px;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(33, 29, 27, 0.06);
+  --shadow-md: 0 8px 24px rgba(33, 29, 27, 0.08);
+  --shadow-lg: 0 24px 48px rgba(33, 29, 27, 0.14);
+
+  --motion-fast: 120ms;
+  --motion-base: 200ms;
+  --motion-slow: 320ms;
+  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
+}

@@ -1,0 +1,184 @@
+@keyframes ui-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ui-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: 12px var(--space-xl);
+  border-radius: var(--radius-full);
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-base) var(--motion-ease), background-color var(--motion-base) var(--motion-ease),
+    border-color var(--motion-base) var(--motion-ease);
+}
+.ui-button--primary {
+  background: var(--color-primary);
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+.ui-button--primary:hover {
+  background: var(--color-primary-dark);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+.ui-button--secondary {
+  background: var(--color-surface);
+  color: var(--color-primary);
+  border-color: var(--color-border);
+}
+.ui-button--secondary:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+.ui-button--ghost {
+  background: transparent;
+  color: var(--color-neutral-700);
+}
+.ui-button--ghost:hover {
+  background: var(--color-neutral-100);
+}
+.ui-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+}
+.ui-button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.ui-field {
+  display: grid;
+  gap: 6px;
+}
+.ui-field__label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-neutral-700);
+}
+.ui-field__error {
+  font-size: var(--font-size-xs);
+  color: var(--color-error);
+}
+
+.ui-input {
+  width: 100%;
+  padding: 12px var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  transition: border-color var(--motion-base) var(--motion-ease), box-shadow var(--motion-base) var(--motion-ease);
+}
+.ui-input::placeholder {
+  color: var(--color-neutral-500);
+}
+.ui-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px var(--color-primary-light);
+}
+
+.ui-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-lg);
+  transition: box-shadow var(--motion-base) var(--motion-ease), transform var(--motion-base) var(--motion-ease);
+}
+
+.ui-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px var(--space-sm);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  background: var(--color-neutral-100);
+  color: var(--color-neutral-700);
+}
+.ui-badge--success {
+  background: #E8F5E9;
+  color: var(--color-success);
+}
+.ui-badge--error {
+  background: #FDECEA;
+  color: var(--color-error);
+}
+.ui-badge--accent {
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+/* Vendor kartı: kategori sayfalarında ve ileride favoriler/arama sonuçlarında reuse edilir. */
+.ui-vendor-card {
+  display: block;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--motion-base) var(--motion-ease), box-shadow var(--motion-base) var(--motion-ease);
+}
+.ui-vendor-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.ui-vendor-card__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--gradient-hero);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  overflow: hidden;
+}
+.ui-vendor-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ui-vendor-card__body {
+  padding: var(--space-md) var(--space-lg) var(--space-lg);
+  display: grid;
+  gap: 6px;
+}
+.ui-vendor-card__title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-ink);
+}
+.ui-vendor-card__meta {
+  margin: 0;
+  color: var(--color-neutral-500);
+  font-size: var(--font-size-sm);
+}
+
+/* Responsive: tüm bileşenler mobilde de aynı token'ları kullanır, sadece layout container'lar kırılır. */
+@media (max-width: 768px) {
+  .ui-card {
+    padding: var(--space-md);
+  }
+  .ui-button {
+    padding: 12px var(--space-lg);
+  }
+}

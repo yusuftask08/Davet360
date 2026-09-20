@@ -1,0 +1,31 @@
+'use client';
+
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { Button } from '@repo/ui';
+
+export function PanelHeader({ title }) {
+  const router = useRouter();
+
+  function handleLogout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    router.push('/login');
+  }
+
+  return (
+    <div className="panel-header">
+      <div className="panel-header__logo">
+        Davet<span>360</span> {title && `· ${title}`}
+      </div>
+      <div style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'center' }}>
+        <Link href="/settings" style={{ fontSize: 'var(--font-size-sm)' }}>
+          Hesap Ayarları
+        </Link>
+        <Button variant="ghost" onClick={handleLogout}>
+          Çıkış Yap
+        </Button>
+      </div>
+    </div>
+  );
+}

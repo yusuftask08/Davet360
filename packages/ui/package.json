@@ -1,0 +1,19 @@
+{
+  "name": "@repo/ui",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./theme.css": "./tokens/theme.css",
+    "./styles.css": "./components/components.css"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "next": ">=14"
+  },
+  "dependencies": {
+    "altcha": "^3.2.2"
+  }
+}

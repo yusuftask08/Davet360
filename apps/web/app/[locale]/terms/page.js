@@ -1,0 +1,26 @@
+import { getTranslations, setRequestLocale } from 'next-intl/server';
+
+export async function generateMetadata({ params: { locale } }) {
+  const t = await getTranslations({ locale, namespace: 'pages.terms' });
+  return { title: t('title'), description: t('intro') };
+}
+
+export default async function TermsPage({ params: { locale } }) {
+  setRequestLocale(locale);
+  const t = await getTranslations('pages.terms');
+  const sections = t.raw('sections');
+
+  return (
+    <main className="container" style={{ maxWidth: 720, paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}>
+      <h1>{t('title')}</h1>
+      <p style={{ color: 'var(--color-neutral-500)' }}>{t('intro')}</p>
+
+      {sections.map((section) => (
+        <section key={section.heading} style={{ marginTop: 'var(--space-xl)' }}>
+          <h2 style={{ fontSize: 'var(--font-size-lg)' }}>{section.heading}</h2>
+          <p style={{ lineHeight: 1.7 }}>{section.body}</p>
+        </section>
+      ))}
+    </main>
+  );
+}

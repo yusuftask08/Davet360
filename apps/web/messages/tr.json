@@ -1,0 +1,289 @@
+{
+  "nav": {
+    "blog": "Blog",
+    "login": "Giriş Yap",
+    "account": "Hesabım",
+    "favorites": "Favorilerim",
+    "logout": "Çıkış"
+  },
+  "footer": {
+    "tagline": "Türkiye genelinde düğün, nişan, kına, sünnet, doğum günü ve daha birçok özel gün için doğru tedarikçiyi bulun.",
+    "companyHeading": "Şirket",
+    "about": "Hakkımızda",
+    "contact": "İletişim",
+    "legalHeading": "Yasal",
+    "privacy": "Gizlilik Politikası",
+    "terms": "Kullanım Şartları",
+    "vendorsHeading": "İşletmeler İçin",
+    "addBusiness": "İşletmeni Ekle",
+    "rights": "Tüm hakları saklıdır."
+  },
+  "pages": {
+    "about": {
+      "title": "Hakkımızda",
+      "intro": "Davet360, Türkiye genelinde düğün, nişan, kına, sünnet, doğum günü ve daha pek çok özel gün için doğru tedarikçiyi bulmayı kolaylaştıran bir pazaryeridir.",
+      "missionHeading": "Misyonumuz",
+      "missionText": "İnsanların hayatlarının en özel anlarını organize ederken güvenilir, şeffaf ve kolay bir deneyim yaşamalarını sağlamak; tedarikçilerin ise doğru müşteriyle buluşup işlerini büyütmelerine destek olmak.",
+      "howHeading": "Nasıl Çalışıyoruz",
+      "howText": "Platformumuzdaki her işletme, yayına girmeden önce ekibimiz tarafından incelenir ve onaylanır. Bu sayede kullanıcılarımız güvenilir ve gerçek tedarikçilerle iletişime geçer.",
+      "freeHeading": "Şu An Ücretsiz",
+      "freeText": "Davet360, hem müşteriler hem işletmeler için şu anda tamamen ücretsizdir. Amacımız önce gerçek bir topluluk oluşturmak; ileride işletmelerimize opsiyonel destek ve gelişmiş özellikler sunacağız."
+    },
+    "contact": {
+      "title": "İletişim",
+      "intro": "Sorularınız, önerileriniz ya da iş birliği talepleriniz için bize yazın.",
+      "nameLabel": "Adınız",
+      "emailLabel": "Email",
+      "messageLabel": "Mesajınız",
+      "submit": "Gönder",
+      "submitting": "Gönderiliyor...",
+      "success": "Mesajınız iletildi, en kısa sürede size dönüş yapacağız.",
+      "altchaWaiting": "Lütfen doğrulama kutucuğunun tamamlanmasını bekleyin"
+    },
+    "privacy": {
+      "title": "Gizlilik Politikası",
+      "intro": "Bu sayfa, Davet360'ı kullanırken hangi verilerinizi topladığımızı ve bunları nasıl kullandığımızı açıklar.",
+      "sections": [
+        {
+          "heading": "Toplanan Veriler",
+          "body": "Hesap oluşturduğunuzda adınızı, email adresinizi ve isteğe bağlı olarak telefon numaranızı topluyoruz. Vendor olarak kayıt olduğunuzda işletme bilgileriniz (işletme adı, açıklama, iletişim bilgileri, görseller) de saklanır."
+        },
+        {
+          "heading": "Verilerin Kullanımı",
+          "body": "Verileriniz yalnızca hesabınızı yönetmek, teklif taleplerinizi ilgili tedarikçiye iletmek ve platformu iyileştirmek için kullanılır. Verileriniz hiçbir şekilde üçüncü taraflara satılmaz."
+        },
+        {
+          "heading": "Çerezler ve Analiz",
+          "body": "Platformumuzda oturum yönetimi için gerekli teknik veriler kullanılır. Ziyaretçi istatistikleri için kendi sunucumuzda barındırılan, kişisel veri toplamayan Umami analytics kullanılır — Google Analytics gibi üçüncü parti takip araçları kullanılmaz."
+        },
+        {
+          "heading": "Veri Güvenliği",
+          "body": "Şifreniz asla düz metin olarak saklanmaz (bcrypt ile hash'lenir). Tüm veri trafiği HTTPS ile şifrelenir. Verileriniz kendi sunucularımızda barındırılır, üçüncü parti bulut servislerine aktarılmaz."
+        },
+        {
+          "heading": "Haklarınız (KVKK)",
+          "body": "6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında verilerinize erişme, düzeltme, silme ve işlenmesine itiraz etme hakkına sahipsiniz. Bu haklarınızı kullanmak için iletişim sayfamızdan bize ulaşabilirsiniz."
+        },
+        {
+          "heading": "Hesap Silme",
+          "body": "Hesabınızı ve ilişkili verilerinizi silmek istediğinizde iletişim sayfamızdan bizimle iletişime geçebilirsiniz."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Kullanım Şartları",
+      "intro": "Davet360'ı kullanarak aşağıdaki şartları kabul etmiş sayılırsınız.",
+      "sections": [
+        {
+          "heading": "Hizmet Tanımı",
+          "body": "Davet360, düğün, nişan ve diğer özel gün etkinlikleri için tedarikçi arayan kullanıcılar ile hizmet veren işletmeleri buluşturan bir dizin/pazaryeri platformudur. Platform üzerinden herhangi bir ödeme veya rezervasyon işlemi gerçekleşmez — iletişim ve anlaşma taraflar arasında doğrudan yürütülür."
+        },
+        {
+          "heading": "Hesap Sorumluluğu",
+          "body": "Hesabınızla ilgili tüm işlemlerden siz sorumlusunuz. Şifrenizi kimseyle paylaşmamalısınız."
+        },
+        {
+          "heading": "Vendor Yükümlülükleri",
+          "body": "Vendor olarak kayıt olan işletmeler, girdikleri bilgilerin doğru ve güncel olmasını taahhüt eder. Yanıltıcı veya sahte bilgi içeren ilanlar admin tarafından reddedilir veya yayından kaldırılır."
+        },
+        {
+          "heading": "İçerik Moderasyonu",
+          "body": "Tüm vendor başvuruları ve yorumlar admin onayından geçer. Platform, uygunsuz içeriği reddetme veya kaldırma hakkını saklı tutar."
+        },
+        {
+          "heading": "Sorumluluk Reddi",
+          "body": "Davet360, platformda listelenen tedarikçilerin sunduğu hizmetlerin kalitesinden sorumlu değildir. Tedarikçi seçimi ve anlaşma şartları tamamen kullanıcının sorumluluğundadır."
+        },
+        {
+          "heading": "Ücretlendirme",
+          "body": "Platform şu anda hem müşteriler hem işletmeler için tamamen ücretsizdir. İleride sunulacak ek/opsiyonel hizmetler önceden bildirilecektir."
+        },
+        {
+          "heading": "Değişiklikler",
+          "body": "Bu kullanım şartları zaman zaman güncellenebilir. Güncel sürüm her zaman bu sayfada yayınlanır."
+        }
+      ]
+    }
+  },
+  "categories": {
+    "dugun-mekani": "Düğün Mekanı",
+    "dugun-organizasyonu": "Düğün Organizasyonu",
+    "nisan-organizasyonu": "Nişan Organizasyonu",
+    "kina-gecesi": "Kına Gecesi Organizasyonu",
+    "sunnet-organizasyonu": "Sünnet Organizasyonu",
+    "dogum-gunu-organizasyonu": "Doğum Günü / Yaş Günü Organizasyonu",
+    "baby-shower": "Baby Shower Organizasyonu",
+    "mezuniyet-organizasyonu": "Mezuniyet Organizasyonu",
+    "kurumsal-etkinlik": "Kurumsal Etkinlik Organizasyonu",
+    "orkestra-muzik": "Orkestra / Müzik",
+    "fotograf-video": "Fotoğraf & Video",
+    "catering-ikram": "Catering & İkram",
+    "pasta-tatli": "Pasta & Tatlı",
+    "dekorasyon-balon": "Dekorasyon & Balon",
+    "davetiye": "Davetiye & Kırtasiye",
+    "gelinlik-damatlik": "Gelinlik & Damatlık",
+    "kuafor-makyaj": "Gelin Saçı & Makyaj",
+    "animasyon-cocuk": "Çocuk Animasyonu & Karakterler"
+  },
+  "home": {
+    "title": "Davet360 ile düğününüz için doğru tedarikçiyi bulun",
+    "description": "Düğün mekanı, nişan organizasyonu, orkestra ve fotoğraf/video hizmetlerini karşılaştırın, tek formla ücretsiz teklif alın.",
+    "browseCategories": "Kategorilere Göz At",
+    "trustApproved": "Onaylı tedarikçiler",
+    "trustFreeQuote": "Ücretsiz teklif alma",
+    "trustWhatsapp": "WhatsApp ile hızlı iletişim",
+    "categoriesHeading": "Kategoriler",
+    "categoriesSubheading": "İhtiyacınıza en uygun kategoriyi seçin",
+    "browseVendors": "Tedarikçileri incele →"
+  },
+  "categoryIntros": {
+    "dugun-mekani": "Kapasite, konum ve catering seçeneklerini karşılaştırarak düğününüz için doğru mekanı bulun.",
+    "dugun-organizasyonu": "Konseptten güne kadar tüm süreci yöneten profesyonel düğün organizasyon firmalarını keşfedin.",
+    "nisan-organizasyonu": "Nişan töreniniz için mekan, dekorasyon ve organizasyon hizmetlerini tek yerden karşılaştırın.",
+    "kina-gecesi": "Geleneksel kına gecenizi unutulmaz kılacak organizasyon, müzik ve dekorasyon tedarikçilerini bulun.",
+    "sunnet-organizasyonu": "Sünnet töreni için mekan, eğlence ve organizasyon hizmeti veren güvenilir tedarikçilerle tanışın.",
+    "dogum-gunu-organizasyonu": "Doğum günü ve yaş günü kutlamalarınız için organizasyon, pasta ve dekorasyon tedarikçilerini karşılaştırın.",
+    "baby-shower": "Bebek bekleyen anneler için özel baby shower organizasyonları düzenleyen tedarikçileri keşfedin.",
+    "mezuniyet-organizasyonu": "Mezuniyet kutlamanız için mekan ve organizasyon hizmeti veren tedarikçileri inceleyin.",
+    "kurumsal-etkinlik": "Şirket etkinlikleri, lansmanlar ve kurumsal organizasyonlar için profesyonel tedarikçileri bulun.",
+    "orkestra-muzik": "Düğün, nişan ve özel günleriniz için orkestra, DJ ve solist seçeneklerini karşılaştırın.",
+    "fotograf-video": "Anılarınızı ölümsüzleştirecek profesyonel düğün fotoğrafçısı ve videografları keşfedin.",
+    "catering-ikram": "Etkinliğiniz için yemek ve ikram hizmeti veren catering firmalarını karşılaştırın.",
+    "pasta-tatli": "Düğün pastası, tatlı büfesi ve özel gün pastaları için usta pastanecileri bulun.",
+    "dekorasyon-balon": "Mekan dekorasyonu ve balon süslemesi konusunda uzman tedarikçilerle etkinliğinizi süsleyin.",
+    "davetiye": "Zarif davetiyeler ve etkinlik kırtasiyesi için tasarım ve baskı hizmeti veren tedarikçileri inceleyin.",
+    "gelinlik-damatlik": "Hayalinizdeki gelinlik ve damatlığı bulmak için güvenilir mağaza ve tasarımcıları keşfedin.",
+    "kuafor-makyaj": "Özel gününüzde kusursuz görünmek için gelin saçı ve makyaj uzmanlarını karşılaştırın.",
+    "animasyon-cocuk": "Çocuklu etkinlikleriniz için animasyon, karakter ve eğlence hizmeti veren tedarikçileri bulun."
+  },
+  "category": {
+    "cityLabel": "Şehir",
+    "cityPlaceholder": "Örn. İstanbul",
+    "vendorCount": "{count} tedarikçi",
+    "empty": "Bu kategoride henüz onaylı tedarikçi yok.",
+    "emptyCtaText": "Bu alanda hizmet mi veriyorsunuz? İlk işletme siz olun.",
+    "emptyCtaButton": "İşletmeni Ekle",
+    "nationwide": "Türkiye geneli",
+    "pickCity": "Şehir seçin",
+    "allCities": "Tüm şehirlerdeki {category} tedarikçileri",
+    "maxBudgetLabel": "Maks. Bütçe (₺)",
+    "minCapacityLabel": "Min. Kapasite",
+    "filterButton": "Filtrele"
+  },
+  "vendor": {
+    "getQuote": "Teklif Al",
+    "whatsapp": "WhatsApp'tan Yaz",
+    "reviewsHeading": "Yorumlar",
+    "noReviews": "Henüz onaylı yorum yok.",
+    "locationHeading": "Konum",
+    "verified": "✓ Davet360 Onaylı",
+    "verifiedShort": "Davet360 Onaylı",
+    "capacity": "{count} kişi kapasiteli",
+    "galleryHeading": "Galeri",
+    "similarHeading": "Benzer İşletmeler"
+  },
+  "leadForm": {
+    "name": "Adınız",
+    "phone": "Telefon",
+    "eventDate": "Etkinlik Tarihi",
+    "message": "Notunuz",
+    "submit": "Teklif Al",
+    "submitting": "Gönderiliyor...",
+    "success": "Talebiniz iletildi, teşekkürler! Vendor sizinle en kısa sürede iletişime geçecek.",
+    "genericError": "Bir hata oluştu, tekrar deneyin.",
+    "altchaWaiting": "Lütfen doğrulama kutucuğunun tamamlanmasını bekleyin"
+  },
+  "reviewForm": {
+    "ratingLabel": "Puan",
+    "commentLabel": "Yorumunuz",
+    "submit": "Yorum Yap",
+    "submitting": "Gönderiliyor...",
+    "success": "Yorumunuz alındı, admin onayından sonra yayınlanacak. Teşekkürler!",
+    "loginPrompt": "Yorum yapmak için",
+    "loginLink": "giriş yapın"
+  },
+  "favoriteButton": {
+    "add": "♡ Favorilere Ekle",
+    "added": "♥ Favorilerde"
+  },
+  "auth": {
+    "loginTitle": "Giriş Yap",
+    "registerTitle": "Hesap Oluştur",
+    "registerSubtitle": "Favorilere ekleme ve yorum yapabilmek için hesap oluşturun.",
+    "nameLabel": "Ad Soyad",
+    "emailLabel": "Email",
+    "phoneLabel": "Telefon (opsiyonel)",
+    "passwordLabel": "Şifre",
+    "loginSubmit": "Giriş Yap",
+    "loginSubmitting": "Giriş yapılıyor...",
+    "registerSubmit": "Kayıt Ol",
+    "registerSubmitting": "Kaydediliyor...",
+    "noAccount": "Hesabınız yok mu?",
+    "registerLink": "Kayıt olun",
+    "hasAccount": "Zaten hesabınız var mı?",
+    "loginLink": "Giriş yapın",
+    "altchaWaiting": "Lütfen doğrulama kutucuğunun tamamlanmasını bekleyin",
+    "termsAgreement": "<terms>Kullanım Şartları'nı</terms> ve <privacy>Gizlilik Politikası'nı</privacy> okudum, kabul ediyorum.",
+    "termsRequired": "Devam etmek için şartları kabul etmelisiniz",
+    "forgotPasswordLink": "Şifremi unuttum",
+    "forgotPasswordTitle": "Şifremi Unuttum",
+    "forgotPasswordSubtitle": "Email adresinizi girin, şifre sıfırlama linki gönderelim.",
+    "forgotPasswordSubmit": "Sıfırlama Linki Gönder",
+    "forgotPasswordSuccess": "Email adresiniz sistemde kayıtlıysa şifre sıfırlama linki gönderildi. Gelen kutunuzu kontrol edin.",
+    "resetPasswordTitle": "Yeni Şifre Belirle",
+    "newPasswordLabel": "Yeni Şifre",
+    "resetPasswordSubmit": "Şifreyi Güncelle",
+    "resetPasswordSuccess": "Şifreniz güncellendi. Şimdi giriş yapabilirsiniz.",
+    "resetPasswordInvalidLink": "Bu link geçersiz. Şifre sıfırlama işlemini tekrar başlatın.",
+    "backToLogin": "Giriş sayfasına dön"
+  },
+  "account": {
+    "title": "Hesabım",
+    "profileHeading": "Profil Bilgileri",
+    "nameLabel": "Ad Soyad",
+    "emailLabel": "Email",
+    "phoneLabel": "Telefon",
+    "saveButton": "Kaydet",
+    "saved": "Kaydedildi.",
+    "passwordHeading": "Şifre Değiştir",
+    "currentPasswordLabel": "Mevcut Şifre",
+    "newPasswordLabel": "Yeni Şifre",
+    "changePasswordButton": "Şifreyi Değiştir",
+    "passwordChanged": "Şifreniz güncellendi.",
+    "leadsHeading": "Gönderdiğim Teklif Talepleri",
+    "noLeads": "Henüz teklif talebi göndermediniz.",
+    "reviewsHeading": "Yaptığım Yorumlar",
+    "noReviews": "Henüz yorum yapmadınız.",
+    "favoritesLink": "Favorilerim →",
+    "statusPending": "İncelemede",
+    "statusApproved": "Yayında",
+    "statusRejected": "Reddedildi"
+  },
+  "favorites": {
+    "heading": "Favorilerim",
+    "loading": "Yükleniyor...",
+    "loginRequired": "Favorilerinizi görmek için giriş yapmalısınız.",
+    "loginLink": "Giriş yap",
+    "empty": "Henüz favori eklemediniz."
+  },
+  "search": {
+    "placeholder": "Vendor veya hizmet ara...",
+    "heading": "\"{query}\" için arama sonuçları",
+    "resultsCount": "{count} sonuç",
+    "empty": "Sonuç bulunamadı. Farklı bir kelimeyle deneyin.",
+    "noQuery": "Aramak için bir kelime girin."
+  },
+  "blog": {
+    "heading": "Düğün Rehberi",
+    "empty": "Henüz yazı yayınlanmadı.",
+    "readMore": "Devamını oku →"
+  },
+  "errors": {
+    "pageTitle": "Bir şeyler ters gitti",
+    "pageDescription": "Sayfa yüklenirken beklenmedik bir hata oluştu. Lütfen tekrar deneyin.",
+    "retry": "Tekrar Dene",
+    "goHome": "Ana Sayfaya Dön",
+    "notFoundTitle": "Sayfa bulunamadı",
+    "notFoundDescription": "Aradığınız sayfa taşınmış veya hiç var olmamış olabilir."
+  }
+}

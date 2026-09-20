@@ -1,0 +1,276 @@
+'use client';
+
+import { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { CATEGORIES } from '@repo/constants';
+import { ENDPOINTS } from '@repo/api-client';
+import { updateVendorSchema, toFieldErrors } from '@repo/utils';
+import { Button, Input, Card, Spinner } from '@repo/ui';
+import { apiClient } from '../../../lib/apiClient.js';
+import { PanelHeader } from '../../components/PanelHeader.jsx';
+
+export default function EditOwnVendorPage() {
+  const router = useRouter();
+  const [vendorId, setVendorId] = useState(null);
+  const [form, setForm] = useState(null);
+  const [images, setImages] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [error, setError] = useState(null);
+  const [saved, setSaved] = useState(false);
+
+  const load = useCallback((id) => {
+    apiClient
+      .get(ENDPOINTS.vendorOwn(id))
+      .then((data) => {
+        setForm({
+          businessName: data.vendor.businessName,
+          category: data.vendor.category,
+          description: data.vendor.description,
+          city: data.vendor.city,
+          phone: data.vendor.phone,
+          whatsapp: data.vendor.whatsapp ?? '',
+          email: data.vendor.email ?? '',
+          capacity: data.vendor.capacity ?? '',
+        });
+        setImages(data.vendor.images ?? []);
+      })
+      .catch((err) => setError(err.message));
+  }, []);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user') ?? 'null');
+    if (!user?.vendorId) {
+      router.push('/vendor/new');
+      return;
+    }
+    setVendorId(user.vendorId);
+    load(user.vendorId);
+  }, [load, router]);
+
+  async function handleImageChange(event) {
+    const files = Array.from(event.target.files ?? []);
+    if (files.length === 0) return;
+    if (images.length + files.length > 10) {
+      setError('En fazla 10 görsel yükleyebilirsiniz');
+      return;
+    }
+
+    setUploading(true);
+    setError(null);
+    try {
+      const uploaded = [];
+      for (const file of files) {
+        const formData = new FormData();
+        formData.append('image', file);
+        const data = await apiClient.upload(ENDPOINTS.uploadImage, formData);
+        uploaded.push(data.path);
+      }
+      const nextImages = [...images, ...uploaded];
+      setImages(nextImages);
+      await apiClient.put(ENDPOINTS.vendorUpdate(vendorId), { images: nextImages });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setUploading(false);
+      event.target.value = '';
+    }
+  }
+
+  async function removeImage(src) {
+    const nextImages = images.filter((item) => item !== src);
+    setImages(nextImages);
+    try {
+      await apiClient.put(ENDPOINTS.vendorUpdate(vendorId), { images: nextImages });
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setError(null);
+    setSaved(false);
+
+    const payload = {
+      businessName: form.businessName.trim(),
+      category: form.category,
+      description: form.description.trim(),
+      city: form.city.trim(),
+      phone: form.phone.trim(),
+      ...(form.whatsapp.trim() ? { whatsapp: form.whatsapp.trim() } : {}),
+      ...(form.email.trim() ? { email: form.email.trim() } : {}),
+      ...(form.capacity ? { capacity: Number(form.capacity) } : {}),
+    };
+
+    const result = updateVendorSchema.safeParse(payload);
+    if (!result.success) {
+      setFieldErrors(toFieldErrors(result.error));
+      return;
+    }
+    setFieldErrors({});
+
+    setSaving(true);
+    try {
+      await apiClient.put(ENDPOINTS.vendorUpdate(vendorId), result.data);
+      setSaved(true);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  if (!form) {
+    return (
+      <main className="container" style={{ paddingTop: 'var(--space-md)' }}>
+        <PanelHeader title="İlanımı Düzenle" />
+        {error ? <p style={{ color: 'var(--color-error)' }}>{error}</p> : <Spinner label="Yükleniyor..." />}
+      </main>
+    );
+  }
+
+  return (
+    <main className="container" style={{ paddingTop: 'var(--space-md)', paddingBottom: 'var(--space-2xl)', maxWidth: 640 }}>
+      <PanelHeader title="İlanımı Düzenle" />
+      <Card>
+        <p style={{ color: 'var(--color-neutral-500)', marginTop: 0 }}>
+          Değişiklikler admin onayı beklemeden hemen yayına yansır.
+        </p>
+        <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-sm)' }} noValidate>
+          <Input
+            label="İşletme Adı"
+            required
+            maxLength={150}
+            value={form.businessName}
+            onChange={(e) => setForm({ ...form, businessName: e.target.value })}
+            error={fieldErrors.businessName}
+          />
+
+          <div className="ui-field">
+            <label className="ui-field__label" htmlFor="category">
+              Kategori
+            </label>
+            <select
+              id="category"
+              className="ui-input"
+              value={form.category}
+              onChange={(e) => setForm({ ...form, category: e.target.value })}
+            >
+              {CATEGORIES.map((category) => (
+                <option key={category.slug} value={category.slug}>
+                  {category.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="ui-field">
+            <label className="ui-field__label" htmlFor="description">
+              Açıklama
+            </label>
+            <textarea
+              id="description"
+              className="ui-input"
+              rows={4}
+              required
+              minLength={20}
+              value={form.description}
+              onChange={(e) => setForm({ ...form, description: e.target.value })}
+            />
+            {fieldErrors.description && <span className="ui-field__error">{fieldErrors.description}</span>}
+          </div>
+
+          <Input
+            label="Şehir"
+            required
+            value={form.city}
+            onChange={(e) => setForm({ ...form, city: e.target.value })}
+            error={fieldErrors.city}
+          />
+          <Input
+            label="Telefon"
+            required
+            value={form.phone}
+            onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            error={fieldErrors.phone}
+          />
+          <Input
+            label="WhatsApp (opsiyonel)"
+            value={form.whatsapp}
+            onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
+            error={fieldErrors.whatsapp}
+          />
+          <Input
+            label="Email (opsiyonel)"
+            type="email"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            error={fieldErrors.email}
+          />
+          <Input
+            label="Kapasite (opsiyonel)"
+            type="number"
+            value={form.capacity}
+            onChange={(e) => setForm({ ...form, capacity: e.target.value })}
+          />
+
+          <div className="ui-field">
+            <label className="ui-field__label" htmlFor="images">
+              Görseller
+            </label>
+            <input
+              id="images"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              multiple
+              onChange={handleImageChange}
+              disabled={uploading || images.length >= 10}
+            />
+            {uploading && <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-neutral-500)' }}>Yükleniyor...</span>}
+            {images.length > 0 && (
+              <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', marginTop: 'var(--space-sm)' }}>
+                {images.map((src) => (
+                  <div key={src} style={{ position: 'relative' }}>
+                    <img
+                      src={apiClient.assetUrl(src)}
+                      alt=""
+                      style={{ width: 72, height: 72, objectFit: 'cover', borderRadius: 'var(--radius-md)' }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage(src)}
+                      aria-label="Görseli kaldır"
+                      style={{
+                        position: 'absolute',
+                        top: -6,
+                        right: -6,
+                        width: 20,
+                        height: 20,
+                        borderRadius: '999px',
+                        border: 'none',
+                        background: 'var(--color-error)',
+                        color: 'white',
+                        cursor: 'pointer',
+                        lineHeight: 1,
+                      }}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <Button type="submit" disabled={saving || uploading}>
+            {saving ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
+          </Button>
+          {saved && <p style={{ color: 'var(--color-success)' }}>Kaydedildi.</p>}
+          {error && <p style={{ color: 'var(--color-error)' }}>{error}</p>}
+        </form>
+      </Card>
+    </main>
+  );
+}
