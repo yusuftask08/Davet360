@@ -84,7 +84,7 @@ adminRouter.post('/vendors/:id/approve', async (req, res, next) => {
 
 adminRouter.post('/vendors/:id/reject', async (req, res, next) => {
   try {
-    const vendor = await rejectVendor(req.params.id);
+    const vendor = await rejectVendor(req.params.id, req.body?.reason ?? '');
     await recordAudit({ adminId: req.user.sub, action: 'vendor.reject', targetType: 'Vendor', targetId: vendor._id });
     res.json({ vendor });
   } catch (err) {
@@ -94,7 +94,7 @@ adminRouter.post('/vendors/:id/reject', async (req, res, next) => {
 
 adminRouter.post('/vendors/:id/suspend', async (req, res, next) => {
   try {
-    const vendor = await suspendVendor(req.params.id);
+    const vendor = await suspendVendor(req.params.id, req.body?.reason ?? '');
     await recordAudit({ adminId: req.user.sub, action: 'vendor.suspend', targetType: 'Vendor', targetId: vendor._id });
     res.json({ vendor });
   } catch (err) {

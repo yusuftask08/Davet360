@@ -28,7 +28,13 @@ const vendorSchema = new mongoose.Schema(
       max: { type: Number },
     },
     capacity: { type: Number },
+    // Düz string dizisi (sabit enum değil) — AMENITY_KEYS şu an tek ortak liste ama ileride
+    // kategoriye özel listelere geçilirse şema değişikliği gerekmeden genişletilebilir.
+    amenities: [{ type: String }],
     status: { type: String, enum: VENDOR_STATUS_LIST, default: VENDOR_STATUS.PENDING, index: true },
+    // Vendor'ın reddedilme/askıya alınma nedeni — admin girer, vendor kendi panelinde görür.
+    // approve/reactivate ile temizlenir, çünkü eski bir red/askı notu güncel durumu yanlış yansıtır.
+    statusReason: { type: String, default: '' },
     approvedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     approvedAt: { type: Date },
     avgRating: { type: Number, default: 0 },

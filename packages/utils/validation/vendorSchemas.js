@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CATEGORY_SLUGS } from '@repo/constants';
+import { CATEGORY_SLUGS, AMENITY_KEYS } from '@repo/constants';
 import { phoneSchema } from './phone.js';
 
 export const createVendorSchema = z.object({
@@ -20,6 +20,7 @@ export const createVendorSchema = z.object({
     .optional(),
   capacity: z.number().int().positive('Pozitif bir sayı olmalı').optional(),
   images: z.array(z.string()).max(10, 'En fazla 10 görsel yükleyebilirsiniz').optional(),
+  amenities: z.array(z.enum(AMENITY_KEYS)).optional(),
 });
 
 // Vendor kendi ilanını düzenlerken / admin bir ilanı düzenlerken kullanılır — tüm alanlar

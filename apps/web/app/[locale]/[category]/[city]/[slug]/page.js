@@ -1,13 +1,15 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { getCategoryBySlug } from '@repo/constants';
+import { getCategoryBySlug, AMENITIES } from '@repo/constants';
 import { createApiClient, ENDPOINTS } from '@repo/api-client';
-import { Card, Badge, VendorCard } from '@repo/ui';
+import { Card, Badge, VendorCard, Check, Star } from '@repo/ui';
 import { LeadForm } from './LeadForm.jsx';
 import { ReviewForm } from './ReviewForm.jsx';
 import { VendorMap } from './VendorMap.jsx';
+import { WhatsAppButton } from './WhatsAppButton.jsx';
 import { FavoriteButton } from '../../../components/FavoriteButton.jsx';
+import { CardFavoriteButton } from '../../../components/CardFavoriteButton.jsx';
 import { Breadcrumb } from '../../../components/Breadcrumb.jsx';
 import { Link } from '../../../../../i18n/navigation.js';
 
@@ -142,7 +144,10 @@ export default async function VendorPage({ params }) {
           <div style={{ display: 'flex', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
             <Badge variant="accent">{categoryLabel}</Badge>
             {/* Bu sayfaya ulaşan her vendor zaten backend'de onaylı filtresinden geçmiştir. */}
-            <Badge variant="success">{t('vendor.verified')}</Badge>
+            <Badge variant="success">
+              <Check size={12} strokeWidth={3} aria-hidden="true" />
+              {t('vendor.verified')}
+            </Badge>
           </div>
           <h1 style={{ margin: 'var(--space-sm) 0 4px' }}>{vendor.businessName}</h1>
           <p style={{ color: 'var(--color-neutral-500)', margin: 0 }}>{vendor.city}</p>
@@ -150,14 +155,8 @@ export default async function VendorPage({ params }) {
           <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', marginTop: 'var(--space-sm)' }}>
             {vendor.reviewCount > 0 && (
               <Badge>
-                {vendor.avgRating.toFixed(1)} ★ ({vendor.reviewCount})
-              </Badge>
-            )}
-            {(vendor.priceRange?.min || vendor.priceRange?.max) && (
-              <Badge variant="accent">
-                {vendor.priceRange.min && vendor.priceRange.max
-                  ? `${new Intl.NumberFormat('tr-TR').format(vendor.priceRange.min)} - ${new Intl.NumberFormat('tr-TR').format(vendor.priceRange.max)} ₺`
-                  : `${new Intl.NumberFormat('tr-TR').format(vendor.priceRange.min ?? vendor.priceRange.max)}₺'den itibaren`}
+                <Star size={12} fill="currentColor" strokeWidth={0} aria-hidden="true" />
+                {vendor.avgRating.toFixed(1)} ({vendor.reviewCount})
               </Badge>
             )}
             {vendor.capacity && <Badge>{t('vendor.capacity', { count: vendor.capacity })}</Badge>}
@@ -190,18 +189,27 @@ export default async function VendorPage({ params }) {
           )}
 
           <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', marginTop: 'var(--space-md)' }}>
-            {vendor.whatsapp && (
-              <a
-                href={`https://wa.me/${vendor.whatsapp.replace(/[^\d]/g, '')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ui-button ui-button--secondary"
-              >
-                {t('vendor.whatsapp')}
-              </a>
-            )}
+            <WhatsAppButton whatsapp={vendor.whatsapp} />
             <FavoriteButton vendorId={vendor._id} />
           </div>
+
+          {vendor.amenities?.length > 0 && (
+            <div style={{ marginTop: 'var(--space-xl)' }}>
+              <h2 style={{ fontSize: 'var(--font-size-lg)' }}>{t('vendor.amenitiesHeading')}</h2>
+              <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+                {vendor.amenities.map((key) => {
+                  const amenity = AMENITIES.find((a) => a.key === key);
+                  if (!amenity) return null;
+                  return (
+                    <Badge key={key}>
+                      <Check size={12} strokeWidth={3} aria-hidden="true" />
+                      {amenity.label}
+                    </Badge>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {lat && lng && (
             <div style={{ marginTop: 'var(--space-xl)' }}>
@@ -218,7 +226,11 @@ export default async function VendorPage({ params }) {
               <div style={{ display: 'grid', gap: 'var(--space-sm)', marginBottom: 'var(--space-lg)' }}>
                 {reviews.map((review) => (
                   <Card key={review._id}>
-                    <strong>{review.userId?.name ?? '—'}</strong> · {review.rating} ★
+                    <strong>{review.userId?.name ?? '—'}</strong>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, marginLeft: 6 }}>
+                      <Star size={13} fill="currentColor" strokeWidth={0} aria-hidden="true" />
+                      {review.rating}
+                    </span>
                     <p style={{ margin: '4px 0 0' }}>{review.comment}</p>
                   </Card>
                 ))}
@@ -248,6 +260,7 @@ export default async function VendorPage({ params }) {
                 verifiedLabel={t('vendor.verified')}
                 as={Link}
                 href={`/${params.category}/${params.city}/${similar.slug}`}
+                favorite={<CardFavoriteButton vendorId={similar._id} />}
               />
             ))}
           </div>

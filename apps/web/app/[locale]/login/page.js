@@ -29,8 +29,9 @@ export default function LoginPage() {
 
     setLoading(true);
     try {
-      const { token, user } = await apiClient.post(ENDPOINTS.login, result.data);
-      localStorage.setItem('token', token);
+      // Token artık backend'in set ettiği httpOnly cookie'de tutuluyor, JS'e hiç dokunmuyor.
+      // localStorage'da sadece görüntüleme amaçlı, hassas olmayan kullanıcı bilgisi kalıyor.
+      const { user } = await apiClient.post(ENDPOINTS.login, result.data);
       localStorage.setItem('user', JSON.stringify(user));
       router.push('/');
     } catch (err) {

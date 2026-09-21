@@ -83,6 +83,32 @@ export async function sendVendorApprovedEmail(to, { businessName, webUrl: siteUr
   });
 }
 
+// Admin bir ilanı reddettiğinde/askıya aldığında vendor'a otomatik bildirim — aksi halde
+// panele bakmadıkça (ki çoğu vendor bakmaz) hiç haberi olmaz. reason boşsa genel bir metin kullanılır.
+export async function sendVendorStatusChangeEmail(to, { businessName, status, reason, panelUrl }) {
+  const isRejected = status === 'rejected';
+  const subject = isRejected
+    ? `Davet360 — "${businessName}" başvurunuz hakkında`
+    : `Davet360 — "${businessName}" yayından kaldırıldı`;
+  const intro = isRejected
+    ? `"${businessName}" başvurunuz şu anda onaylanamadı.`
+    : `"${businessName}" ilanınız yayından kaldırıldı.`;
+  const reasonText = reason?.trim()
+    ? `Belirtilen neden: ${reason.trim()}`
+    : 'Bir neden belirtilmedi, detay için panelden bize ulaşabilirsiniz.';
+
+  await sendMail({
+    to,
+    subject,
+    text: `${intro}\n\n${reasonText}\n\nBilgilerinizi güncelleyip tekrar gönderebilirsiniz: ${panelUrl}/vendor/edit`,
+    html: `
+      <p>${escapeHtml(intro)}</p>
+      <p>${escapeHtml(reasonText)}</p>
+      <p><a href="${panelUrl}/vendor/edit">Panelden bilgilerinizi güncelleyin</a></p>
+    `,
+  });
+}
+
 // Yeni bir vendor başvurusu geldiğinde tüm adminlere bildirim — kimse panele bakmayı unutup
 // başvuruyu günlerce beklemede bırakmasın.
 export async function sendNewVendorApplicationEmail(adminEmails, { businessName, city, category, panelUrl }) {

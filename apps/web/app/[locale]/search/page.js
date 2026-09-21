@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { createApiClient, ENDPOINTS } from '@repo/api-client';
 import { VendorCard } from '@repo/ui';
 import { Link } from '../../../i18n/navigation.js';
+import { CardFavoriteButton } from '../components/CardFavoriteButton.jsx';
 
 const apiClient = createApiClient({ baseUrl: process.env.NEXT_PUBLIC_API_URL });
 
@@ -42,6 +43,7 @@ export default async function SearchPage({ params: { locale }, searchParams }) {
                   verifiedLabel={t('vendor.verified')}
                   as={Link}
                   href={`/${vendor.category}/${vendor.citySlug}/${vendor.slug}`}
+                  favorite={<CardFavoriteButton vendorId={vendor._id} />}
                 />
               ))}
             </div>

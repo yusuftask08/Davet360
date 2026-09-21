@@ -12,7 +12,9 @@ export function RequireAuth({ role, children }) {
   const [status, setStatus] = useState('checking');
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    // Token artık httpOnly cookie'de, JS'ten görülemez — burada sadece localStorage'daki
+    // (hassas olmayan) kullanıcı bilgisinin varlığına bakılır. Cookie geçersiz/süresi
+    // dolmuşsa zaten ilk API isteğinde 401 döner ve sayfa kendi hata durumunu gösterir.
     let user = null;
     try {
       user = JSON.parse(localStorage.getItem('user') ?? 'null');
@@ -20,7 +22,7 @@ export function RequireAuth({ role, children }) {
       user = null;
     }
 
-    if (!token || !user) {
+    if (!user) {
       router.replace('/login');
       return;
     }

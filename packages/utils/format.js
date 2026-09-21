@@ -22,6 +22,23 @@ export function slugify(text) {
     .replace(/-+/g, '-');
 }
 
+const BACK_VOWELS = new Set(['a', 'ı', 'o', 'u']);
+const FRONT_VOWELS = new Set(['e', 'i', 'ö', 'ü']);
+// "İstanbul" -> "i" için doğru sonuç versin diye Türkçe karakterler önce normalize edilir
+// (TR_CHAR_MAP zaten İ/I/ı hepsini 'i' yapıyor — ama 'i' ön ünlü, 'ı' arka ünlü olduğu için
+// burada ayrı bir eşleme gerekiyor, slugify'ın map'i bu ayrımı kasıtlı olarak siler).
+const VOWEL_QUALITY = { a: 'back', ı: 'back', o: 'back', u: 'back', e: 'front', i: 'front', ö: 'front', ü: 'front' };
+
+// Türkiye şehir adlarına "-da/-de" (bulunma hâli eki) doğru ünlü uyumuyla ekler:
+// "Ankara" -> "Ankara'da", "Mersin" -> "Mersin'de". Son ünlüye bakar, ünsüzle bitse de
+// (İstanbul) sesli ile bitse de (Bursa) aynı kural geçerli — bulunma eki tampon ünsüz istemez.
+export function toLocativeCase(cityName) {
+  const chars = cityName.toLowerCase().split('').reverse();
+  const lastVowel = chars.find((ch) => VOWEL_QUALITY[ch]);
+  const suffix = lastVowel && VOWEL_QUALITY[lastVowel] === 'front' ? 'de' : 'da';
+  return `${cityName}'${suffix}`;
+}
+
 export function formatPhone(phone) {
   return phone.replace(/[^\d+]/g, '');
 }

@@ -19,8 +19,9 @@ export async function Navbar() {
         <nav className="site-navbar__links">
           <Link href="/blog">{t('nav.blog')}</Link>
           <AuthNav />
-          <LocaleSwitcher />
         </nav>
+        <div className="site-navbar__divider" aria-hidden="true" />
+        <LocaleSwitcher />
       </div>
     </header>
   );

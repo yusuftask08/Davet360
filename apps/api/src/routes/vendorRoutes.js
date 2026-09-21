@@ -7,6 +7,10 @@ import { ApiError } from '../middleware/errorHandler.js';
 import {
   listApprovedVendors,
   listVendorCities,
+  listPopularCombos,
+  listFeaturedVendors,
+  listTopCities,
+  listCategoriesInCity,
   getApprovedVendorBySlug,
   createVendorApplication,
   updateOwnVendor,
@@ -39,6 +43,42 @@ vendorRouter.post('/', requireAuth, validateBody(createVendorSchema), async (req
 vendorRouter.get('/cities', async (req, res, next) => {
   try {
     const items = await listVendorCities(req.query.category);
+    res.json({ items });
+  } catch (err) {
+    next(err);
+  }
+});
+
+vendorRouter.get('/popular-combos', async (req, res, next) => {
+  try {
+    const items = await listPopularCombos(Number(req.query.limit) || 8);
+    res.json({ items });
+  } catch (err) {
+    next(err);
+  }
+});
+
+vendorRouter.get('/featured', async (req, res, next) => {
+  try {
+    const items = await listFeaturedVendors(Number(req.query.limit) || 6);
+    res.json({ items });
+  } catch (err) {
+    next(err);
+  }
+});
+
+vendorRouter.get('/top-cities', async (req, res, next) => {
+  try {
+    const items = await listTopCities(Number(req.query.limit) || 5);
+    res.json({ items });
+  } catch (err) {
+    next(err);
+  }
+});
+
+vendorRouter.get('/categories-in-city', async (req, res, next) => {
+  try {
+    const items = await listCategoriesInCity(req.query.citySlug, req.query.excludeCategory);
     res.json({ items });
   } catch (err) {
     next(err);

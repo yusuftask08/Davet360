@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ENDPOINTS } from '@repo/api-client';
 import { updateProfileSchema, changePasswordSchema, toFieldErrors } from '@repo/utils';
-import { Button, Input, Card, Badge } from '@repo/ui';
+import { Button, Input, Card, Badge, Star } from '@repo/ui';
 import { Link } from '../../../i18n/navigation.js';
 import { apiClient } from '../../../lib/apiClient.js';
 
@@ -29,7 +29,7 @@ export default function AccountPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!localStorage.getItem('token')) {
+    if (!localStorage.getItem('user')) {
       setError('loginRequired');
       return;
     }
@@ -195,8 +195,9 @@ export default function AccountPage() {
                 {t(`status${review.status.charAt(0).toUpperCase()}${review.status.slice(1)}`)}
               </Badge>
             </div>
-            <p style={{ margin: '4px 0 0' }}>
-              {review.rating} ★ — {review.comment}
+            <p style={{ margin: '4px 0 0', display: 'flex', alignItems: 'center', gap: 4 }}>
+              <Star size={13} fill="currentColor" strokeWidth={0} aria-hidden="true" />
+              {review.rating} — {review.comment}
             </p>
           </Card>
         ))}

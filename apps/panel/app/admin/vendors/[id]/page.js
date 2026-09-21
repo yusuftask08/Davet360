@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { CATEGORIES } from '@repo/constants';
+import { CATEGORIES, AMENITIES } from '@repo/constants';
 import { ENDPOINTS } from '@repo/api-client';
 import { updateVendorSchema, toFieldErrors } from '@repo/utils';
 import { Card, Badge, Button, Input, Spinner } from '@repo/ui';
@@ -19,6 +19,7 @@ export default function AdminVendorDetailPage() {
   const [error, setError] = useState(null);
   const [actionError, setActionError] = useState(null);
   const [saving, setSaving] = useState(false);
+  const [reasonDraft, setReasonDraft] = useState('');
 
   const load = useCallback(() => {
     apiClient
@@ -34,12 +35,24 @@ export default function AdminVendorDetailPage() {
           whatsapp: data.vendor.whatsapp ?? '',
           email: data.vendor.email ?? '',
           capacity: data.vendor.capacity ?? '',
+          priceMin: data.vendor.priceRange?.min ?? '',
+          priceMax: data.vendor.priceRange?.max ?? '',
+          amenities: data.vendor.amenities ?? [],
         });
       })
       .catch((err) => setError(err.message));
   }, [id]);
 
   useEffect(load, [load]);
+
+  function toggleAmenity(key) {
+    setForm((prev) => ({
+      ...prev,
+      amenities: prev.amenities.includes(key)
+        ? prev.amenities.filter((a) => a !== key)
+        : [...prev.amenities, key],
+    }));
+  }
 
   async function handleAction(action) {
     setActionError(null);
@@ -64,6 +77,10 @@ export default function AdminVendorDetailPage() {
       ...(form.whatsapp.trim() ? { whatsapp: form.whatsapp.trim() } : {}),
       ...(form.email.trim() ? { email: form.email.trim() } : {}),
       ...(form.capacity ? { capacity: Number(form.capacity) } : {}),
+      ...(form.priceMin && form.priceMax
+        ? { priceRange: { min: Number(form.priceMin), max: Number(form.priceMax) } }
+        : {}),
+      amenities: form.amenities,
     };
 
     const result = updateVendorSchema.safeParse(payload);
@@ -87,7 +104,7 @@ export default function AdminVendorDetailPage() {
   if (error) {
     return (
       <main className="container" style={{ paddingTop: 'var(--space-md)' }}>
-        <PanelHeader title="Vendor Detayı" />
+        <PanelHeader title="İşletme Detayı" />
         <p style={{ color: 'var(--color-error)' }}>{error}</p>
       </main>
     );
@@ -96,7 +113,7 @@ export default function AdminVendorDetailPage() {
   if (!vendor || !form) {
     return (
       <main className="container" style={{ paddingTop: 'var(--space-md)' }}>
-        <PanelHeader title="Vendor Detayı" />
+        <PanelHeader title="İşletme Detayı" />
         <AdminNav />
         <Spinner label="Yükleniyor..." />
       </main>
@@ -105,10 +122,10 @@ export default function AdminVendorDetailPage() {
 
   return (
     <main className="container" style={{ paddingTop: 'var(--space-md)', paddingBottom: 'var(--space-2xl)', maxWidth: 640 }}>
-      <PanelHeader title="Vendor Detayı" />
+      <PanelHeader title="İşletme Detayı" />
       <AdminNav />
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-md)' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-sm)' }}>
         <Badge>{vendor.status}</Badge>
         <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
           {vendor.status === 'pending' && (
@@ -116,13 +133,19 @@ export default function AdminVendorDetailPage() {
               <Button onClick={() => handleAction(() => apiClient.post(ENDPOINTS.adminVendorApprove(id)))}>
                 Onayla
               </Button>
-              <Button variant="ghost" onClick={() => handleAction(() => apiClient.post(ENDPOINTS.adminVendorReject(id)))}>
+              <Button
+                variant="ghost"
+                onClick={() => handleAction(() => apiClient.post(ENDPOINTS.adminVendorReject(id), { reason: reasonDraft }))}
+              >
                 Reddet
               </Button>
             </>
           )}
           {vendor.status === 'approved' && (
-            <Button variant="ghost" onClick={() => handleAction(() => apiClient.post(ENDPOINTS.adminVendorSuspend(id)))}>
+            <Button
+              variant="ghost"
+              onClick={() => handleAction(() => apiClient.post(ENDPOINTS.adminVendorSuspend(id), { reason: reasonDraft }))}
+            >
               Yayından Kaldır
             </Button>
           )}
@@ -133,6 +156,27 @@ export default function AdminVendorDetailPage() {
           )}
         </div>
       </div>
+
+      {(vendor.status === 'pending' || vendor.status === 'approved') && (
+        <div className="ui-field" style={{ marginBottom: 'var(--space-md)' }}>
+          <label className="ui-field__label" htmlFor="statusReason">
+            Reddetme / askıya alma notu (işletme bunu kendi panelinde görecek)
+          </label>
+          <textarea
+            id="statusReason"
+            className="ui-input"
+            rows={2}
+            placeholder="Örn. Görseller düşük kalitede, lütfen daha net fotoğraflar ekleyin."
+            value={reasonDraft}
+            onChange={(e) => setReasonDraft(e.target.value)}
+          />
+        </div>
+      )}
+      {(vendor.status === 'rejected' || vendor.status === 'suspended') && vendor.statusReason && (
+        <p style={{ color: 'var(--color-neutral-500)', marginBottom: 'var(--space-md)' }}>
+          <strong>Belirtilen neden:</strong> {vendor.statusReason}
+        </p>
+      )}
       {actionError && <p style={{ color: 'var(--color-error)' }}>{actionError}</p>}
 
       {vendor.images?.length > 0 && (
@@ -225,6 +269,52 @@ export default function AdminVendorDetailPage() {
             value={form.capacity}
             onChange={(e) => setForm({ ...form, capacity: e.target.value })}
           />
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-sm)' }}>
+            <Input
+              label="Min. Fiyat"
+              type="number"
+              min="0"
+              value={form.priceMin}
+              onChange={(e) => setForm({ ...form, priceMin: e.target.value })}
+            />
+            <Input
+              label="Max. Fiyat"
+              type="number"
+              min="0"
+              value={form.priceMax}
+              onChange={(e) => setForm({ ...form, priceMax: e.target.value })}
+            />
+          </div>
+          {fieldErrors.priceRange && <span className="ui-field__error">{fieldErrors.priceRange}</span>}
+
+          <div className="ui-field">
+            <span className="ui-field__label">Özellikler</span>
+            <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+              {AMENITIES.map((amenity) => (
+                <label
+                  key={amenity.key}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    fontSize: 'var(--font-size-sm)',
+                    border: '1px solid var(--color-border)',
+                    borderRadius: 'var(--radius-full)',
+                    padding: '6px 12px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={form.amenities.includes(amenity.key)}
+                    onChange={() => toggleAmenity(amenity.key)}
+                  />
+                  {amenity.label}
+                </label>
+              ))}
+            </div>
+          </div>
 
           <Button type="submit" disabled={saving}>
             {saving ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}

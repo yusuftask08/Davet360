@@ -3,7 +3,7 @@ import { createApiClient, ENDPOINTS } from '@repo/api-client';
 import { routing } from '../i18n/routing.js';
 
 const apiClient = createApiClient({ baseUrl: process.env.NEXT_PUBLIC_API_URL });
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3600';
 
 function withLocaleAlternates(path) {
   return {

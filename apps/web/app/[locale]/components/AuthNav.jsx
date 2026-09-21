@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { ENDPOINTS } from '@repo/api-client';
 import { Link, useRouter } from '../../../i18n/navigation.js';
+import { apiClient } from '../../../lib/apiClient.js';
+import { invalidateFavoritesCache } from '../lib/favoritesCache.js';
 
 export function AuthNav() {
   const t = useTranslations('nav');
@@ -18,14 +21,21 @@ export function AuthNav() {
   }, []);
 
   function handleLogout() {
-    localStorage.removeItem('token');
+    // httpOnly cookie JS'ten silinemez — backend'e /auth/logout isteği atıp clearCookie
+    // yaptırmak gerekiyor. localStorage'daki kullanıcı bilgisi de ayrıca temizlenir.
+    apiClient.post(ENDPOINTS.logout).catch(() => {});
     localStorage.removeItem('user');
+    invalidateFavoritesCache();
     setUser(null);
     router.push('/');
   }
 
   if (!user) {
-    return <Link href="/login">{t('login')}</Link>;
+    return (
+      <Link href="/login" className="site-navbar__login">
+        {t('login')}
+      </Link>
+    );
   }
 
   return (

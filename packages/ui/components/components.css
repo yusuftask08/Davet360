@@ -123,26 +123,19 @@
   color: var(--color-primary-dark);
 }
 
-/* Vendor kartı: kategori sayfalarında ve ileride favoriler/arama sonuçlarında reuse edilir. */
+/* Vendor kartı: kategori sayfalarında, anasayfada ve favoriler/arama sonuçlarında reuse
+   edilir. Airbnb tarzı: çerçeve/gölge yok, görsel öne çıkıyor, rozetler görsel üstünde overlay,
+   metin bloğu sade (başlık+puan aynı satır, altında konum, en altta kalın fiyat). */
 .ui-vendor-card {
   display: block;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
   text-decoration: none;
   color: inherit;
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--motion-base) var(--motion-ease), box-shadow var(--motion-base) var(--motion-ease);
-}
-.ui-vendor-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
 }
 .ui-vendor-card__media {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   background: var(--gradient-hero);
+  border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,27 +143,114 @@
   font-size: var(--font-size-2xl);
   font-weight: 700;
   overflow: hidden;
+  transition: opacity var(--motion-base) var(--motion-ease);
+}
+.ui-vendor-card:hover .ui-vendor-card__media {
+  opacity: 0.92;
 }
 .ui-vendor-card__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+/* İkon-only onay rozeti — küçük yuvarlak, sol üst köşe. Metin yok (kategori rozetiyle
+   çakışıp kesilme sorununa yol açıyordu), anlamı title/aria-label ile taşınıyor. */
+.ui-vendor-card__verified {
+  position: absolute;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--color-success);
+  box-shadow: var(--shadow-sm);
+}
+/* "Çok beğenilen" rozeti — sadece yüksek puanlı+yeterli yorumlu kartlarda, verified
+   ikonunun yerine geçer (aynı köşede iki rozet çakışmasın diye). */
+.ui-vendor-card__highlight {
+  position: absolute;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  padding: 5px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-sm);
+}
+/* Kalp/favori butonu slotu — sağ üst köşe, Airbnb'deki gibi. İçeriği (gerçek buton, auth
+   kontrolü) çağıran app'ten favorite prop'uyla gelir, bu sadece konumlandırma sağlar. */
+.ui-vendor-card__favorite {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+}
+.ui-vendor-card__favorite-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.16);
+  color: white;
+  cursor: pointer;
+  transition: transform var(--motion-base) var(--motion-ease), background var(--motion-base) var(--motion-ease);
+}
+.ui-vendor-card__favorite-btn:hover {
+  background: rgba(0, 0, 0, 0.28);
+  transform: scale(1.08);
+}
+.ui-vendor-card__favorite-btn[aria-pressed='true'] {
+  color: var(--color-primary);
+}
 .ui-vendor-card__body {
-  padding: var(--space-md) var(--space-lg) var(--space-lg);
+  padding: var(--space-md) 2px 0;
   display: grid;
-  gap: 6px;
+  gap: 4px;
+}
+.ui-vendor-card__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
 }
 .ui-vendor-card__title {
+  flex: 1 1 auto;
+  min-width: 0;
   margin: 0;
   font-size: var(--font-size-lg);
   font-weight: 700;
+  color: var(--color-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ui-vendor-card__rating {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
   color: var(--color-ink);
 }
 .ui-vendor-card__meta {
   margin: 0;
   color: var(--color-neutral-500);
   font-size: var(--font-size-sm);
+}
+.ui-vendor-card__price {
+  margin: 4px 0 0;
+  color: var(--color-ink);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
 }
 
 /* Responsive: tüm bileşenler mobilde de aynı token'ları kullanır, sadece layout container'lar kırılır. */

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { Search } from '@repo/ui';
 import { useRouter } from '../../../i18n/navigation.js';
 
 export function SearchBox({ initialValue = '' }) {
@@ -16,16 +17,18 @@ export function SearchBox({ initialValue = '' }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} role="search" style={{ display: 'flex' }}>
+    <form onSubmit={handleSubmit} role="search" className="site-search">
+      <Search size={18} strokeWidth={2} className="site-search__icon" aria-hidden="true" />
       <input
         type="search"
-        className="ui-input"
         placeholder={t('placeholder')}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        style={{ maxWidth: 220, borderRadius: 'var(--radius-full)' }}
         aria-label={t('placeholder')}
       />
+      <button type="submit" className="site-search__submit" aria-label={t('placeholder')}>
+        <Search size={16} strokeWidth={2.25} aria-hidden="true" />
+      </button>
     </form>
   );
 }

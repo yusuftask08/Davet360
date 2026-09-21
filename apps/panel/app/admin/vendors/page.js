@@ -63,7 +63,7 @@ function AdminVendorsContent() {
 
   return (
     <main className="container" style={{ paddingTop: 'var(--space-md)', paddingBottom: 'var(--space-2xl)' }}>
-      <PanelHeader title="Vendor Yönetimi" />
+      <PanelHeader title="İşletme Yönetimi" />
       <AdminNav />
 
       <div style={{ display: 'flex', gap: 'var(--space-sm)', marginBottom: 'var(--space-md)', flexWrap: 'wrap' }}>

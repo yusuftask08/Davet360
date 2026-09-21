@@ -17,7 +17,7 @@ export function ReviewForm({ vendorId }) {
   const [formError, setFormError] = useState(null);
 
   useEffect(() => {
-    setIsLoggedIn(Boolean(localStorage.getItem('token')));
+    setIsLoggedIn(Boolean(localStorage.getItem('user')));
   }, []);
 
   async function handleSubmit(event) {
@@ -45,7 +45,7 @@ export function ReviewForm({ vendorId }) {
   if (!isLoggedIn) {
     return (
       <p style={{ color: 'var(--color-neutral-500)' }}>
-        {t('loginPrompt')} <Link href="/login">{t('loginLink')}</Link>.
+        {t('loginPrompt')} <Link href="/login" className="link-inline">{t('loginLink')}</Link>.
       </p>
     );
   }

@@ -2,13 +2,17 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { ENDPOINTS } from '@repo/api-client';
 import { Button } from '@repo/ui';
+import { apiClient } from '../../lib/apiClient.js';
 
 export function PanelHeader({ title }) {
   const router = useRouter();
 
   function handleLogout() {
-    localStorage.removeItem('token');
+    // httpOnly cookie JS'ten silinemez — backend'e /auth/logout isteği atıp clearCookie
+    // yaptırmak gerekiyor.
+    apiClient.post(ENDPOINTS.logout).catch(() => {});
     localStorage.removeItem('user');
     router.push('/login');
   }

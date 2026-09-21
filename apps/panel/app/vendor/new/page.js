@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CATEGORIES } from '@repo/constants';
+import { CATEGORIES, AMENITIES } from '@repo/constants';
 import { ENDPOINTS } from '@repo/api-client';
 import { createVendorSchema, toFieldErrors } from '@repo/utils';
 import { Button, Input, Card } from '@repo/ui';
@@ -20,6 +20,7 @@ const INITIAL_FORM = {
   capacity: '',
   priceMin: '',
   priceMax: '',
+  amenities: [],
 };
 
 function buildPayload(form, images) {
@@ -35,6 +36,7 @@ function buildPayload(form, images) {
     ...(form.priceMin && form.priceMax
       ? { priceRange: { min: Number(form.priceMin), max: Number(form.priceMax) } }
       : {}),
+    ...(form.amenities.length > 0 ? { amenities: form.amenities } : {}),
     ...(images.length > 0 ? { images } : {}),
   };
 }
@@ -50,6 +52,15 @@ export default function NewVendorListingPage() {
 
   function update(field) {
     return (e) => setForm((prev) => ({ ...prev, [field]: e.target.value }));
+  }
+
+  function toggleAmenity(key) {
+    setForm((prev) => ({
+      ...prev,
+      amenities: prev.amenities.includes(key)
+        ? prev.amenities.filter((a) => a !== key)
+        : [...prev.amenities, key],
+    }));
   }
 
   async function handleImageChange(event) {
@@ -245,6 +256,34 @@ export default function NewVendorListingPage() {
             />
           </div>
           {fieldErrors.priceRange && <span className="ui-field__error">{fieldErrors.priceRange}</span>}
+
+          <div className="ui-field">
+            <span className="ui-field__label">Özellikler (opsiyonel)</span>
+            <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+              {AMENITIES.map((amenity) => (
+                <label
+                  key={amenity.key}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    fontSize: 'var(--font-size-sm)',
+                    border: '1px solid var(--color-border)',
+                    borderRadius: 'var(--radius-full)',
+                    padding: '6px 12px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={form.amenities.includes(amenity.key)}
+                    onChange={() => toggleAmenity(amenity.key)}
+                  />
+                  {amenity.label}
+                </label>
+              ))}
+            </div>
+          </div>
 
           <div className="ui-field">
             <label className="ui-field__label" htmlFor="images">

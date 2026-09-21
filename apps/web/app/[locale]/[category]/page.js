@@ -6,6 +6,7 @@ import { VendorCard, Card } from '@repo/ui';
 import { Link } from '../../../i18n/navigation.js';
 import { Breadcrumb } from '../components/Breadcrumb.jsx';
 import { EmptyStateCta } from '../components/EmptyStateCta.jsx';
+import { CardFavoriteButton } from '../components/CardFavoriteButton.jsx';
 
 const apiClient = createApiClient({ baseUrl: process.env.NEXT_PUBLIC_API_URL });
 
@@ -84,6 +85,7 @@ export default async function CategoryPage({ params }) {
               verifiedLabel={t('vendor.verified')}
               as={Link}
               href={`/${categorySlug}/${vendor.citySlug}/${vendor.slug}`}
+              favorite={<CardFavoriteButton vendorId={vendor._id} />}
             />
           ))}
         </div>

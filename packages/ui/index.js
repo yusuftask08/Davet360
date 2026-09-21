@@ -13,3 +13,21 @@ export { Badge } from './components/Badge.jsx';
 export { VendorCard } from './components/VendorCard.jsx';
 export { AltchaWidget } from './components/AltchaWidget.jsx';
 export { Spinner } from './components/Spinner.jsx';
+export { CategoryIcon } from './components/CategoryIcon.jsx';
+
+// Uygulamalarda emoji/unicode sembol yerine kullanılacak ortak ikon seti — tek yerden
+// re-export edilir ki her app ayrı ayrı lucide-react bağımlılığı eklemesin.
+export {
+  Check,
+  CheckCircle2,
+  Heart,
+  Star,
+  MapPin,
+  Phone,
+  MessageCircle,
+  Search,
+  ChevronDown,
+  Sparkles,
+  ClipboardList,
+  Handshake,
+} from 'lucide-react';

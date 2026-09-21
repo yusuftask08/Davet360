@@ -1,23 +1,39 @@
 import Image from 'next/image';
-import { Badge } from './Badge.jsx';
-
-function formatPriceRange(priceRange) {
-  if (!priceRange?.min && !priceRange?.max) return null;
-  const format = (n) => new Intl.NumberFormat('tr-TR').format(n);
-  if (priceRange.min && priceRange.max) return `${format(priceRange.min)} - ${format(priceRange.max)} ₺`;
-  return `${format(priceRange.min ?? priceRange.max)}₺'den itibaren`;
-}
+import { Check, Star } from 'lucide-react';
 
 // href verilirse <a>, verilmezse <div> olarak render eder — Next.js Link ile sarmalamak
 // isteyen sayfalar bileşeni doğrudan Link içine de koyabilir.
 // verifiedLabel çağıran sayfadan gelir (t('vendor.verified')) — paylaşılan bileşen kendi
 // başına next-intl'e erişemez, bu yüzden metni hardcode etmek yerine prop olarak alır.
-export function VendorCard({ vendor, categoryLabel, href, verifiedLabel = '✓ Davet360 Onaylı', as: As = 'a', ...props }) {
+// favorite: sağ üstteki kalp ikonu için slot — apiClient/localStorage'a ihtiyacı olduğundan
+// (auth durumu, favori toggle isteği) bu paylaşılan pakette değil, çağıran app'te (apps/web)
+// yaşayan bir client component olarak buradan geçirilir.
+// Airbnb tarzı: kart çerçevesiz/gölgesiz, görsel öne çıkar; onay rozeti sol üstte, kalp sağ
+// üstte overlay, başlık+puan aynı satırda, kategori/şehir altında. Fiyat kasıtlı olarak
+// GÖSTERİLMEZ — teklif almak için işletmeyle iletişime geçmek gerekiyor, platformun temel akışı.
+// Airbnb'deki "Misafirlerin favorisi" rozetine denk gelen koşullu etiket — sadece gerçekten
+// yüksek puanlı VE yeterli yorumu olan işletmelerde gösterilir, her kartta çıkmaz.
+const HIGHLY_RATED_MIN_RATING = 4.8;
+const HIGHLY_RATED_MIN_REVIEWS = 5;
+
+export function VendorCard({
+  vendor,
+  categoryLabel,
+  href,
+  verifiedLabel = 'Davet360 Onaylı',
+  highlyRatedLabel = 'Çok beğenilen',
+  favorite,
+  priority = false,
+  as: As = 'a',
+  className,
+  ...props
+}) {
   const initial = vendor.businessName?.charAt(0)?.toUpperCase() ?? '?';
-  const priceLabel = formatPriceRange(vendor.priceRange);
+  const isHighlyRated =
+    vendor.reviewCount >= HIGHLY_RATED_MIN_REVIEWS && vendor.avgRating >= HIGHLY_RATED_MIN_RATING;
 
   return (
-    <As href={href} className="ui-vendor-card" {...props}>
+    <As href={href} className={className ? `ui-vendor-card ${className}` : 'ui-vendor-card'} {...props}>
       <div className="ui-vendor-card__media">
         {vendor.images?.[0] ? (
           <Image
@@ -26,25 +42,34 @@ export function VendorCard({ vendor, categoryLabel, href, verifiedLabel = '✓ D
             fill
             sizes="(max-width: 768px) 100vw, 320px"
             style={{ objectFit: 'cover' }}
+            priority={priority}
           />
         ) : (
           <span>{initial}</span>
         )}
+        {isHighlyRated ? (
+          <span className="ui-vendor-card__highlight">{highlyRatedLabel}</span>
+        ) : (
+          <span className="ui-vendor-card__verified" role="img" aria-label={verifiedLabel} title={verifiedLabel}>
+            <Check size={13} strokeWidth={3} aria-hidden="true" />
+          </span>
+        )}
+        {favorite && <div className="ui-vendor-card__favorite">{favorite}</div>}
       </div>
       <div className="ui-vendor-card__body">
-        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-          {categoryLabel && <Badge variant="accent">{categoryLabel}</Badge>}
-          {/* Bu bileşene ulaşan her vendor zaten backend'de onaylı filtresinden geçmiştir. */}
-          <Badge variant="success">{verifiedLabel}</Badge>
+        <div className="ui-vendor-card__row">
+          <h3 className="ui-vendor-card__title">{vendor.businessName}</h3>
+          {vendor.reviewCount > 0 && (
+            <span className="ui-vendor-card__rating">
+              <Star size={13} fill="currentColor" strokeWidth={0} aria-hidden="true" />
+              {vendor.avgRating.toFixed(1)}
+            </span>
+          )}
         </div>
-        <h3 className="ui-vendor-card__title">{vendor.businessName}</h3>
-        <p className="ui-vendor-card__meta">{vendor.city}</p>
-        {priceLabel && <p className="ui-vendor-card__meta">{priceLabel}</p>}
-        {vendor.reviewCount > 0 && (
-          <Badge>
-            {vendor.avgRating.toFixed(1)} ★ ({vendor.reviewCount})
-          </Badge>
-        )}
+        <p className="ui-vendor-card__meta">
+          {vendor.city}
+          {categoryLabel ? ` · ${categoryLabel}` : ''}
+        </p>
       </div>
     </As>
   );

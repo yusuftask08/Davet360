@@ -29,8 +29,8 @@ export default function LoginPage() {
 
     setLoading(true);
     try {
-      const { token, user } = await apiClient.post(ENDPOINTS.login, result.data);
-      localStorage.setItem('token', token);
+      // Token artık backend'in set ettiği httpOnly cookie'de tutuluyor, JS'e hiç dokunmuyor.
+      const { user } = await apiClient.post(ENDPOINTS.login, result.data);
       localStorage.setItem('user', JSON.stringify(user));
       router.push(user.role === 'admin' ? '/admin' : '/vendor');
     } catch (err) {
@@ -71,7 +71,7 @@ export default function LoginPage() {
           <Link href="/forgot-password">Şifremi unuttum</Link>
         </p>
         <p style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--space-xs)' }}>
-          Henüz hesabınız yok mu? <Link href="/register">Vendor olarak kayıt olun</Link>
+          Henüz hesabınız yok mu? <Link href="/register">İşletme olarak kayıt olun</Link>
         </p>
       </Card>
     </AuthShell>

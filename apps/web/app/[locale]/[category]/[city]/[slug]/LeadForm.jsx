@@ -5,23 +5,27 @@ import { useTranslations } from 'next-intl';
 import { ENDPOINTS } from '@repo/api-client';
 import { createLeadSchema, toFieldErrors } from '@repo/utils';
 import { Button, Input, AltchaWidget } from '@repo/ui';
+import { Link } from '../../../../../i18n/navigation.js';
 import { apiClient } from '../../../../../lib/apiClient.js';
 
 const INITIAL_FORM = { customerName: '', customerPhone: '', eventDate: '', message: '' };
 
 export function LeadForm({ vendorId }) {
   const t = useTranslations('leadForm');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [form, setForm] = useState(INITIAL_FORM);
   const [fieldErrors, setFieldErrors] = useState({});
   const [status, setStatus] = useState('idle');
   const [formError, setFormError] = useState(null);
   const [altchaPayload, setAltchaPayload] = useState(null);
+  const [consentAccepted, setConsentAccepted] = useState(false);
 
   const handleAltchaSolved = useCallback((payload) => setAltchaPayload(payload), []);
 
-  // Giriş yapmış kullanıcının adını önceden doldurur — apiClient zaten token'ı Authorization
-  // header'ına ekliyor, backend bu isteği kendi hesabına otomatik bağlıyor (optionalAuth).
+  // Teklif formu artık sadece giriş yapmış kullanıcılara açık — spam/sahte talepleri azaltmak
+  // ve talebin her zaman gerçek bir hesaba bağlı olmasını garanti etmek için.
   useEffect(() => {
+    setIsLoggedIn(Boolean(localStorage.getItem('user')));
     try {
       const user = JSON.parse(localStorage.getItem('user') ?? 'null');
       if (user?.name) setForm((prev) => ({ ...prev, customerName: user.name }));
@@ -54,6 +58,11 @@ export function LeadForm({ vendorId }) {
     }
     setFieldErrors({});
 
+    if (!consentAccepted) {
+      setFormError(t('consentRequired'));
+      return;
+    }
+
     if (!altchaPayload) {
       setFormError(t('altchaWaiting'));
       return;
@@ -72,6 +81,14 @@ export function LeadForm({ vendorId }) {
         setStatus('error');
       }
     }
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <p style={{ color: 'var(--color-neutral-500)' }}>
+        {t('loginPrompt')} <Link href="/login" className="link-inline">{t('loginLink')}</Link>.
+      </p>
+    );
   }
 
   if (status === 'success') {
@@ -113,8 +130,21 @@ export function LeadForm({ vendorId }) {
         onChange={update('message')}
         error={fieldErrors.message}
       />
+      <label style={{ display: 'flex', gap: 8, alignItems: 'flex-start', fontSize: 'var(--font-size-sm)' }}>
+        <input
+          type="checkbox"
+          checked={consentAccepted}
+          onChange={(e) => setConsentAccepted(e.target.checked)}
+          style={{ marginTop: 3 }}
+        />
+        <span>
+          {t.rich('consent', {
+            privacy: (chunks) => <Link href="/privacy" className="link-inline">{chunks}</Link>,
+          })}
+        </span>
+      </label>
       <AltchaWidget challengeUrl={`${process.env.NEXT_PUBLIC_API_URL}/altcha/challenge`} onSolved={handleAltchaSolved} />
-      <Button type="submit" disabled={status === 'loading' || !altchaPayload}>
+      <Button type="submit" disabled={status === 'loading' || !altchaPayload || !consentAccepted}>
         {status === 'loading' ? t('submitting') : t('submit')}
       </Button>
       {formError && <p style={{ color: 'var(--color-error)' }}>{formError}</p>}

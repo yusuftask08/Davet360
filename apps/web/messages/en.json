@@ -7,6 +7,7 @@
     "logout": "Log Out"
   },
   "footer": {
+    "browseHeading": "Browse by category and city",
     "tagline": "Find the right vendor across Turkey for weddings, engagements, henna nights, circumcision ceremonies, birthdays and more.",
     "companyHeading": "Company",
     "about": "About Us",
@@ -134,7 +135,37 @@
     "trustWhatsapp": "Quick contact via WhatsApp",
     "categoriesHeading": "Categories",
     "categoriesSubheading": "Pick the category that fits your needs",
-    "browseVendors": "Browse vendors →"
+    "searchCategoryLabel": "Category",
+    "searchCityLabel": "City",
+    "searchCityPlaceholder": "Search cities",
+    "searchSubmit": "Search",
+    "browseVendors": "Browse vendors →",
+    "howHeading": "How It Works",
+    "howSubheading": "Find the right vendor in three steps",
+    "step1Title": "Pick a category and city",
+    "step1Text": "Choose from 18 categories and cities across Turkey to find what fits your event.",
+    "step2Title": "Request a free quote",
+    "step2Text": "Send a quote request to as many vendors as you like with a single form.",
+    "step3Title": "Compare and connect",
+    "step3Text": "Compare quotes, reviews and ratings, then contact the vendor directly.",
+    "popularHeading": "Popular Event Categories",
+    "popularSubheading": "Discover by category and city across Turkey",
+    "featuredHeading": "Featured Vendors",
+    "featuredSubheading": "Some of our highest-rated approved vendors",
+    "cityRowHeading": "Featured vendors in {city}",
+    "faqHeading": "Frequently Asked Questions"
+  },
+  "faq": {
+    "q1": "Is requesting a quote on Davet360 free?",
+    "a1": "Yes. The platform is currently completely free for both customers and vendors, with no hidden fees.",
+    "q2": "How are vendors approved?",
+    "a2": "Every vendor application is individually reviewed by our team before going live. Every vendor with the verified badge has gone through this process.",
+    "q3": "Is booking or payment handled through the platform?",
+    "a3": "No. Davet360 is a directory/marketplace — contact and agreements happen directly between you and the vendor, no payment is taken through the platform.",
+    "q4": "Can I find vendors anywhere in Turkey?",
+    "a4": "Davet360 operates across Turkey. If there's no vendor in your city yet, you can also be the first to list your business for that category and city.",
+    "q5": "How can I review a vendor?",
+    "a5": "You can leave a rating and review for a vendor you've worked with using your account. Reviews are published after admin approval."
   },
   "categoryIntros": {
     "dugun-mekani": "Compare capacity, location and catering options to find the right venue for your wedding.",
@@ -168,15 +199,17 @@
     "allCities": "{category} vendors in all cities",
     "maxBudgetLabel": "Max Budget (₺)",
     "minCapacityLabel": "Min Capacity",
-    "filterButton": "Filter"
+    "filterButton": "Filter",
+    "relatedHeading": "Also check these while planning your event in {city}"
   },
   "vendor": {
     "getQuote": "Get a Quote",
     "whatsapp": "Message on WhatsApp",
     "reviewsHeading": "Reviews",
     "noReviews": "No approved reviews yet.",
+    "amenitiesHeading": "Amenities",
     "locationHeading": "Location",
-    "verified": "✓ Davet360 Verified",
+    "verified": "Davet360 Verified",
     "verifiedShort": "Davet360 Verified",
     "capacity": "Capacity: {count} guests",
     "galleryHeading": "Gallery",
@@ -191,7 +224,11 @@
     "submitting": "Sending...",
     "success": "Your request was sent, thank you! The vendor will get in touch with you soon.",
     "genericError": "Something went wrong, please try again.",
-    "altchaWaiting": "Please wait for the verification widget to finish"
+    "altchaWaiting": "Please wait for the verification widget to finish",
+    "consent": "I agree to share my information with this business. I have read the <privacy>Privacy Policy</privacy>.",
+    "consentRequired": "You must agree to share your information to continue",
+    "loginPrompt": "To contact this vendor,",
+    "loginLink": "log in"
   },
   "reviewForm": {
     "ratingLabel": "Rating",
@@ -203,8 +240,8 @@
     "loginLink": "log in"
   },
   "favoriteButton": {
-    "add": "♡ Add to Favorites",
-    "added": "♥ In Favorites"
+    "add": "Add to Favorites",
+    "added": "In Favorites"
   },
   "auth": {
     "loginTitle": "Log In",

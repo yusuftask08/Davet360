@@ -2,7 +2,7 @@ import { ROLES, VENDOR_STATUS, VENDOR_STATUS_LIST } from '@repo/constants';
 import { slugify } from '@repo/utils';
 import { User, Vendor } from '../models/index.js';
 import { ApiError } from '../middleware/errorHandler.js';
-import { sendVendorApprovedEmail, sendNewVendorApplicationEmail } from './emailService.js';
+import { sendVendorApprovedEmail, sendNewVendorApplicationEmail, sendVendorStatusChangeEmail } from './emailService.js';
 import { env } from '../config/env.js';
 
 // "Onaylı vendor getir" sorgusu tek yerde yaşar (DRY) — her controller bunu çağırır,
@@ -51,6 +51,52 @@ export async function listVendorCities(category) {
     { $match: filter },
     { $group: { _id: '$citySlug', city: { $first: '$city' }, count: { $sum: 1 } } },
     { $project: { _id: 0, citySlug: '$_id', city: 1, count: 1 } },
+    { $sort: { count: -1 } },
+  ]);
+}
+
+// Anasayfada "Popüler" olarak gösterilecek kategori+şehir kombinasyonları — sadece gerçekten
+// onaylı vendor'ı olan kombinasyonlar döner (thin/empty SEO sayfasına link vermemek için).
+export async function listPopularCombos(limit = 8) {
+  return Vendor.aggregate([
+    { $match: approvedVendorFilter() },
+    { $group: { _id: { category: '$category', citySlug: '$citySlug' }, city: { $first: '$city' }, count: { $sum: 1 } } },
+    { $project: { _id: 0, category: '$_id.category', citySlug: '$_id.citySlug', city: 1, count: 1 } },
+    { $sort: { count: -1 } },
+    { $limit: limit },
+  ]);
+}
+
+// Anasayfada öne çıkarılacak işletmeler — en yüksek puanlı, en az 1 yorumu olan onaylı
+// vendor'lar. Yorumu olmayan vendor'lar "öne çıkan" listesinde yanıltıcı olur, hariç tutulur.
+export async function listFeaturedVendors(limit = 6) {
+  return Vendor.find(approvedVendorFilter({ reviewCount: { $gt: 0 } }))
+    .sort({ avgRating: -1, reviewCount: -1 })
+    .limit(limit);
+}
+
+// Anasayfada şehir başına ayrı satır göstermek için (Airbnb'nin "X yakınlarındaki popüler
+// evler" satırları gibi) — en çok onaylı işletmesi olan şehirler, kategori ayrımı yapmadan.
+export async function listTopCities(limit = 5) {
+  return Vendor.aggregate([
+    { $match: approvedVendorFilter() },
+    { $group: { _id: '$citySlug', city: { $first: '$city' }, count: { $sum: 1 } } },
+    { $project: { _id: 0, citySlug: '$_id', city: 1, count: 1 } },
+    { $sort: { count: -1 } },
+    { $limit: limit },
+  ]);
+}
+
+// Bir kategori+şehir sayfasında "ilgili aramalar" için — sadece o şehirde GERÇEKTEN onaylı
+// vendor'ı olan diğer kategoriler döner (mevcut kategori hariç). Uydurma/boş öneri yok.
+export async function listCategoriesInCity(citySlug, excludeCategory) {
+  const filter = approvedVendorFilter({ citySlug });
+  if (excludeCategory) filter.category = { $ne: excludeCategory };
+
+  return Vendor.aggregate([
+    { $match: filter },
+    { $group: { _id: '$category', count: { $sum: 1 } } },
+    { $project: { _id: 0, category: '$_id', count: 1 } },
     { $sort: { count: -1 } },
   ]);
 }
@@ -122,6 +168,15 @@ export async function updateOwnVendor(vendorId, ownerId, data) {
     vendor.location = { type: 'Point', coordinates: [location.lng, location.lat] };
   }
 
+  // Reddedilen bir vendor bilgilerini düzenlediğinde otomatik olarak tekrar admin onay
+  // kuyruğuna düşer — aksi halde vendor panelde "düzenle" dese de sonsuza kadar rejected kalır.
+  // Suspended kasıtlı olarak dahil değil: askı genelde politika/şikayet kaynaklı olur, profil
+  // düzenlemesiyle otomatik yayına dönmemeli, admin'in elle gözden geçirmesi gerekir.
+  if (vendor.status === VENDOR_STATUS.REJECTED) {
+    vendor.status = VENDOR_STATUS.PENDING;
+    vendor.statusReason = '';
+  }
+
   await vendor.save();
   return vendor;
 }
@@ -181,6 +236,7 @@ export async function approveVendor(vendorId, adminId) {
   if (!vendor) throw new ApiError(404, 'Vendor bulunamadı');
 
   vendor.status = VENDOR_STATUS.APPROVED;
+  vendor.statusReason = '';
   vendor.approvedBy = adminId;
   vendor.approvedAt = new Date();
   await vendor.save();
@@ -197,22 +253,44 @@ async function notifyVendorOfApproval(vendor) {
   await sendVendorApprovedEmail(owner.email, { businessName: vendor.businessName, webUrl: env.webUrl });
 }
 
-export async function rejectVendor(vendorId) {
+// reject/suspend sonrası vendor'a e-posta ile haber verir — sadece panel banner'ına güvenmek
+// yetmez, çoğu vendor bildirimi ancak e-postayla görür.
+async function notifyVendorOfStatusChange(vendor) {
+  const owner = await User.findById(vendor.ownerId);
+  if (!owner?.email) return;
+
+  await sendVendorStatusChangeEmail(owner.email, {
+    businessName: vendor.businessName,
+    status: vendor.status,
+    reason: vendor.statusReason,
+    panelUrl: env.panelUrl,
+  });
+}
+
+export async function rejectVendor(vendorId, reason = '') {
   const vendor = await Vendor.findById(vendorId);
   if (!vendor) throw new ApiError(404, 'Vendor bulunamadı');
 
   vendor.status = VENDOR_STATUS.REJECTED;
+  vendor.statusReason = reason.trim();
   await vendor.save();
+
+  notifyVendorOfStatusChange(vendor).catch((err) => console.error('[email] red bildirimi başarısız', err));
+
   return vendor;
 }
 
 // Daha önce onaylanmış bir vendor'ı sonradan yayından kaldırma (silme değil — geri alınabilir).
-export async function suspendVendor(vendorId) {
+export async function suspendVendor(vendorId, reason = '') {
   const vendor = await Vendor.findById(vendorId);
   if (!vendor) throw new ApiError(404, 'Vendor bulunamadı');
 
   vendor.status = VENDOR_STATUS.SUSPENDED;
+  vendor.statusReason = reason.trim();
   await vendor.save();
+
+  notifyVendorOfStatusChange(vendor).catch((err) => console.error('[email] askı bildirimi başarısız', err));
+
   return vendor;
 }
 
@@ -221,6 +299,7 @@ export async function reactivateVendor(vendorId) {
   if (!vendor) throw new ApiError(404, 'Vendor bulunamadı');
 
   vendor.status = VENDOR_STATUS.APPROVED;
+  vendor.statusReason = '';
   await vendor.save();
   return vendor;
 }

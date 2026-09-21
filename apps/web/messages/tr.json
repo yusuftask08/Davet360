@@ -7,7 +7,8 @@
     "logout": "Çıkış"
   },
   "footer": {
-    "tagline": "Türkiye genelinde düğün, nişan, kına, sünnet, doğum günü ve daha birçok özel gün için doğru tedarikçiyi bulun.",
+    "browseHeading": "Kategoriye ve şehre göre göz atın",
+    "tagline": "Türkiye genelinde düğün, nişan, kına, sünnet, doğum günü ve daha birçok özel gün için doğru işletmeyi bulun.",
     "companyHeading": "Şirket",
     "about": "Hakkımızda",
     "contact": "İletişim",
@@ -21,11 +22,11 @@
   "pages": {
     "about": {
       "title": "Hakkımızda",
-      "intro": "Davet360, Türkiye genelinde düğün, nişan, kına, sünnet, doğum günü ve daha pek çok özel gün için doğru tedarikçiyi bulmayı kolaylaştıran bir pazaryeridir.",
+      "intro": "Davet360, Türkiye genelinde düğün, nişan, kına, sünnet, doğum günü ve daha pek çok özel gün için doğru işletmeyi bulmayı kolaylaştıran bir pazaryeridir.",
       "missionHeading": "Misyonumuz",
-      "missionText": "İnsanların hayatlarının en özel anlarını organize ederken güvenilir, şeffaf ve kolay bir deneyim yaşamalarını sağlamak; tedarikçilerin ise doğru müşteriyle buluşup işlerini büyütmelerine destek olmak.",
+      "missionText": "İnsanların hayatlarının en özel anlarını organize ederken güvenilir, şeffaf ve kolay bir deneyim yaşamalarını sağlamak; işletmelerin ise doğru müşteriyle buluşup işlerini büyütmelerine destek olmak.",
       "howHeading": "Nasıl Çalışıyoruz",
-      "howText": "Platformumuzdaki her işletme, yayına girmeden önce ekibimiz tarafından incelenir ve onaylanır. Bu sayede kullanıcılarımız güvenilir ve gerçek tedarikçilerle iletişime geçer.",
+      "howText": "Platformumuzdaki her işletme, yayına girmeden önce ekibimiz tarafından incelenir ve onaylanır. Bu sayede kullanıcılarımız güvenilir ve gerçek işletmelerle iletişime geçer.",
       "freeHeading": "Şu An Ücretsiz",
       "freeText": "Davet360, hem müşteriler hem işletmeler için şu anda tamamen ücretsizdir. Amacımız önce gerçek bir topluluk oluşturmak; ileride işletmelerimize opsiyonel destek ve gelişmiş özellikler sunacağız."
     },
@@ -46,11 +47,11 @@
       "sections": [
         {
           "heading": "Toplanan Veriler",
-          "body": "Hesap oluşturduğunuzda adınızı, email adresinizi ve isteğe bağlı olarak telefon numaranızı topluyoruz. Vendor olarak kayıt olduğunuzda işletme bilgileriniz (işletme adı, açıklama, iletişim bilgileri, görseller) de saklanır."
+          "body": "Hesap oluşturduğunuzda adınızı, email adresinizi ve isteğe bağlı olarak telefon numaranızı topluyoruz. İşletme olarak kayıt olduğunuzda işletme bilgileriniz (işletme adı, açıklama, iletişim bilgileri, görseller) de saklanır."
         },
         {
           "heading": "Verilerin Kullanımı",
-          "body": "Verileriniz yalnızca hesabınızı yönetmek, teklif taleplerinizi ilgili tedarikçiye iletmek ve platformu iyileştirmek için kullanılır. Verileriniz hiçbir şekilde üçüncü taraflara satılmaz."
+          "body": "Verileriniz yalnızca hesabınızı yönetmek, teklif taleplerinizi ilgili işletmeye iletmek ve platformu iyileştirmek için kullanılır. Verileriniz hiçbir şekilde üçüncü taraflara satılmaz."
         },
         {
           "heading": "Çerezler ve Analiz",
@@ -76,23 +77,23 @@
       "sections": [
         {
           "heading": "Hizmet Tanımı",
-          "body": "Davet360, düğün, nişan ve diğer özel gün etkinlikleri için tedarikçi arayan kullanıcılar ile hizmet veren işletmeleri buluşturan bir dizin/pazaryeri platformudur. Platform üzerinden herhangi bir ödeme veya rezervasyon işlemi gerçekleşmez — iletişim ve anlaşma taraflar arasında doğrudan yürütülür."
+          "body": "Davet360, düğün, nişan ve diğer özel gün etkinlikleri için işletme arayan kullanıcılar ile hizmet veren işletmeleri buluşturan bir dizin/pazaryeri platformudur. Platform üzerinden herhangi bir ödeme veya rezervasyon işlemi gerçekleşmez — iletişim ve anlaşma taraflar arasında doğrudan yürütülür."
         },
         {
           "heading": "Hesap Sorumluluğu",
           "body": "Hesabınızla ilgili tüm işlemlerden siz sorumlusunuz. Şifrenizi kimseyle paylaşmamalısınız."
         },
         {
-          "heading": "Vendor Yükümlülükleri",
-          "body": "Vendor olarak kayıt olan işletmeler, girdikleri bilgilerin doğru ve güncel olmasını taahhüt eder. Yanıltıcı veya sahte bilgi içeren ilanlar admin tarafından reddedilir veya yayından kaldırılır."
+          "heading": "İşletme Yükümlülükleri",
+          "body": "İşletme hesabı olarak kayıt olanlar, girdikleri bilgilerin doğru ve güncel olmasını taahhüt eder. Yanıltıcı veya sahte bilgi içeren ilanlar admin tarafından reddedilir veya yayından kaldırılır."
         },
         {
           "heading": "İçerik Moderasyonu",
-          "body": "Tüm vendor başvuruları ve yorumlar admin onayından geçer. Platform, uygunsuz içeriği reddetme veya kaldırma hakkını saklı tutar."
+          "body": "Tüm işletme başvuruları ve yorumlar admin onayından geçer. Platform, uygunsuz içeriği reddetme veya kaldırma hakkını saklı tutar."
         },
         {
           "heading": "Sorumluluk Reddi",
-          "body": "Davet360, platformda listelenen tedarikçilerin sunduğu hizmetlerin kalitesinden sorumlu değildir. Tedarikçi seçimi ve anlaşma şartları tamamen kullanıcının sorumluluğundadır."
+          "body": "Davet360, platformda listelenen işletmelerin sunduğu hizmetlerin kalitesinden sorumlu değildir. İşletme seçimi ve anlaşma şartları tamamen kullanıcının sorumluluğundadır."
         },
         {
           "heading": "Ücretlendirme",
@@ -126,57 +127,89 @@
     "animasyon-cocuk": "Çocuk Animasyonu & Karakterler"
   },
   "home": {
-    "title": "Davet360 ile düğününüz için doğru tedarikçiyi bulun",
+    "title": "Davet360 ile düğününüz için doğru işletmeyi bulun",
     "description": "Düğün mekanı, nişan organizasyonu, orkestra ve fotoğraf/video hizmetlerini karşılaştırın, tek formla ücretsiz teklif alın.",
     "browseCategories": "Kategorilere Göz At",
-    "trustApproved": "Onaylı tedarikçiler",
+    "trustApproved": "Onaylı işletmeler",
     "trustFreeQuote": "Ücretsiz teklif alma",
     "trustWhatsapp": "WhatsApp ile hızlı iletişim",
     "categoriesHeading": "Kategoriler",
     "categoriesSubheading": "İhtiyacınıza en uygun kategoriyi seçin",
-    "browseVendors": "Tedarikçileri incele →"
+    "searchCategoryLabel": "Kategori",
+    "searchCityLabel": "Şehir",
+    "searchCityPlaceholder": "Şehir arayın",
+    "searchSubmit": "Ara",
+    "browseVendors": "İşletmeleri incele →",
+    "howHeading": "Nasıl Çalışır?",
+    "howSubheading": "Üç adımda doğru işletmeye ulaşın",
+    "step1Title": "Kategori ve şehir seçin",
+    "step1Text": "18 kategori ve Türkiye genelindeki şehirler arasından ihtiyacınıza uygun olanı bulun.",
+    "step2Title": "Ücretsiz teklif isteyin",
+    "step2Text": "Tek bir formla, istediğiniz kadar işletmeye aynı anda teklif talebi gönderin.",
+    "step3Title": "Karşılaştırın, anlaşın",
+    "step3Text": "Gelen teklifleri, yorumları ve puanları karşılaştırıp doğrudan işletmeyle iletişime geçin.",
+    "popularHeading": "Popüler Etkinlik Alanları",
+    "popularSubheading": "Türkiye genelinde kategoriye ve şehre göre keşfedin",
+    "featuredHeading": "Öne Çıkan İşletmeler",
+    "featuredSubheading": "En yüksek puanlı onaylı işletmelerden bazıları",
+    "cityRowHeading": "{city} öne çıkan işletmeler",
+    "faqHeading": "Sıkça Sorulan Sorular"
+  },
+  "faq": {
+    "q1": "Davet360 üzerinden teklif almak ücretli mi?",
+    "a1": "Hayır. Platform şu anda hem müşteriler hem işletmeler için tamamen ücretsizdir, herhangi bir gizli ücret yoktur.",
+    "q2": "İşletmeler nasıl onaylanıyor?",
+    "a2": "Her işletme başvurusu yayına girmeden önce ekibimiz tarafından tek tek incelenir. Onaylı rozeti taşıyan her işletme bu süreçten geçmiştir.",
+    "q3": "Teklif verdikten sonra rezervasyon/ödeme platform üzerinden mi yapılıyor?",
+    "a3": "Hayır. Davet360 bir dizin/pazaryeridir — iletişim ve anlaşma doğrudan siz ve işletme arasında yürütülür, platform üzerinden ödeme alınmaz.",
+    "q4": "Türkiye'nin her yerinde işletme bulabilir miyim?",
+    "a4": "Davet360 Türkiye genelinde hizmet verir. Şehrinizde henüz işletme yoksa, o kategori ve şehir için ilk kaydolan işletme olma fırsatı da var.",
+    "q5": "Bir işletmeyi nasıl değerlendirebilirim?",
+    "a5": "Hizmet aldığınız işletmeye hesabınızla yorum ve puan bırakabilirsiniz. Yorumlar admin onayından sonra yayınlanır."
   },
   "categoryIntros": {
     "dugun-mekani": "Kapasite, konum ve catering seçeneklerini karşılaştırarak düğününüz için doğru mekanı bulun.",
     "dugun-organizasyonu": "Konseptten güne kadar tüm süreci yöneten profesyonel düğün organizasyon firmalarını keşfedin.",
     "nisan-organizasyonu": "Nişan töreniniz için mekan, dekorasyon ve organizasyon hizmetlerini tek yerden karşılaştırın.",
-    "kina-gecesi": "Geleneksel kına gecenizi unutulmaz kılacak organizasyon, müzik ve dekorasyon tedarikçilerini bulun.",
-    "sunnet-organizasyonu": "Sünnet töreni için mekan, eğlence ve organizasyon hizmeti veren güvenilir tedarikçilerle tanışın.",
-    "dogum-gunu-organizasyonu": "Doğum günü ve yaş günü kutlamalarınız için organizasyon, pasta ve dekorasyon tedarikçilerini karşılaştırın.",
-    "baby-shower": "Bebek bekleyen anneler için özel baby shower organizasyonları düzenleyen tedarikçileri keşfedin.",
-    "mezuniyet-organizasyonu": "Mezuniyet kutlamanız için mekan ve organizasyon hizmeti veren tedarikçileri inceleyin.",
-    "kurumsal-etkinlik": "Şirket etkinlikleri, lansmanlar ve kurumsal organizasyonlar için profesyonel tedarikçileri bulun.",
+    "kina-gecesi": "Geleneksel kına gecenizi unutulmaz kılacak organizasyon, müzik ve dekorasyon işletmelerini bulun.",
+    "sunnet-organizasyonu": "Sünnet töreni için mekan, eğlence ve organizasyon hizmeti veren güvenilir işletmelerle tanışın.",
+    "dogum-gunu-organizasyonu": "Doğum günü ve yaş günü kutlamalarınız için organizasyon, pasta ve dekorasyon işletmelerini karşılaştırın.",
+    "baby-shower": "Bebek bekleyen anneler için özel baby shower organizasyonları düzenleyen işletmeleri keşfedin.",
+    "mezuniyet-organizasyonu": "Mezuniyet kutlamanız için mekan ve organizasyon hizmeti veren işletmeleri inceleyin.",
+    "kurumsal-etkinlik": "Şirket etkinlikleri, lansmanlar ve kurumsal organizasyonlar için profesyonel işletmeleri bulun.",
     "orkestra-muzik": "Düğün, nişan ve özel günleriniz için orkestra, DJ ve solist seçeneklerini karşılaştırın.",
     "fotograf-video": "Anılarınızı ölümsüzleştirecek profesyonel düğün fotoğrafçısı ve videografları keşfedin.",
     "catering-ikram": "Etkinliğiniz için yemek ve ikram hizmeti veren catering firmalarını karşılaştırın.",
     "pasta-tatli": "Düğün pastası, tatlı büfesi ve özel gün pastaları için usta pastanecileri bulun.",
-    "dekorasyon-balon": "Mekan dekorasyonu ve balon süslemesi konusunda uzman tedarikçilerle etkinliğinizi süsleyin.",
-    "davetiye": "Zarif davetiyeler ve etkinlik kırtasiyesi için tasarım ve baskı hizmeti veren tedarikçileri inceleyin.",
+    "dekorasyon-balon": "Mekan dekorasyonu ve balon süslemesi konusunda uzman işletmelerle etkinliğinizi süsleyin.",
+    "davetiye": "Zarif davetiyeler ve etkinlik kırtasiyesi için tasarım ve baskı hizmeti veren işletmeleri inceleyin.",
     "gelinlik-damatlik": "Hayalinizdeki gelinlik ve damatlığı bulmak için güvenilir mağaza ve tasarımcıları keşfedin.",
     "kuafor-makyaj": "Özel gününüzde kusursuz görünmek için gelin saçı ve makyaj uzmanlarını karşılaştırın.",
-    "animasyon-cocuk": "Çocuklu etkinlikleriniz için animasyon, karakter ve eğlence hizmeti veren tedarikçileri bulun."
+    "animasyon-cocuk": "Çocuklu etkinlikleriniz için animasyon, karakter ve eğlence hizmeti veren işletmeleri bulun."
   },
   "category": {
     "cityLabel": "Şehir",
     "cityPlaceholder": "Örn. İstanbul",
-    "vendorCount": "{count} tedarikçi",
-    "empty": "Bu kategoride henüz onaylı tedarikçi yok.",
+    "vendorCount": "{count} işletme",
+    "empty": "Bu kategoride henüz onaylı işletme yok.",
     "emptyCtaText": "Bu alanda hizmet mi veriyorsunuz? İlk işletme siz olun.",
     "emptyCtaButton": "İşletmeni Ekle",
     "nationwide": "Türkiye geneli",
     "pickCity": "Şehir seçin",
-    "allCities": "Tüm şehirlerdeki {category} tedarikçileri",
+    "allCities": "Tüm şehirlerdeki {category} işletmeleri",
     "maxBudgetLabel": "Maks. Bütçe (₺)",
     "minCapacityLabel": "Min. Kapasite",
-    "filterButton": "Filtrele"
+    "filterButton": "Filtrele",
+    "relatedHeading": "{city}'de düğün hazırlığında ayrıca bakabilirsiniz"
   },
   "vendor": {
     "getQuote": "Teklif Al",
     "whatsapp": "WhatsApp'tan Yaz",
     "reviewsHeading": "Yorumlar",
     "noReviews": "Henüz onaylı yorum yok.",
+    "amenitiesHeading": "Özellikler",
     "locationHeading": "Konum",
-    "verified": "✓ Davet360 Onaylı",
+    "verified": "Davet360 Onaylı",
     "verifiedShort": "Davet360 Onaylı",
     "capacity": "{count} kişi kapasiteli",
     "galleryHeading": "Galeri",
@@ -189,9 +222,13 @@
     "message": "Notunuz",
     "submit": "Teklif Al",
     "submitting": "Gönderiliyor...",
-    "success": "Talebiniz iletildi, teşekkürler! Vendor sizinle en kısa sürede iletişime geçecek.",
+    "success": "Talebiniz iletildi, teşekkürler! İşletme sizinle en kısa sürede iletişime geçecek.",
     "genericError": "Bir hata oluştu, tekrar deneyin.",
-    "altchaWaiting": "Lütfen doğrulama kutucuğunun tamamlanmasını bekleyin"
+    "altchaWaiting": "Lütfen doğrulama kutucuğunun tamamlanmasını bekleyin",
+    "consent": "Bilgilerimin bu işletmeyle paylaşılmasını kabul ediyorum. <privacy>Gizlilik Politikası'nı</privacy> okudum.",
+    "consentRequired": "Devam etmek için bilgilerinizin paylaşılmasını kabul etmelisiniz",
+    "loginPrompt": "İşletmeyle iletişime geçmek için",
+    "loginLink": "giriş yapın"
   },
   "reviewForm": {
     "ratingLabel": "Puan",
@@ -203,8 +240,8 @@
     "loginLink": "giriş yapın"
   },
   "favoriteButton": {
-    "add": "♡ Favorilere Ekle",
-    "added": "♥ Favorilerde"
+    "add": "Favorilere Ekle",
+    "added": "Favorilerde"
   },
   "auth": {
     "loginTitle": "Giriş Yap",
@@ -267,7 +304,7 @@
     "empty": "Henüz favori eklemediniz."
   },
   "search": {
-    "placeholder": "Vendor veya hizmet ara...",
+    "placeholder": "İşletme veya hizmet ara...",
     "heading": "\"{query}\" için arama sonuçları",
     "resultsCount": "{count} sonuç",
     "empty": "Sonuç bulunamadı. Farklı bir kelimeyle deneyin.",

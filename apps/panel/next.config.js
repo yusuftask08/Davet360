@@ -4,6 +4,21 @@ const nextConfig = {
   // Docker imajı için — sadece çalışma zamanında gereken minimal dosya seti üretir.
   output: 'standalone',
   transpilePackages: ['@repo/ui', '@repo/api-client', '@repo/constants', '@repo/utils'],
+  // Panel admin/vendor auth işlemleri barındırıyor, web'den daha sıkı olabilir — X-Frame-Options
+  // burada özellikle önemli çünkü panel hiçbir yerde iframe içine alınmamalı.
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

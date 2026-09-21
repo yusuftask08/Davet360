@@ -3,31 +3,29 @@
 import { useLocale } from 'next-intl';
 import { usePathname, useRouter } from '../../../i18n/navigation.js';
 
+const LOCALES = [
+  { code: 'tr', label: 'TR' },
+  { code: 'en', label: 'EN' },
+];
+
 export function LocaleSwitcher() {
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
 
-  function handleChange(event) {
-    router.replace(pathname, { locale: event.target.value });
-  }
-
   return (
-    <select
-      aria-label="Dil / Language"
-      value={locale}
-      onChange={handleChange}
-      style={{
-        border: '1px solid var(--color-border)',
-        borderRadius: 'var(--radius-full)',
-        padding: '4px 10px',
-        fontSize: 'var(--font-size-sm)',
-        background: 'var(--color-surface)',
-        color: 'inherit',
-      }}
-    >
-      <option value="tr">TR</option>
-      <option value="en">EN</option>
-    </select>
+    <div className="locale-switcher" role="group" aria-label="Dil / Language">
+      {LOCALES.map(({ code, label }) => (
+        <button
+          key={code}
+          type="button"
+          className={`locale-switcher__option${code === locale ? ' locale-switcher__option--active' : ''}`}
+          aria-current={code === locale}
+          onClick={() => router.replace(pathname, { locale: code })}
+        >
+          {label}
+        </button>
+      ))}
+    </div>
   );
 }

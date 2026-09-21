@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CATEGORIES } from '@repo/constants';
+import { CATEGORIES, AMENITIES } from '@repo/constants';
 import { ENDPOINTS } from '@repo/api-client';
 import { updateVendorSchema, toFieldErrors } from '@repo/utils';
 import { Button, Input, Card, Spinner } from '@repo/ui';
@@ -33,6 +33,9 @@ export default function EditOwnVendorPage() {
           whatsapp: data.vendor.whatsapp ?? '',
           email: data.vendor.email ?? '',
           capacity: data.vendor.capacity ?? '',
+          priceMin: data.vendor.priceRange?.min ?? '',
+          priceMax: data.vendor.priceRange?.max ?? '',
+          amenities: data.vendor.amenities ?? [],
         });
         setImages(data.vendor.images ?? []);
       })
@@ -48,6 +51,15 @@ export default function EditOwnVendorPage() {
     setVendorId(user.vendorId);
     load(user.vendorId);
   }, [load, router]);
+
+  function toggleAmenity(key) {
+    setForm((prev) => ({
+      ...prev,
+      amenities: prev.amenities.includes(key)
+        ? prev.amenities.filter((a) => a !== key)
+        : [...prev.amenities, key],
+    }));
+  }
 
   async function handleImageChange(event) {
     const files = Array.from(event.target.files ?? []);
@@ -102,6 +114,10 @@ export default function EditOwnVendorPage() {
       ...(form.whatsapp.trim() ? { whatsapp: form.whatsapp.trim() } : {}),
       ...(form.email.trim() ? { email: form.email.trim() } : {}),
       ...(form.capacity ? { capacity: Number(form.capacity) } : {}),
+      ...(form.priceMin && form.priceMax
+        ? { priceRange: { min: Number(form.priceMin), max: Number(form.priceMax) } }
+        : {}),
+      amenities: form.amenities,
     };
 
     const result = updateVendorSchema.safeParse(payload);
@@ -215,6 +231,52 @@ export default function EditOwnVendorPage() {
             value={form.capacity}
             onChange={(e) => setForm({ ...form, capacity: e.target.value })}
           />
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-sm)' }}>
+            <Input
+              label="Min. Fiyat (opsiyonel)"
+              type="number"
+              min="0"
+              value={form.priceMin}
+              onChange={(e) => setForm({ ...form, priceMin: e.target.value })}
+            />
+            <Input
+              label="Max. Fiyat (opsiyonel)"
+              type="number"
+              min="0"
+              value={form.priceMax}
+              onChange={(e) => setForm({ ...form, priceMax: e.target.value })}
+            />
+          </div>
+          {fieldErrors.priceRange && <span className="ui-field__error">{fieldErrors.priceRange}</span>}
+
+          <div className="ui-field">
+            <span className="ui-field__label">Özellikler (opsiyonel)</span>
+            <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+              {AMENITIES.map((amenity) => (
+                <label
+                  key={amenity.key}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    fontSize: 'var(--font-size-sm)',
+                    border: '1px solid var(--color-border)',
+                    borderRadius: 'var(--radius-full)',
+                    padding: '6px 12px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={form.amenities.includes(amenity.key)}
+                    onChange={() => toggleAmenity(amenity.key)}
+                  />
+                  {amenity.label}
+                </label>
+              ))}
+            </div>
+          </div>
 
           <div className="ui-field">
             <label className="ui-field__label" htmlFor="images">

@@ -2,13 +2,23 @@ import jwt from 'jsonwebtoken';
 import { env } from '../config/env.js';
 import { ApiError } from './errorHandler.js';
 
-export function requireAuth(req, _res, next) {
+// Token iki kaynaktan gelebilir: httpOnly "token" cookie'si (web — tarayıcı otomatik gönderir,
+// JS token'a hiç erişemez, XSS'te çalınamaz) veya Authorization: Bearer header (React Native /
+// üçüncü parti API istemcileri — mobilde httpOnly cookie kavramı yok, token güvenli depoda
+// tutulup header ile gönderilir). Cookie önce denenir, yoksa header'a bakılır.
+function extractToken(req) {
+  if (req.cookies?.token) return req.cookies.token;
   const header = req.headers.authorization;
-  if (!header?.startsWith('Bearer ')) {
+  if (header?.startsWith('Bearer ')) return header.slice('Bearer '.length);
+  return null;
+}
+
+export function requireAuth(req, _res, next) {
+  const token = extractToken(req);
+  if (!token) {
     return next(new ApiError(401, 'Giriş yapmanız gerekiyor'));
   }
 
-  const token = header.slice('Bearer '.length);
   try {
     req.user = jwt.verify(token, env.jwtSecret);
     next();
@@ -21,11 +31,11 @@ export function requireAuth(req, _res, next) {
 // (ör. teklif formu — misafir de doldurabilir ama giriş yapmışsa talep hesabına bağlanır).
 // Token yok/geçersizse hata FIRLATMAZ, sadece req.user boş kalır.
 export function optionalAuth(req, _res, next) {
-  const header = req.headers.authorization;
-  if (!header?.startsWith('Bearer ')) return next();
+  const token = extractToken(req);
+  if (!token) return next();
 
   try {
-    req.user = jwt.verify(header.slice('Bearer '.length), env.jwtSecret);
+    req.user = jwt.verify(token, env.jwtSecret);
   } catch {
     // geçersiz/süresi dolmuş token — anonim olarak devam, hata verme
   }

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { ENDPOINTS } from '@repo/api-client';
-import { Card, Badge, Button, Spinner } from '@repo/ui';
+import { Card, Badge, Button, Spinner, Star } from '@repo/ui';
 import { apiClient } from '../../../lib/apiClient.js';
 import { PanelHeader } from '../../components/PanelHeader.jsx';
 import { AdminNav } from '../components/AdminNav.jsx';
@@ -72,8 +72,19 @@ export default function AdminReviewsPage() {
                 <strong>{review.vendorId?.businessName}</strong>
                 <Badge>{review.status}</Badge>
               </div>
-              <p style={{ margin: '4px 0', color: 'var(--color-neutral-500)', fontSize: 'var(--font-size-sm)' }}>
-                {review.userId?.name} ({review.userId?.email}) · {review.rating} ★
+              <p
+                style={{
+                  margin: '4px 0',
+                  color: 'var(--color-neutral-500)',
+                  fontSize: 'var(--font-size-sm)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 4,
+                }}
+              >
+                {review.userId?.name} ({review.userId?.email}) ·
+                <Star size={13} fill="currentColor" strokeWidth={0} aria-hidden="true" />
+                {review.rating}
               </p>
               <p style={{ margin: '0 0 var(--space-sm)' }}>{review.comment}</p>
               <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>

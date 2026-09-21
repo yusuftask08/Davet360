@@ -1,6 +1,7 @@
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import mongoSanitize from 'express-mongo-sanitize';
 import { env } from './config/env.js';
 import { apiRouter } from './routes/index.js';
@@ -10,8 +11,12 @@ export function createApp() {
   const app = express();
 
   app.use(helmet());
+  // credentials:true + spesifik origin listesi (env.corsOrigins) zorunlu — httpOnly cookie
+  // tarayıcıdan cross-origin gönderilebilsin diye. Wildcard '*' ile credentials asla birlikte
+  // kullanılamaz (tarayıcı reddeder), bu yüzden corsOrigins her zaman açık liste olmalı.
   app.use(cors({ origin: env.corsOrigins, credentials: true }));
   app.use(express.json({ limit: '2mb' }));
+  app.use(cookieParser());
   app.use(mongoSanitize());
   app.use('/uploads', express.static(env.uploadDir));
 

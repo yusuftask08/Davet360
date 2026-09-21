@@ -7,6 +7,7 @@ import { ENDPOINTS } from '@repo/api-client';
 import { VendorCard } from '@repo/ui';
 import { Link } from '../../../i18n/navigation.js';
 import { apiClient } from '../../../lib/apiClient.js';
+import { CardFavoriteButton } from '../components/CardFavoriteButton.jsx';
 
 export default function FavoritesPage() {
   const t = useTranslations('favorites');
@@ -17,7 +18,7 @@ export default function FavoritesPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!localStorage.getItem('token')) {
+    if (!localStorage.getItem('user')) {
       setError(t('loginRequired'));
       setLoading(false);
       return;
@@ -36,7 +37,7 @@ export default function FavoritesPage() {
       {loading && <p>{t('loading')}</p>}
       {error && (
         <p style={{ color: 'var(--color-error)' }}>
-          {error} <Link href="/login">{t('loginLink')}</Link>
+          {error} <Link href="/login" className="link-inline">{t('loginLink')}</Link>
         </p>
       )}
       {!loading && !error && items.length === 0 && <p>{t('empty')}</p>}
@@ -49,6 +50,14 @@ export default function FavoritesPage() {
             verifiedLabel={tVendor('verified')}
             as={Link}
             href={`/${vendor.category}/${vendor.citySlug}/${vendor.slug}`}
+            favorite={
+              <CardFavoriteButton
+                vendorId={vendor._id}
+                onToggle={(id, isFavorite) => {
+                  if (!isFavorite) setItems((prev) => prev.filter((item) => item._id !== id));
+                }}
+              />
+            }
           />
         ))}
       </div>

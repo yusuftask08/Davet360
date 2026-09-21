@@ -19,7 +19,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [altchaPayload, setAltchaPayload] = useState(null);
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const webUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+  const webUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3600';
 
   const handleAltchaSolved = useCallback((payload) => setAltchaPayload(payload), []);
 
@@ -58,11 +58,10 @@ export default function RegisterPage() {
     setLoading(true);
     try {
       await apiClient.post(ENDPOINTS.register, { ...result.data, altcha: altchaPayload });
-      const { token, user } = await apiClient.post(ENDPOINTS.login, {
+      const { user } = await apiClient.post(ENDPOINTS.login, {
         email: result.data.email,
         password: result.data.password,
       });
-      localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
       router.push('/vendor/new');
     } catch (err) {
@@ -79,7 +78,7 @@ export default function RegisterPage() {
   return (
     <AuthShell>
       <Card>
-        <h1>Vendor Olarak Kayıt Ol</h1>
+        <h1>İşletme Olarak Kayıt Ol</h1>
         <p style={{ color: 'var(--color-neutral-500)', marginTop: 0 }}>
           Önce hesabınızı oluşturun, ardından işletme bilgilerinizi gireceksiniz.
         </p>

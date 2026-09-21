@@ -15,6 +15,16 @@ export function createApiClient({ baseUrl, getToken } = {}) {
     try {
       res = await fetch(`${baseUrl}${path}`, {
         method,
+        // Next.js App Router'da fetch() varsayılan olarak SONSUZA KADAR cache'lenir (force-cache).
+        // Bu bir pazaryeri için tehlikeli: admin bir vendor'ı onaylasa/düzenlese bile, o sayfayı
+        // daha önce ziyaret eden herkes eski veriyi görmeye devam eder. Varsayılanı no-store yapıp
+        // her zaman güncel veri çekiyoruz; bir çağıran gerçekten cache isterse `opts.cache` veya
+        // `opts.next` ile bunun üzerine yazabilir (rest en sonda spread edildiği için).
+        cache: 'no-store',
+        // httpOnly "token" cookie'sinin tarayıcıdan cross-origin (web:3600 -> api:4600)
+        // gönderilebilmesi için gerekli. React Native'in fetch'i bu seçeneği yok sayar/
+        // zararsızdır — mobilde asıl auth yolu zaten Authorization header (aşağıda).
+        credentials: 'include',
         headers: {
           ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
           ...(token ? { Authorization: `Bearer ${token}` } : {}),

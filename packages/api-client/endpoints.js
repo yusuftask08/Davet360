@@ -1,6 +1,7 @@
 export const ENDPOINTS = {
   register: '/auth/register',
   login: '/auth/login',
+  logout: '/auth/logout',
   me: '/auth/me',
   forgotPassword: '/auth/forgot-password',
   resetPassword: '/auth/reset-password',
@@ -10,6 +11,10 @@ export const ENDPOINTS = {
   myReviews: '/reviews/mine',
   vendors: '/vendors',
   vendorCities: '/vendors/cities',
+  vendorPopularCombos: '/vendors/popular-combos',
+  vendorFeatured: '/vendors/featured',
+  vendorCategoriesInCity: '/vendors/categories-in-city',
+  vendorTopCities: '/vendors/top-cities',
   vendorBySlug: (slug) => `/vendors/${slug}`,
   vendorOwn: (vendorId) => `/vendors/${vendorId}/own`,
   vendorUpdate: (vendorId) => `/vendors/${vendorId}`,

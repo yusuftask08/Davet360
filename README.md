@@ -29,9 +29,9 @@ docker compose up -d          # local MongoDB + (opsiyonel) Umami analytics
 ```bash
 pnpm dev
 ```
-- API: http://localhost:4000/api/health
-- Web: http://localhost:3000 (otomatik `/tr`'a yönlenir, `/en` de mevcut)
-- Panel: http://localhost:3001
+- API: http://localhost:4600/api/health
+- Web: http://localhost:3600 (otomatik `/tr`'a yönlenir, `/en` de mevcut)
+- Panel: http://localhost:3601
 - Umami (analytics dashboard, ilk kurulumda hesap oluşturmanız gerekir): http://localhost:3002
 
 Production'da MongoDB + Umami Coolify/Hetzner üzerinde ayrı servisler olarak çalışır, `docker-compose.yml` sadece local geliştirme içindir.

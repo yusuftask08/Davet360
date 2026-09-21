@@ -57,11 +57,10 @@ export default function RegisterPage() {
     setLoading(true);
     try {
       await apiClient.post(ENDPOINTS.register, { ...result.data, altcha: altchaPayload });
-      const { token, user } = await apiClient.post(ENDPOINTS.login, {
+      const { user } = await apiClient.post(ENDPOINTS.login, {
         email: result.data.email,
         password: result.data.password,
       });
-      localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
       router.push('/');
     } catch (err) {
@@ -127,8 +126,8 @@ export default function RegisterPage() {
             />
             <span>
               {t.rich('termsAgreement', {
-                terms: (chunks) => <Link href="/terms">{chunks}</Link>,
-                privacy: (chunks) => <Link href="/privacy">{chunks}</Link>,
+                terms: (chunks) => <Link href="/terms" className="link-inline">{chunks}</Link>,
+                privacy: (chunks) => <Link href="/privacy" className="link-inline">{chunks}</Link>,
               })}
             </span>
           </label>
@@ -139,7 +138,7 @@ export default function RegisterPage() {
           {formError && <p style={{ color: 'var(--color-error)' }}>{formError}</p>}
         </form>
         <p style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--space-md)' }}>
-          {t('hasAccount')} <Link href="/login">{t('loginLink')}</Link>
+          {t('hasAccount')} <Link href="/login" className="link-inline">{t('loginLink')}</Link>
         </p>
       </Card>
     </main>
