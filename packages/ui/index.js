@@ -30,4 +30,6 @@ export {
   Sparkles,
   ClipboardList,
   Handshake,
+  Home,
+  User,
 } from 'lucide-react';

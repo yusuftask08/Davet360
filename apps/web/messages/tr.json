@@ -4,7 +4,9 @@
     "login": "Giriş Yap",
     "account": "Hesabım",
     "favorites": "Favorilerim",
-    "logout": "Çıkış"
+    "logout": "Çıkış",
+    "discover": "Keşfet",
+    "mobileNavLabel": "Alt gezinme menüsü"
   },
   "footer": {
     "browseHeading": "Kategoriye ve şehre göre göz atın",

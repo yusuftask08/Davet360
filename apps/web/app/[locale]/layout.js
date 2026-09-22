@@ -11,6 +11,7 @@ import { RegisterServiceWorker } from './register-sw.js';
 import { Navbar } from './components/Navbar.jsx';
 import { Footer } from './components/Footer.jsx';
 import { RouteProgress } from './components/RouteProgress.jsx';
+import { BottomNav } from './components/BottomNav.jsx';
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -79,6 +80,7 @@ export default async function LocaleLayout({ children, params: { locale } }) {
           <Navbar />
           {children}
           <Footer />
+          <BottomNav />
           <RegisterServiceWorker />
         </NextIntlClientProvider>
         {process.env.NEXT_PUBLIC_UMAMI_URL && process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (

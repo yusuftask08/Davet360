@@ -4,7 +4,9 @@
     "login": "Log In",
     "account": "My Account",
     "favorites": "My Favorites",
-    "logout": "Log Out"
+    "logout": "Log Out",
+    "discover": "Discover",
+    "mobileNavLabel": "Mobile navigation"
   },
   "footer": {
     "browseHeading": "Browse by category and city",

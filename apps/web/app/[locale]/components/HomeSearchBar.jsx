@@ -25,6 +25,7 @@ export function HomeSearchBar() {
 
   return (
     <form onSubmit={handleSubmit} className="home-search">
+      <Search size={18} strokeWidth={2} className="home-search__leading-icon" aria-hidden="true" />
       <div className="home-search__field">
         <label htmlFor="home-search-category">{t('home.searchCategoryLabel')}</label>
         <select id="home-search-category" value={category} onChange={(e) => setCategory(e.target.value)}>
