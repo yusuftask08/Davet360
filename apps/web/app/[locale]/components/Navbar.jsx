@@ -4,21 +4,17 @@ import { AuthNav } from './AuthNav.jsx';
 import { LocaleSwitcher } from './LocaleSwitcher.jsx';
 import { HomeSearchBar } from './HomeSearchBar.jsx';
 
-// Tek arama alanı: Kategori+Şehir bar'ı artık navbar'ın kendisinde, her sayfada görünür —
-// önceden anasayfaya özel ayrı bir bileşendi, navbar'da da küçük bir metin arama kutusu vardı,
-// ikisi birden kafa karıştırıyordu. Şimdi tek, site genelinde sabit bir arama var.
+// Airbnb düzeni: üst satır logo + sağ üst araçlar (blog/hesap/dil), altında ayrı, bol boşluklu
+// bir satırda arama çubuğu — tek satıra sıkıştırılmış hâli kalabalık/okunaksız duruyordu.
 export async function Navbar() {
   const t = await getTranslations();
 
   return (
     <header className="site-navbar">
-      <div className="container site-navbar__inner">
+      <div className="container site-navbar__top">
         <Link href="/" className="site-navbar__logo">
           Merasim<span>360</span>
         </Link>
-        <div className="site-navbar__search-slot">
-          <HomeSearchBar />
-        </div>
         <div className="site-navbar__right">
           <nav className="site-navbar__links">
             <Link href="/blog">{t('nav.blog')}</Link>
@@ -27,6 +23,9 @@ export async function Navbar() {
           <div className="site-navbar__divider" aria-hidden="true" />
           <LocaleSwitcher />
         </div>
+      </div>
+      <div className="container site-navbar__search-row">
+        <HomeSearchBar />
       </div>
     </header>
   );

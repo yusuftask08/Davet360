@@ -90,22 +90,22 @@ a {
   border-bottom: 1px solid var(--color-border);
   box-shadow: 0 1px 0 rgba(20, 16, 12, 0.02);
 }
-.site-navbar__inner {
+/* Üst satır: logo solda, araçlar (blog/hesap/dil) sağda — Airbnb'deki gibi. */
+.site-navbar__top {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--space-lg);
-  min-height: 72px;
+  min-height: 64px;
   flex-wrap: wrap;
-  padding: var(--space-sm) 0;
+  padding-top: var(--space-md);
 }
-/* Arama çubuğu logo ile sağdaki grup arasındaki tüm boş alanı kaplar (flex:1) — üçü de tek
-   satırda, aynı hizada. Önceden arama ayrı bir ikinci satırdaydı, "içeri çek tek hizaya al"
-   isteğiyle tek satıra birleştirildi. */
-.site-navbar__search-slot {
-  flex: 1;
+/* Alt satır: arama çubuğu, kendi bol boşluğuyla, üst satırdan ayrı — sıkışık durmasın diye
+   üstte ve altta rahat bir boşluk var. */
+.site-navbar__search-row {
   display: flex;
   justify-content: center;
-  min-width: 0;
+  padding: var(--space-md) 0 var(--space-lg);
 }
 .site-navbar__right {
   display: flex;
