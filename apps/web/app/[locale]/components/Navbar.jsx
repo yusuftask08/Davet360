@@ -18,7 +18,11 @@ export async function Navbar() {
         <div className="site-navbar__right">
           <nav className="site-navbar__links">
             <Link href="/blog">{t('nav.blog')}</Link>
-            <AuthNav />
+            {/* Mobilde alt gezinme barı zaten hesap/giriş linkini içeriyor — burada tekrar
+                göstermek gereksiz yer kaplar, bu yüzden mobilde gizlenir (bkz. CSS). */}
+            <span className="site-navbar__auth-desktop">
+              <AuthNav />
+            </span>
           </nav>
           <div className="site-navbar__divider" aria-hidden="true" />
           <LocaleSwitcher />

@@ -231,6 +231,19 @@ a {
   .site-navbar__divider {
     display: none;
   }
+  .site-navbar__auth-desktop {
+    display: none;
+  }
+  .site-navbar__top {
+    min-height: 56px;
+    padding-top: var(--space-sm);
+  }
+  .site-navbar__logo {
+    font-size: var(--font-size-lg);
+  }
+  .site-navbar__search-row {
+    padding: var(--space-sm) 0 var(--space-md);
+  }
 }
 
 /* Footer */
