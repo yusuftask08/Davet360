@@ -110,7 +110,7 @@ export default async function VendorPage({ params }) {
       <Breadcrumb
         locale={params.locale}
         items={[
-          { name: 'Davet360', href: '' },
+          { name: 'Merasim360', href: '' },
           { name: categoryLabel, href: `/${params.category}` },
           { name: vendor.city, href: `/${params.category}/${params.city}` },
           { name: vendor.businessName, href: `/${params.category}/${params.city}/${vendor.slug}` },

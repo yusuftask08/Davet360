@@ -64,7 +64,7 @@ export async function Footer() {
       <div className="container site-footer__grid">
         <div>
           <div className="site-navbar__logo" style={{ marginBottom: 'var(--space-sm)' }}>
-            Davet<span>360</span>
+            Merasim<span>360</span>
           </div>
           <p className="site-footer__muted">{t('footer.tagline')}</p>
         </div>
@@ -95,7 +95,7 @@ export async function Footer() {
         </div>
       </div>
       <div className="container site-footer__bottom">
-        © {new Date().getFullYear()} Davet360 — {t('footer.rights')}
+        © {new Date().getFullYear()} Merasim360 — {t('footer.rights')}
       </div>
     </footer>
   );

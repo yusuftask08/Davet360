@@ -1,4 +1,4 @@
-# Davet360
+# Merasim360
 
 Düğün, nişan, orkestra/müzik, fotoğraf & video tedarikçilerini bir araya getiren pazaryeri. Detaylı ürün/mimari kararları için [docs/PROJECT.md](docs/PROJECT.md), veri modeli için [docs/specs/01-data-model.md](docs/specs/01-data-model.md).
 
@@ -42,13 +42,13 @@ bash scripts/backup.sh
 ```
 Mongo container'ının kendi `mongodump`'ını kullanır (host'a ekstra araç kurmaya gerek yok), `./backups` klasörüne gzip'li archive + upload klasörünün tar'ı düşer, 30 günden eski yedekler otomatik silinir. Production'da crontab'a eklenir:
 ```
-0 3 * * * cd /path/to/davet360 && bash scripts/backup.sh >> /var/log/davet360-backup.log 2>&1
+0 3 * * * cd /path/to/merasim360 && bash scripts/backup.sh >> /var/log/merasim360-backup.log 2>&1
 ```
 
 ## İlk admin kullanıcısını oluşturma
 Şu an admin kaydı için ayrı bir endpoint yok (güvenlik gereği admin self-servis oluşturulamaz). İlk admini Mongo shell'den elle işaretleyin:
 ```js
-db.users.updateOne({ email: "admin@davet360.com" }, { $set: { role: "admin" } })
+db.users.updateOne({ email: "admin@merasim360.com" }, { $set: { role: "admin" } })
 ```
 (Önce `/api/auth/register` ile normal kullanıcı olarak kayıt olun, sonra rolünü yükseltin.)
 

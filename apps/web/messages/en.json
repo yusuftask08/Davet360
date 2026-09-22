@@ -22,13 +22,13 @@
   "pages": {
     "about": {
       "title": "About Us",
-      "intro": "Davet360 is a marketplace that makes it easy to find the right vendor across Turkey for weddings, engagements, henna nights, circumcision ceremonies, birthdays and many other special occasions.",
+      "intro": "Merasim360 is a marketplace that makes it easy to find the right vendor across Turkey for weddings, engagements, henna nights, circumcision ceremonies, birthdays and many other special occasions.",
       "missionHeading": "Our Mission",
       "missionText": "To help people organize the most special moments of their lives with a trustworthy, transparent and easy experience — and to help vendors connect with the right customers and grow their business.",
       "howHeading": "How We Work",
       "howText": "Every business on our platform is reviewed and approved by our team before going live, so our users connect with verified, genuine vendors.",
       "freeHeading": "Currently Free",
-      "freeText": "Davet360 is completely free for both customers and businesses right now. Our priority is building a real community first — optional support and advanced features for vendors will come later."
+      "freeText": "Merasim360 is completely free for both customers and businesses right now. Our priority is building a real community first — optional support and advanced features for vendors will come later."
     },
     "contact": {
       "title": "Contact",
@@ -43,7 +43,7 @@
     },
     "privacy": {
       "title": "Privacy Policy",
-      "intro": "This page explains what data we collect when you use Davet360 and how we use it.",
+      "intro": "This page explains what data we collect when you use Merasim360 and how we use it.",
       "sections": [
         {
           "heading": "Data We Collect",
@@ -73,11 +73,11 @@
     },
     "terms": {
       "title": "Terms of Use",
-      "intro": "By using Davet360, you agree to the following terms.",
+      "intro": "By using Merasim360, you agree to the following terms.",
       "sections": [
         {
           "heading": "Service Description",
-          "body": "Davet360 is a directory/marketplace platform connecting users looking for vendors for weddings, engagements and other special events with businesses offering those services. No payment or booking is processed through the platform — contact and agreements happen directly between the parties."
+          "body": "Merasim360 is a directory/marketplace platform connecting users looking for vendors for weddings, engagements and other special events with businesses offering those services. No payment or booking is processed through the platform — contact and agreements happen directly between the parties."
         },
         {
           "heading": "Account Responsibility",
@@ -93,7 +93,7 @@
         },
         {
           "heading": "Disclaimer",
-          "body": "Davet360 is not responsible for the quality of services provided by vendors listed on the platform. Vendor selection and agreement terms are entirely the user's responsibility."
+          "body": "Merasim360 is not responsible for the quality of services provided by vendors listed on the platform. Vendor selection and agreement terms are entirely the user's responsibility."
         },
         {
           "heading": "Pricing",
@@ -127,7 +127,7 @@
     "animasyon-cocuk": "Kids Entertainment & Characters"
   },
   "home": {
-    "title": "Find the right vendor for your wedding with Davet360",
+    "title": "Find the right vendor for your wedding with Merasim360",
     "description": "Compare wedding venues, engagement organizers, orchestras and photo/video services, get a free quote with one form.",
     "browseCategories": "Browse Categories",
     "trustApproved": "Verified vendors",
@@ -156,14 +156,14 @@
     "faqHeading": "Frequently Asked Questions"
   },
   "faq": {
-    "q1": "Is requesting a quote on Davet360 free?",
+    "q1": "Is requesting a quote on Merasim360 free?",
     "a1": "Yes. The platform is currently completely free for both customers and vendors, with no hidden fees.",
     "q2": "How are vendors approved?",
     "a2": "Every vendor application is individually reviewed by our team before going live. Every vendor with the verified badge has gone through this process.",
     "q3": "Is booking or payment handled through the platform?",
-    "a3": "No. Davet360 is a directory/marketplace — contact and agreements happen directly between you and the vendor, no payment is taken through the platform.",
+    "a3": "No. Merasim360 is a directory/marketplace — contact and agreements happen directly between you and the vendor, no payment is taken through the platform.",
     "q4": "Can I find vendors anywhere in Turkey?",
-    "a4": "Davet360 operates across Turkey. If there's no vendor in your city yet, you can also be the first to list your business for that category and city.",
+    "a4": "Merasim360 operates across Turkey. If there's no vendor in your city yet, you can also be the first to list your business for that category and city.",
     "q5": "How can I review a vendor?",
     "a5": "You can leave a rating and review for a vendor you've worked with using your account. Reviews are published after admin approval."
   },
@@ -209,8 +209,8 @@
     "noReviews": "No approved reviews yet.",
     "amenitiesHeading": "Amenities",
     "locationHeading": "Location",
-    "verified": "Davet360 Verified",
-    "verifiedShort": "Davet360 Verified",
+    "verified": "Merasim360 Verified",
+    "verifiedShort": "Merasim360 Verified",
     "capacity": "Capacity: {count} guests",
     "galleryHeading": "Gallery",
     "similarHeading": "Similar Vendors"

@@ -20,7 +20,7 @@ export function VendorCard({
   vendor,
   categoryLabel,
   href,
-  verifiedLabel = 'Davet360 Onaylı',
+  verifiedLabel = 'Merasim360 Onaylı',
   highlyRatedLabel = 'Çok beğenilen',
   favorite,
   priority = false,

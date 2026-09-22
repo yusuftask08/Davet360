@@ -337,13 +337,13 @@ async function downloadImage(seed, index) {
 }
 
 async function getOrCreateSeedOwner() {
-  const email = 'seed-vendors@davet360.local';
+  const email = 'seed-vendors@merasim360.local';
   let owner = await User.findOne({ email });
   if (owner) return owner;
 
   const passwordHash = await bcrypt.hash('seed-not-a-real-login-' + Date.now(), 10);
   owner = await User.create({
-    name: 'Davet360 Seed',
+    name: 'Merasim360 Seed',
     email,
     passwordHash,
     role: 'vendor',

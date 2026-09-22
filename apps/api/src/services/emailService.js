@@ -34,7 +34,7 @@ async function sendMail({ to, subject, html, text }) {
 export async function sendPasswordResetEmail(to, resetUrl) {
   await sendMail({
     to,
-    subject: 'Davet360 — Şifre Sıfırlama',
+    subject: 'Merasim360 — Şifre Sıfırlama',
     text: `Şifrenizi sıfırlamak için: ${resetUrl}\n\nBu talebi siz yapmadıysanız bu e-postayı yok sayabilirsiniz. Link 1 saat içinde geçersiz olur.`,
     html: `
       <p>Şifrenizi sıfırlamak için aşağıdaki linke tıklayın:</p>
@@ -51,7 +51,7 @@ export async function sendContactMessage({ name, email, message }) {
   }
   await sendMail({
     to: env.contactEmail,
-    subject: `Davet360 İletişim Formu — ${name}`,
+    subject: `Merasim360 İletişim Formu — ${name}`,
     text: `Gönderen: ${name} <${email}>\n\n${message}`,
     html: `<p><strong>Gönderen:</strong> ${escapeHtml(name)} &lt;${escapeHtml(email)}&gt;</p><p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>`,
   });
@@ -63,7 +63,7 @@ export async function sendNewLeadEmail(to, { businessName, customerName, custome
   const safeMessage = message ? escapeHtml(message) : '';
   await sendMail({
     to,
-    subject: `Davet360 — "${businessName}" için yeni teklif talebi`,
+    subject: `Merasim360 — "${businessName}" için yeni teklif talebi`,
     text: `${customerName} (${customerPhone}) size teklif talebi gönderdi.\n\n${message ?? ''}\n\nDetaylar için panele giriş yapın: ${panelUrl}/vendor`,
     html: `
       <p><strong>${escapeHtml(customerName)}</strong> (${escapeHtml(customerPhone)}) size teklif talebi gönderdi.</p>
@@ -77,9 +77,9 @@ export async function sendNewLeadEmail(to, { businessName, customerName, custome
 export async function sendVendorApprovedEmail(to, { businessName, webUrl: siteUrl }) {
   await sendMail({
     to,
-    subject: `Davet360 — "${businessName}" onaylandı ve yayında!`,
-    text: `Tebrikler! "${businessName}" ilanınız onaylandı ve artık Davet360'da yayında. ${siteUrl}`,
-    html: `<p>Tebrikler! <strong>${escapeHtml(businessName)}</strong> ilanınız onaylandı ve artık Davet360'da yayında.</p>`,
+    subject: `Merasim360 — "${businessName}" onaylandı ve yayında!`,
+    text: `Tebrikler! "${businessName}" ilanınız onaylandı ve artık Merasim360'da yayında. ${siteUrl}`,
+    html: `<p>Tebrikler! <strong>${escapeHtml(businessName)}</strong> ilanınız onaylandı ve artık Merasim360'da yayında.</p>`,
   });
 }
 
@@ -88,8 +88,8 @@ export async function sendVendorApprovedEmail(to, { businessName, webUrl: siteUr
 export async function sendVendorStatusChangeEmail(to, { businessName, status, reason, panelUrl }) {
   const isRejected = status === 'rejected';
   const subject = isRejected
-    ? `Davet360 — "${businessName}" başvurunuz hakkında`
-    : `Davet360 — "${businessName}" yayından kaldırıldı`;
+    ? `Merasim360 — "${businessName}" başvurunuz hakkında`
+    : `Merasim360 — "${businessName}" yayından kaldırıldı`;
   const intro = isRejected
     ? `"${businessName}" başvurunuz şu anda onaylanamadı.`
     : `"${businessName}" ilanınız yayından kaldırıldı.`;
@@ -115,7 +115,7 @@ export async function sendNewVendorApplicationEmail(adminEmails, { businessName,
   if (adminEmails.length === 0) return;
   await sendMail({
     to: adminEmails.join(','),
-    subject: `Davet360 — yeni vendor başvurusu: ${businessName}`,
+    subject: `Merasim360 — yeni vendor başvurusu: ${businessName}`,
     text: `${businessName} (${category}, ${city}) onay bekliyor. Panelden inceleyin: ${panelUrl}/admin/vendors?status=pending`,
     html: `
       <p><strong>${escapeHtml(businessName)}</strong> (${escapeHtml(category)}, ${escapeHtml(city)}) onay bekliyor.</p>

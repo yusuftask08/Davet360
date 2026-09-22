@@ -20,7 +20,7 @@ export function PanelHeader({ title }) {
   return (
     <div className="panel-header">
       <div className="panel-header__logo">
-        Davet<span>360</span> {title && `· ${title}`}
+        Merasim<span>360</span> {title && `· ${title}`}
       </div>
       <div style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'center' }}>
         <Link href="/settings" style={{ fontSize: 'var(--font-size-sm)' }}>

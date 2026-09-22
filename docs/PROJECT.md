@@ -1,6 +1,6 @@
 # Proje Özeti
 
-**Davet360** — düğün, nişan, orkestra/müzik, fotoğraf & video gibi etkinlik tedarikçilerini bir araya getiren **pazaryeri (dizin + teklif alma)** platformu.
+**Merasim360** — düğün, nişan, orkestra/müzik, fotoğraf & video gibi etkinlik tedarikçilerini bir araya getiren **pazaryeri (dizin + teklif alma)** platformu.
 
 ## Temel İlkeler (tavizsiz, her kararın üstünde durur)
 1. **Sıfır ücretli paket/servis.** Supabase, Google Maps API, S3/R2, ücretli auth/analytics servisi vs. — hiçbiri yok. Her bileşen ücretsiz/açık kaynak olacak, yeni bir bağımlılık eklenmeden önce mutlaka kontrol edilecek.

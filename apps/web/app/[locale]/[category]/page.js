@@ -40,7 +40,7 @@ export default async function CategoryPage({ params }) {
 
   return (
     <main className="container" style={{ paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}>
-      <Breadcrumb locale={locale} items={[{ name: 'Davet360', href: '' }, { name: categoryLabel, href: `/${categorySlug}` }]} />
+      <Breadcrumb locale={locale} items={[{ name: 'Merasim360', href: '' }, { name: categoryLabel, href: `/${categorySlug}` }]} />
       <div className="section-heading">
         <h1 style={{ fontSize: 'var(--font-size-xl)' }}>{categoryLabel}</h1>
         <span className="section-heading__meta">{t('category.nationwide')}</span>

@@ -14,8 +14,11 @@ export async function Navbar() {
     <header className="site-navbar">
       <div className="container site-navbar__inner">
         <Link href="/" className="site-navbar__logo">
-          Davet<span>360</span>
+          Merasim<span>360</span>
         </Link>
+        <div className="site-navbar__search-slot">
+          <HomeSearchBar />
+        </div>
         <div className="site-navbar__right">
           <nav className="site-navbar__links">
             <Link href="/blog">{t('nav.blog')}</Link>
@@ -24,9 +27,6 @@ export async function Navbar() {
           <div className="site-navbar__divider" aria-hidden="true" />
           <LocaleSwitcher />
         </div>
-      </div>
-      <div className="container site-navbar__search-row">
-        <HomeSearchBar />
       </div>
     </header>
   );

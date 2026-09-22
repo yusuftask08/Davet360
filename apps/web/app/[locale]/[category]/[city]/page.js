@@ -67,7 +67,7 @@ export default async function CategoryCityPage({ params, searchParams }) {
       <Breadcrumb
         locale={locale}
         items={[
-          { name: 'Davet360', href: '' },
+          { name: 'Merasim360', href: '' },
           { name: categoryLabel, href: `/${categorySlug}` },
           { name: cityName, href: `/${categorySlug}/${citySlug}` },
         ]}

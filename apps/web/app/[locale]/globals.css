@@ -93,11 +93,19 @@ a {
 .site-navbar__inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: var(--space-lg);
   min-height: 72px;
   flex-wrap: wrap;
   padding: var(--space-sm) 0;
+}
+/* Arama çubuğu logo ile sağdaki grup arasındaki tüm boş alanı kaplar (flex:1) — üçü de tek
+   satırda, aynı hizada. Önceden arama ayrı bir ikinci satırdaydı, "içeri çek tek hizaya al"
+   isteğiyle tek satıra birleştirildi. */
+.site-navbar__search-slot {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
 }
 .site-navbar__right {
   display: flex;
@@ -151,10 +159,6 @@ a {
 }
 
 /* Navbar'ın ikinci satırı — HomeSearchBar burada render olur, her sayfada görünür. */
-.site-navbar__search-row {
-  padding: 0 0 var(--space-md);
-}
-
 /* Locale switcher */
 .locale-switcher {
   display: inline-flex;

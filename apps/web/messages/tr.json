@@ -22,13 +22,13 @@
   "pages": {
     "about": {
       "title": "Hakkımızda",
-      "intro": "Davet360, Türkiye genelinde düğün, nişan, kına, sünnet, doğum günü ve daha pek çok özel gün için doğru işletmeyi bulmayı kolaylaştıran bir pazaryeridir.",
+      "intro": "Merasim360, Türkiye genelinde düğün, nişan, kına, sünnet, doğum günü ve daha pek çok özel gün için doğru işletmeyi bulmayı kolaylaştıran bir pazaryeridir.",
       "missionHeading": "Misyonumuz",
       "missionText": "İnsanların hayatlarının en özel anlarını organize ederken güvenilir, şeffaf ve kolay bir deneyim yaşamalarını sağlamak; işletmelerin ise doğru müşteriyle buluşup işlerini büyütmelerine destek olmak.",
       "howHeading": "Nasıl Çalışıyoruz",
       "howText": "Platformumuzdaki her işletme, yayına girmeden önce ekibimiz tarafından incelenir ve onaylanır. Bu sayede kullanıcılarımız güvenilir ve gerçek işletmelerle iletişime geçer.",
       "freeHeading": "Şu An Ücretsiz",
-      "freeText": "Davet360, hem müşteriler hem işletmeler için şu anda tamamen ücretsizdir. Amacımız önce gerçek bir topluluk oluşturmak; ileride işletmelerimize opsiyonel destek ve gelişmiş özellikler sunacağız."
+      "freeText": "Merasim360, hem müşteriler hem işletmeler için şu anda tamamen ücretsizdir. Amacımız önce gerçek bir topluluk oluşturmak; ileride işletmelerimize opsiyonel destek ve gelişmiş özellikler sunacağız."
     },
     "contact": {
       "title": "İletişim",
@@ -43,7 +43,7 @@
     },
     "privacy": {
       "title": "Gizlilik Politikası",
-      "intro": "Bu sayfa, Davet360'ı kullanırken hangi verilerinizi topladığımızı ve bunları nasıl kullandığımızı açıklar.",
+      "intro": "Bu sayfa, Merasim360'ı kullanırken hangi verilerinizi topladığımızı ve bunları nasıl kullandığımızı açıklar.",
       "sections": [
         {
           "heading": "Toplanan Veriler",
@@ -73,11 +73,11 @@
     },
     "terms": {
       "title": "Kullanım Şartları",
-      "intro": "Davet360'ı kullanarak aşağıdaki şartları kabul etmiş sayılırsınız.",
+      "intro": "Merasim360'ı kullanarak aşağıdaki şartları kabul etmiş sayılırsınız.",
       "sections": [
         {
           "heading": "Hizmet Tanımı",
-          "body": "Davet360, düğün, nişan ve diğer özel gün etkinlikleri için işletme arayan kullanıcılar ile hizmet veren işletmeleri buluşturan bir dizin/pazaryeri platformudur. Platform üzerinden herhangi bir ödeme veya rezervasyon işlemi gerçekleşmez — iletişim ve anlaşma taraflar arasında doğrudan yürütülür."
+          "body": "Merasim360, düğün, nişan ve diğer özel gün etkinlikleri için işletme arayan kullanıcılar ile hizmet veren işletmeleri buluşturan bir dizin/pazaryeri platformudur. Platform üzerinden herhangi bir ödeme veya rezervasyon işlemi gerçekleşmez — iletişim ve anlaşma taraflar arasında doğrudan yürütülür."
         },
         {
           "heading": "Hesap Sorumluluğu",
@@ -93,7 +93,7 @@
         },
         {
           "heading": "Sorumluluk Reddi",
-          "body": "Davet360, platformda listelenen işletmelerin sunduğu hizmetlerin kalitesinden sorumlu değildir. İşletme seçimi ve anlaşma şartları tamamen kullanıcının sorumluluğundadır."
+          "body": "Merasim360, platformda listelenen işletmelerin sunduğu hizmetlerin kalitesinden sorumlu değildir. İşletme seçimi ve anlaşma şartları tamamen kullanıcının sorumluluğundadır."
         },
         {
           "heading": "Ücretlendirme",
@@ -127,7 +127,7 @@
     "animasyon-cocuk": "Çocuk Animasyonu & Karakterler"
   },
   "home": {
-    "title": "Davet360 ile düğününüz için doğru işletmeyi bulun",
+    "title": "Merasim360 ile düğününüz için doğru işletmeyi bulun",
     "description": "Düğün mekanı, nişan organizasyonu, orkestra ve fotoğraf/video hizmetlerini karşılaştırın, tek formla ücretsiz teklif alın.",
     "browseCategories": "Kategorilere Göz At",
     "trustApproved": "Onaylı işletmeler",
@@ -156,14 +156,14 @@
     "faqHeading": "Sıkça Sorulan Sorular"
   },
   "faq": {
-    "q1": "Davet360 üzerinden teklif almak ücretli mi?",
+    "q1": "Merasim360 üzerinden teklif almak ücretli mi?",
     "a1": "Hayır. Platform şu anda hem müşteriler hem işletmeler için tamamen ücretsizdir, herhangi bir gizli ücret yoktur.",
     "q2": "İşletmeler nasıl onaylanıyor?",
     "a2": "Her işletme başvurusu yayına girmeden önce ekibimiz tarafından tek tek incelenir. Onaylı rozeti taşıyan her işletme bu süreçten geçmiştir.",
     "q3": "Teklif verdikten sonra rezervasyon/ödeme platform üzerinden mi yapılıyor?",
-    "a3": "Hayır. Davet360 bir dizin/pazaryeridir — iletişim ve anlaşma doğrudan siz ve işletme arasında yürütülür, platform üzerinden ödeme alınmaz.",
+    "a3": "Hayır. Merasim360 bir dizin/pazaryeridir — iletişim ve anlaşma doğrudan siz ve işletme arasında yürütülür, platform üzerinden ödeme alınmaz.",
     "q4": "Türkiye'nin her yerinde işletme bulabilir miyim?",
-    "a4": "Davet360 Türkiye genelinde hizmet verir. Şehrinizde henüz işletme yoksa, o kategori ve şehir için ilk kaydolan işletme olma fırsatı da var.",
+    "a4": "Merasim360 Türkiye genelinde hizmet verir. Şehrinizde henüz işletme yoksa, o kategori ve şehir için ilk kaydolan işletme olma fırsatı da var.",
     "q5": "Bir işletmeyi nasıl değerlendirebilirim?",
     "a5": "Hizmet aldığınız işletmeye hesabınızla yorum ve puan bırakabilirsiniz. Yorumlar admin onayından sonra yayınlanır."
   },
@@ -209,8 +209,8 @@
     "noReviews": "Henüz onaylı yorum yok.",
     "amenitiesHeading": "Özellikler",
     "locationHeading": "Konum",
-    "verified": "Davet360 Onaylı",
-    "verifiedShort": "Davet360 Onaylı",
+    "verified": "Merasim360 Onaylı",
+    "verifiedShort": "Merasim360 Onaylı",
     "capacity": "{count} kişi kapasiteli",
     "galleryHeading": "Galeri",
     "similarHeading": "Benzer İşletmeler"

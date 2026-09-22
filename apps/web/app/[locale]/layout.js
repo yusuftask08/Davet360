@@ -41,8 +41,8 @@ export async function generateMetadata({ params: { locale } }) {
     // adrese çözülmesi için gerekli — yoksa Next.js localhost'a düşer.
     metadataBase: new URL(siteUrl),
     title: {
-      default: 'Davet360',
-      template: '%s | Davet360',
+      default: 'Merasim360',
+      template: '%s | Merasim360',
     },
     description,
     manifest: '/manifest.json',
@@ -50,14 +50,14 @@ export async function generateMetadata({ params: { locale } }) {
     // yazar — burası sadece onların dışındaki sayfalar (anasayfa, kategori vb.) için varsayılan.
     openGraph: {
       type: 'website',
-      siteName: 'Davet360',
+      siteName: 'Merasim360',
       locale: locale === 'tr' ? 'tr_TR' : 'en_US',
-      title: 'Davet360',
+      title: 'Merasim360',
       description,
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Davet360',
+      title: 'Merasim360',
       description,
     },
   };

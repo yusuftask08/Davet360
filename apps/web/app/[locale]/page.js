@@ -32,7 +32,7 @@ export default async function HomePage({ params: { locale } }) {
   const organizationJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Davet360',
+    name: 'Merasim360',
     url: siteUrl,
     logo: `${siteUrl}/icon.svg`,
   };
@@ -40,7 +40,7 @@ export default async function HomePage({ params: { locale } }) {
   const websiteJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Davet360',
+    name: 'Merasim360',
     url: siteUrl,
     potentialAction: {
       '@type': 'SearchAction',

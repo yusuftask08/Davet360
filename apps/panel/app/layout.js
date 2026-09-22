@@ -12,7 +12,7 @@ const jakarta = Plus_Jakarta_Sans({
 
 // Panel (vendor + admin) tamamen private — SEO bölümündeki kurala göre crawl'dan hariç tutulur.
 export const metadata = {
-  title: 'Davet360 Panel',
+  title: 'Merasim360 Panel',
   robots: { index: false, follow: false },
 };
 

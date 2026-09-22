@@ -57,7 +57,7 @@ export default async function BlogPostPage({ params }) {
       <Breadcrumb
         locale={params.locale}
         items={[
-          { name: 'Davet360', href: '' },
+          { name: 'Merasim360', href: '' },
           { name: t('blog.heading'), href: '/blog' },
           { name: post.title, href: `/blog/${post.slug}` },
         ]}
