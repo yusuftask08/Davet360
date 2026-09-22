@@ -7,7 +7,14 @@ import { ImageResponse } from 'next/og';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-export default async function OpengraphImage() {
+const SUBTITLE = {
+  tr: 'Türkiye genelinde doğru işletmeyi bulun',
+  en: 'Find the right vendor across Turkey',
+};
+
+export default async function OpengraphImage({ params }) {
+  const subtitle = SUBTITLE[params?.locale] ?? SUBTITLE.tr;
+
   return new ImageResponse(
     (
       <div
@@ -23,10 +30,10 @@ export default async function OpengraphImage() {
         }}
       >
         <div style={{ display: 'flex', fontSize: 96, fontWeight: 800, color: 'white' }}>
-          Davet<span style={{ color: '#FFE1C7' }}>360</span>
+          Merasim<span style={{ color: '#FFE1C7' }}>360</span>
         </div>
         <div style={{ display: 'flex', fontSize: 32, color: 'rgba(255,255,255,0.92)', marginTop: 24 }}>
-          Türkiye genelinde doğru işletmeyi bulun
+          {subtitle}
         </div>
       </div>
     ),

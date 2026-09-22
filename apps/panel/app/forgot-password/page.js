@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react';
 import Link from 'next/link';
 import { ENDPOINTS } from '@repo/api-client';
 import { forgotPasswordSchema, toFieldErrors } from '@repo/utils';
-import { Button, Input, Card, AltchaWidget } from '@repo/ui';
+import { Button, Input, AltchaWidget } from '@repo/ui';
 import { apiClient } from '../../lib/apiClient.js';
 import { AuthShell } from '../components/AuthShell.jsx';
 
@@ -46,41 +46,36 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <AuthShell>
-      <Card>
-        <h1>Şifremi Unuttum</h1>
-        {sent ? (
-          <p>Email adresiniz sistemde kayıtlıysa şifre sıfırlama linki gönderildi.</p>
-        ) : (
-          <>
-            <p style={{ color: 'var(--color-neutral-500)', marginTop: 0 }}>
-              Email adresinizi girin, şifre sıfırlama linki gönderelim.
-            </p>
-            <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-sm)' }} noValidate>
-              <Input
-                label="Email"
-                type="email"
-                required
-                maxLength={254}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                error={fieldErrors.email}
-              />
-              <AltchaWidget
-                challengeUrl={`${process.env.NEXT_PUBLIC_API_URL}/altcha/challenge`}
-                onSolved={handleAltchaSolved}
-              />
-              <Button type="submit" disabled={loading || !altchaPayload}>
-                {loading ? '...' : 'Sıfırlama Linki Gönder'}
-              </Button>
-              {formError && <p style={{ color: 'var(--color-error)' }}>{formError}</p>}
-            </form>
-          </>
-        )}
-        <p style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--space-md)' }}>
-          <Link href="/login">Giriş sayfasına dön</Link>
-        </p>
-      </Card>
+    <AuthShell
+      title="Şifremi Unuttum"
+      footer={<p><Link href="/login" className="link-inline">Giriş sayfasına dön</Link></p>}
+    >
+      {sent ? (
+        <p>Email adresiniz sistemde kayıtlıysa şifre sıfırlama linki gönderildi.</p>
+      ) : (
+        <>
+          <p className="auth-card__subtitle">Email adresinizi girin, şifre sıfırlama linki gönderelim.</p>
+          <form onSubmit={handleSubmit} className="auth-card__form" noValidate>
+            <Input
+              label="Email"
+              type="email"
+              required
+              maxLength={254}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              error={fieldErrors.email}
+            />
+            <AltchaWidget
+              challengeUrl={`${process.env.NEXT_PUBLIC_API_URL}${ENDPOINTS.altchaChallenge}`}
+              onSolved={handleAltchaSolved}
+            />
+            <Button type="submit" disabled={loading || !altchaPayload}>
+              {loading ? '...' : 'Sıfırlama Linki Gönder'}
+            </Button>
+            {formError && <p className="auth-card__error">{formError}</p>}
+          </form>
+        </>
+      )}
     </AuthShell>
   );
 }

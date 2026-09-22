@@ -4,9 +4,10 @@ import { useCallback, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ENDPOINTS } from '@repo/api-client';
 import { registerSchema, toFieldErrors } from '@repo/utils';
-import { Button, Input, Card, AltchaWidget } from '@repo/ui';
+import { Button, Input, AltchaWidget, User, Mail, Phone, Lock, Eye, EyeOff } from '@repo/ui';
 import { Link, useRouter } from '../../../i18n/navigation.js';
 import { apiClient } from '../../../lib/apiClient.js';
+import { AuthShell } from '../components/AuthShell.jsx';
 
 const INITIAL_FORM = { name: '', email: '', password: '', phone: '' };
 
@@ -19,6 +20,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [altchaPayload, setAltchaPayload] = useState(null);
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleAltchaSolved = useCallback((payload) => setAltchaPayload(payload), []);
 
@@ -75,72 +77,93 @@ export default function RegisterPage() {
   }
 
   return (
-    <main className="container" style={{ maxWidth: 420, paddingTop: 'var(--space-2xl)', paddingBottom: 'var(--space-2xl)' }}>
-      <Card>
-        <h1>{t('registerTitle')}</h1>
-        <p style={{ color: 'var(--color-neutral-500)', marginTop: 0 }}>{t('registerSubtitle')}</p>
-        <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-sm)' }} noValidate>
-          <Input
-            label={t('nameLabel')}
-            required
-            maxLength={100}
-            value={form.name}
-            onChange={update('name')}
-            error={fieldErrors.name}
-          />
-          <Input
-            label={t('emailLabel')}
-            type="email"
-            required
-            maxLength={254}
-            value={form.email}
-            onChange={update('email')}
-            error={fieldErrors.email}
-          />
-          <Input
-            label={t('phoneLabel')}
-            type="tel"
-            inputMode="tel"
-            placeholder="0532 123 45 67"
-            maxLength={20}
-            value={form.phone}
-            onChange={update('phone')}
-            error={fieldErrors.phone}
-          />
-          <Input
-            label={t('passwordLabel')}
-            type="password"
-            required
-            minLength={8}
-            maxLength={72}
-            value={form.password}
-            onChange={update('password')}
-            error={fieldErrors.password}
-          />
-          <label style={{ display: 'flex', gap: 8, alignItems: 'flex-start', fontSize: 'var(--font-size-sm)' }}>
-            <input
-              type="checkbox"
-              checked={termsAccepted}
-              onChange={(e) => setTermsAccepted(e.target.checked)}
-              style={{ marginTop: 3 }}
-            />
-            <span>
-              {t.rich('termsAgreement', {
-                terms: (chunks) => <Link href="/terms" className="link-inline">{chunks}</Link>,
-                privacy: (chunks) => <Link href="/privacy" className="link-inline">{chunks}</Link>,
-              })}
-            </span>
-          </label>
-          <AltchaWidget challengeUrl={`${process.env.NEXT_PUBLIC_API_URL}/altcha/challenge`} onSolved={handleAltchaSolved} />
-          <Button type="submit" disabled={loading || !altchaPayload || !termsAccepted}>
-            {loading ? t('registerSubmitting') : t('registerSubmit')}
-          </Button>
-          {formError && <p style={{ color: 'var(--color-error)' }}>{formError}</p>}
-        </form>
-        <p style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--space-md)' }}>
+    <AuthShell
+      title={t('registerTitle')}
+      subtitle={t('registerSubtitle')}
+      footer={
+        <p>
           {t('hasAccount')} <Link href="/login" className="link-inline">{t('loginLink')}</Link>
         </p>
-      </Card>
-    </main>
+      }
+    >
+      <form onSubmit={handleSubmit} className="auth-card__form" noValidate>
+        <Input
+          label={t('nameLabel')}
+          autoComplete="name"
+          required
+          maxLength={100}
+          icon={User}
+          value={form.name}
+          onChange={update('name')}
+          error={fieldErrors.name}
+        />
+        <Input
+          label={t('emailLabel')}
+          type="email"
+          autoComplete="email"
+          required
+          maxLength={254}
+          icon={Mail}
+          value={form.email}
+          onChange={update('email')}
+          error={fieldErrors.email}
+        />
+        <Input
+          label={t('phoneLabel')}
+          type="tel"
+          inputMode="tel"
+          autoComplete="tel"
+          placeholder="0532 123 45 67"
+          maxLength={20}
+          icon={Phone}
+          value={form.phone}
+          onChange={update('phone')}
+          error={fieldErrors.phone}
+        />
+        <Input
+          label={t('passwordLabel')}
+          type={showPassword ? 'text' : 'password'}
+          autoComplete="new-password"
+          required
+          minLength={8}
+          maxLength={72}
+          icon={Lock}
+          endAdornment={
+            <button
+              type="button"
+              className="ui-field__toggle"
+              onClick={() => setShowPassword((v) => !v)}
+              aria-label={showPassword ? t('hidePassword') : t('showPassword')}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          }
+          value={form.password}
+          onChange={update('password')}
+          error={fieldErrors.password}
+        />
+        <label className="auth-card__terms">
+          <input
+            type="checkbox"
+            checked={termsAccepted}
+            onChange={(e) => setTermsAccepted(e.target.checked)}
+          />
+          <span>
+            {t.rich('termsAgreement', {
+              terms: (chunks) => <Link href="/terms" className="link-inline">{chunks}</Link>,
+              privacy: (chunks) => <Link href="/privacy" className="link-inline">{chunks}</Link>,
+            })}
+          </span>
+        </label>
+        <AltchaWidget
+          challengeUrl={`${process.env.NEXT_PUBLIC_API_URL}${ENDPOINTS.altchaChallenge}`}
+          onSolved={handleAltchaSolved}
+        />
+        <Button type="submit" disabled={loading || !altchaPayload || !termsAccepted}>
+          {loading ? t('registerSubmitting') : t('registerSubmit')}
+        </Button>
+        {formError && <p className="auth-card__error">{formError}</p>}
+      </form>
+    </AuthShell>
   );
 }

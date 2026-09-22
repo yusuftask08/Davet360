@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ENDPOINTS } from '@repo/api-client';
 import { resetPasswordSchema, toFieldErrors } from '@repo/utils';
-import { Button, Input, Card } from '@repo/ui';
+import { Button, Input } from '@repo/ui';
 import { apiClient } from '../../lib/apiClient.js';
 import { AuthShell } from '../components/AuthShell.jsx';
 
@@ -29,11 +29,9 @@ function ResetPasswordContent() {
 
   if (!token) {
     return (
-      <AuthShell>
-        <Card>
-          <p style={{ color: 'var(--color-error)' }}>Bu link geçersiz. Şifre sıfırlama işlemini tekrar başlatın.</p>
-          <Link href="/forgot-password">Şifremi unuttum</Link>
-        </Card>
+      <AuthShell title="Yeni Şifre Belirle">
+        <p className="auth-card__error">Bu link geçersiz. Şifre sıfırlama işlemini tekrar başlatın.</p>
+        <Link href="/forgot-password" className="link-inline">Şifremi unuttum</Link>
       </AuthShell>
     );
   }
@@ -62,30 +60,27 @@ function ResetPasswordContent() {
   }
 
   return (
-    <AuthShell>
-      <Card>
-        <h1>Yeni Şifre Belirle</h1>
-        {success ? (
-          <p>Şifreniz güncellendi. Şimdi giriş yapabilirsiniz.</p>
-        ) : (
-          <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-sm)' }} noValidate>
-            <Input
-              label="Yeni Şifre"
-              type="password"
-              required
-              minLength={8}
-              maxLength={72}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              error={fieldErrors.password}
-            />
-            <Button type="submit" disabled={loading}>
-              {loading ? '...' : 'Şifreyi Güncelle'}
-            </Button>
-            {formError && <p style={{ color: 'var(--color-error)' }}>{formError}</p>}
-          </form>
-        )}
-      </Card>
+    <AuthShell title="Yeni Şifre Belirle">
+      {success ? (
+        <p>Şifreniz güncellendi. Şimdi giriş yapabilirsiniz.</p>
+      ) : (
+        <form onSubmit={handleSubmit} className="auth-card__form" noValidate>
+          <Input
+            label="Yeni Şifre"
+            type="password"
+            required
+            minLength={8}
+            maxLength={72}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            error={fieldErrors.password}
+          />
+          <Button type="submit" disabled={loading}>
+            {loading ? '...' : 'Şifreyi Güncelle'}
+          </Button>
+          {formError && <p className="auth-card__error">{formError}</p>}
+        </form>
+      )}
     </AuthShell>
   );
 }

@@ -14,3 +14,16 @@ export function validateBody(schema) {
     next();
   };
 }
+
+// ?query string'ler için aynı prensip — GET filtre/arama parametreleri de doğrulanmadan
+// controller'a geçmez (tip zorlama + üst sınırlar burada uygulanır, DB'ye çıplak string gitmez).
+export function validateQuery(schema) {
+  return (req, _res, next) => {
+    const result = schema.safeParse(req.query);
+    if (!result.success) {
+      return next(new ApiError(400, 'Geçersiz sorgu parametreleri', toFieldErrors(result.error)));
+    }
+    req.query = result.data;
+    next();
+  };
+}

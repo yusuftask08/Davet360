@@ -6,7 +6,9 @@
     "favorites": "Favorilerim",
     "logout": "Çıkış",
     "discover": "Keşfet",
-    "mobileNavLabel": "Alt gezinme menüsü"
+    "mobileNavLabel": "Alt gezinme menüsü",
+    "settings": "Ayarlar",
+    "language": "Dil"
   },
   "footer": {
     "browseHeading": "Kategoriye ve şehre göre göz atın",
@@ -22,6 +24,10 @@
     "rights": "Tüm hakları saklıdır."
   },
   "pages": {
+    "faq": {
+      "title": "Sıkça Sorulan Sorular",
+      "intro": "Merasim360 hakkında en çok merak edilen sorular ve yanıtları."
+    },
     "about": {
       "title": "Hakkımızda",
       "intro": "Merasim360, Türkiye genelinde düğün, nişan, kına, sünnet, doğum günü ve daha pek çok özel gün için doğru işletmeyi bulmayı kolaylaştıran bir pazaryeridir.",
@@ -155,7 +161,8 @@
     "featuredHeading": "Öne Çıkan İşletmeler",
     "featuredSubheading": "En yüksek puanlı onaylı işletmelerden bazıları",
     "cityRowHeading": "{city} öne çıkan işletmeler",
-    "faqHeading": "Sıkça Sorulan Sorular"
+    "categoryBrowseHeading": "{city} hazırlığında ayrıca göz atabilirsiniz",
+    "categoryBrowseHeadingGeneric": "Hazırlığınızda ayrıca göz atabilirsiniz"
   },
   "faq": {
     "q1": "Merasim360 üzerinden teklif almak ücretli mi?",
@@ -201,8 +208,16 @@
     "allCities": "Tüm şehirlerdeki {category} işletmeleri",
     "maxBudgetLabel": "Maks. Bütçe (₺)",
     "minCapacityLabel": "Min. Kapasite",
+    "noLimit": "Sınırsız",
+    "sortLabel": "Sırala",
+    "sortDefault": "Önerilen",
+    "sortRating": "Puanı yüksek",
+    "sortBudgetAsc": "Bütçesi düşük",
+    "sortBudgetDesc": "Bütçesi yüksek",
+    "amenitiesLabel": "Olanaklar",
     "filterButton": "Filtrele",
-    "relatedHeading": "{city}'de düğün hazırlığında ayrıca bakabilirsiniz"
+    "relatedHeading": "{city}'de düğün hazırlığında ayrıca bakabilirsiniz",
+    "otherCategoriesHeading": "Düğün hazırlığında ayrıca göz atabilirsiniz"
   },
   "vendor": {
     "getQuote": "Teklif Al",
@@ -212,6 +227,9 @@
     "amenitiesHeading": "Özellikler",
     "locationHeading": "Konum",
     "verified": "Merasim360 Onaylı",
+    "highlyRated": "Çok beğenilen",
+    "addFavorite": "Favorilere ekle",
+    "removeFavorite": "Favorilerden çıkar",
     "verifiedShort": "Merasim360 Onaylı",
     "capacity": "{count} kişi kapasiteli",
     "galleryHeading": "Galeri",
@@ -247,6 +265,7 @@
   },
   "auth": {
     "loginTitle": "Giriş Yap",
+    "loginSubtitle": "Favorilerinize ve tekliflerinize ulaşmak için giriş yapın.",
     "registerTitle": "Hesap Oluştur",
     "registerSubtitle": "Favorilere ekleme ve yorum yapabilmek için hesap oluşturun.",
     "nameLabel": "Ad Soyad",
@@ -274,7 +293,9 @@
     "resetPasswordSubmit": "Şifreyi Güncelle",
     "resetPasswordSuccess": "Şifreniz güncellendi. Şimdi giriş yapabilirsiniz.",
     "resetPasswordInvalidLink": "Bu link geçersiz. Şifre sıfırlama işlemini tekrar başlatın.",
-    "backToLogin": "Giriş sayfasına dön"
+    "backToLogin": "Giriş sayfasına dön",
+    "showPassword": "Şifreyi göster",
+    "hidePassword": "Şifreyi gizle"
   },
   "account": {
     "title": "Hesabım",

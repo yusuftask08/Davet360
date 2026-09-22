@@ -143,7 +143,10 @@ export function LeadForm({ vendorId }) {
           })}
         </span>
       </label>
-      <AltchaWidget challengeUrl={`${process.env.NEXT_PUBLIC_API_URL}/altcha/challenge`} onSolved={handleAltchaSolved} />
+      <AltchaWidget
+        challengeUrl={`${process.env.NEXT_PUBLIC_API_URL}${ENDPOINTS.altchaChallenge}`}
+        onSolved={handleAltchaSolved}
+      />
       <Button type="submit" disabled={status === 'loading' || !altchaPayload || !consentAccepted}>
         {status === 'loading' ? t('submitting') : t('submit')}
       </Button>

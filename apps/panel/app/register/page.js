@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ENDPOINTS } from '@repo/api-client';
 import { registerSchema, toFieldErrors } from '@repo/utils';
-import { Button, Input, Card, AltchaWidget } from '@repo/ui';
+import { Button, Input, AltchaWidget } from '@repo/ui';
 import { apiClient } from '../../lib/apiClient.js';
 import { AuthShell } from '../components/AuthShell.jsx';
 
@@ -76,78 +76,79 @@ export default function RegisterPage() {
   }
 
   return (
-    <AuthShell>
-      <Card>
-        <h1>İşletme Olarak Kayıt Ol</h1>
-        <p style={{ color: 'var(--color-neutral-500)', marginTop: 0 }}>
-          Önce hesabınızı oluşturun, ardından işletme bilgilerinizi gireceksiniz.
+    <AuthShell
+      title="İşletme Olarak Kayıt Ol"
+      subtitle="Önce hesabınızı oluşturun, ardından işletme bilgilerinizi gireceksiniz."
+      footer={
+        <p>
+          Zaten hesabınız var mı? <Link href="/login" className="link-inline">Giriş yapın</Link>
         </p>
-        <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-sm)' }} noValidate>
-          <Input
-            label="Ad Soyad"
-            required
-            maxLength={100}
-            value={form.name}
-            onChange={update('name')}
-            error={fieldErrors.name}
+      }
+    >
+      <form onSubmit={handleSubmit} className="auth-card__form" noValidate>
+        <Input
+          label="Ad Soyad"
+          required
+          maxLength={100}
+          value={form.name}
+          onChange={update('name')}
+          error={fieldErrors.name}
+        />
+        <Input
+          label="Email"
+          type="email"
+          required
+          maxLength={254}
+          value={form.email}
+          onChange={update('email')}
+          error={fieldErrors.email}
+        />
+        <Input
+          label="Telefon (opsiyonel)"
+          type="tel"
+          inputMode="tel"
+          placeholder="0532 123 45 67"
+          maxLength={20}
+          value={form.phone}
+          onChange={update('phone')}
+          error={fieldErrors.phone}
+        />
+        <Input
+          label="Şifre"
+          type="password"
+          required
+          minLength={8}
+          maxLength={72}
+          value={form.password}
+          onChange={update('password')}
+          error={fieldErrors.password}
+        />
+        <label className="auth-card__terms">
+          <input
+            type="checkbox"
+            checked={termsAccepted}
+            onChange={(e) => setTermsAccepted(e.target.checked)}
           />
-          <Input
-            label="Email"
-            type="email"
-            required
-            maxLength={254}
-            value={form.email}
-            onChange={update('email')}
-            error={fieldErrors.email}
-          />
-          <Input
-            label="Telefon (opsiyonel)"
-            type="tel"
-            inputMode="tel"
-            placeholder="0532 123 45 67"
-            maxLength={20}
-            value={form.phone}
-            onChange={update('phone')}
-            error={fieldErrors.phone}
-          />
-          <Input
-            label="Şifre"
-            type="password"
-            required
-            minLength={8}
-            maxLength={72}
-            value={form.password}
-            onChange={update('password')}
-            error={fieldErrors.password}
-          />
-          <label style={{ display: 'flex', gap: 8, alignItems: 'flex-start', fontSize: 'var(--font-size-sm)' }}>
-            <input
-              type="checkbox"
-              checked={termsAccepted}
-              onChange={(e) => setTermsAccepted(e.target.checked)}
-              style={{ marginTop: 3 }}
-            />
-            <span>
-              <a href={`${webUrl}/terms`} target="_blank" rel="noopener noreferrer">
-                Kullanım Şartları'nı
-              </a>{' '}
-              ve{' '}
-              <a href={`${webUrl}/privacy`} target="_blank" rel="noopener noreferrer">
-                Gizlilik Politikası'nı
-              </a>{' '}
-              okudum, kabul ediyorum.
-            </span>
-          </label>
-          <AltchaWidget challengeUrl={`${process.env.NEXT_PUBLIC_API_URL}/altcha/challenge`} onSolved={handleAltchaSolved} />
-          <Button type="submit" disabled={loading || !altchaPayload || !termsAccepted}>
-            {loading ? 'Kaydediliyor...' : 'Kayıt Ol'}
-          </Button>
-          {formError && <p style={{ color: 'var(--color-error)' }}>{formError}</p>}
-        </form>
-        <p style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--space-md)' }}>
-          Zaten hesabınız var mı? <Link href="/login">Giriş yapın</Link>
-        </p>
-      </Card>
+          <span>
+            <a href={`${webUrl}/terms`} target="_blank" rel="noopener noreferrer" className="link-inline">
+              Kullanım Şartları'nı
+            </a>{' '}
+            ve{' '}
+            <a href={`${webUrl}/privacy`} target="_blank" rel="noopener noreferrer" className="link-inline">
+              Gizlilik Politikası'nı
+            </a>{' '}
+            okudum, kabul ediyorum.
+          </span>
+        </label>
+        <AltchaWidget
+          challengeUrl={`${process.env.NEXT_PUBLIC_API_URL}${ENDPOINTS.altchaChallenge}`}
+          onSolved={handleAltchaSolved}
+        />
+        <Button type="submit" disabled={loading || !altchaPayload || !termsAccepted}>
+          {loading ? 'Kaydediliyor...' : 'Kayıt Ol'}
+        </Button>
+        {formError && <p className="auth-card__error">{formError}</p>}
+      </form>
     </AuthShell>
   );
 }

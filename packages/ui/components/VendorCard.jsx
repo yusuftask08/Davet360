@@ -20,8 +20,11 @@ export function VendorCard({
   vendor,
   categoryLabel,
   href,
-  verifiedLabel = 'Merasim360 Onaylı',
-  highlyRatedLabel = 'Çok beğenilen',
+  // Paylaşılan bileşen next-intl'e erişemez — çağıran app çevrilmiş metni geçirmeli.
+  // Varsayılanlar Türkçe'ye kilitlenmesin diye nötr İngilizce (her çağıran zaten geçiriyor,
+  // bu sadece bir güvenlik ağı).
+  verifiedLabel = 'Verified',
+  highlyRatedLabel = 'Highly rated',
   favorite,
   priority = false,
   as: As = 'a',

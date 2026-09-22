@@ -48,6 +48,7 @@ export default function FavoritesPage() {
             vendor={{ ...vendor, images: (vendor.images ?? []).map(apiClient.assetUrl) }}
             categoryLabel={tCategories(vendor.category)}
             verifiedLabel={tVendor('verified')}
+            highlyRatedLabel={tVendor('highlyRated')}
             as={Link}
             href={`/${vendor.category}/${vendor.citySlug}/${vendor.slug}`}
             favorite={

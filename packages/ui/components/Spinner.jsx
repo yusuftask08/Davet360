@@ -1,8 +1,11 @@
+// Paylaşılan bileşen next-intl'e erişemez (bkz. VendorCard.jsx) — bu yüzden `label` çağıran
+// app'ten çevrilmiş olarak geçirilmeli. Verilmezse Türkçe'ye kilitlenmemek için nötr,
+// İngilizce bir varsayılana düşer.
 export function Spinner({ size = 24, label }) {
   return (
     <div
       role="status"
-      aria-label={label ?? 'Yükleniyor'}
+      aria-label={label ?? 'Loading'}
       style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: 'var(--space-lg) 0' }}
     >
       <span

@@ -4,9 +4,10 @@ import { useCallback, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ENDPOINTS } from '@repo/api-client';
 import { forgotPasswordSchema, toFieldErrors } from '@repo/utils';
-import { Button, Input, Card, AltchaWidget } from '@repo/ui';
+import { Button, Input, AltchaWidget, Mail, CheckCircle2 } from '@repo/ui';
 import { Link } from '../../../i18n/navigation.js';
 import { apiClient } from '../../../lib/apiClient.js';
+import { AuthShell } from '../components/AuthShell.jsx';
 
 export default function ForgotPasswordPage() {
   const t = useTranslations('auth');
@@ -47,39 +48,45 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <main className="container" style={{ maxWidth: 420, paddingTop: 'var(--space-2xl)', paddingBottom: 'var(--space-2xl)' }}>
-      <Card>
-        <h1>{t('forgotPasswordTitle')}</h1>
-        {sent ? (
-          <p>{t('forgotPasswordSuccess')}</p>
-        ) : (
-          <>
-            <p style={{ color: 'var(--color-neutral-500)', marginTop: 0 }}>{t('forgotPasswordSubtitle')}</p>
-            <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-sm)' }} noValidate>
-              <Input
-                label={t('emailLabel')}
-                type="email"
-                required
-                maxLength={254}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                error={fieldErrors.email}
-              />
-              <AltchaWidget
-                challengeUrl={`${process.env.NEXT_PUBLIC_API_URL}/altcha/challenge`}
-                onSolved={handleAltchaSolved}
-              />
-              <Button type="submit" disabled={loading || !altchaPayload}>
-                {loading ? '...' : t('forgotPasswordSubmit')}
-              </Button>
-              {formError && <p style={{ color: 'var(--color-error)' }}>{formError}</p>}
-            </form>
-          </>
-        )}
-        <p style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--space-md)' }}>
-          <Link href="/login">{t('backToLogin')}</Link>
+    <AuthShell
+      title={t('forgotPasswordTitle')}
+      subtitle={!sent ? t('forgotPasswordSubtitle') : undefined}
+      footer={
+        <p>
+          <Link href="/login" className="link-inline">
+            {t('backToLogin')}
+          </Link>
         </p>
-      </Card>
-    </main>
+      }
+    >
+      {sent ? (
+        <div className="auth-card__success">
+          <CheckCircle2 size={40} strokeWidth={1.5} />
+          <p>{t('forgotPasswordSuccess')}</p>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="auth-card__form" noValidate>
+          <Input
+            label={t('emailLabel')}
+            type="email"
+            autoComplete="email"
+            required
+            maxLength={254}
+            icon={Mail}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            error={fieldErrors.email}
+          />
+          <AltchaWidget
+            challengeUrl={`${process.env.NEXT_PUBLIC_API_URL}${ENDPOINTS.altchaChallenge}`}
+            onSolved={handleAltchaSolved}
+          />
+          <Button type="submit" disabled={loading || !altchaPayload}>
+            {loading ? '...' : t('forgotPasswordSubmit')}
+          </Button>
+          {formError && <p className="auth-card__error">{formError}</p>}
+        </form>
+      )}
+    </AuthShell>
   );
 }

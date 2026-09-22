@@ -10,6 +10,7 @@
   --color-accent-dark: #B9822B;
   --color-ink: #211D1B;
   --color-paper: #FBF7F2;
+  --color-paper-rgb: 251, 247, 242;
   --color-surface: #FFFFFF;
   --color-border: #EAE3DA;
   --color-neutral-50: #FBF7F2;
@@ -32,6 +33,7 @@
   --space-3xl: 64px;
 
   --font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-size-2xs: 11px;
   --font-size-xs: 12px;
   --font-size-sm: 14px;
   --font-size-md: 16px;

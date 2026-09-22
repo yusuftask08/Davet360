@@ -41,6 +41,7 @@ export default async function SearchPage({ params: { locale }, searchParams }) {
                   vendor={{ ...vendor, images: (vendor.images ?? []).map(apiClient.assetUrl) }}
                   categoryLabel={t(`categories.${vendor.category}`)}
                   verifiedLabel={t('vendor.verified')}
+                  highlyRatedLabel={t('vendor.highlyRated')}
                   as={Link}
                   href={`/${vendor.category}/${vendor.citySlug}/${vendor.slug}`}
                   favorite={<CardFavoriteButton vendorId={vendor._id} />}

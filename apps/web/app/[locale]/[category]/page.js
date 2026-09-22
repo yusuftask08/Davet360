@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { getCategoryBySlug } from '@repo/constants';
+import { CATEGORIES, getCategoryBySlug } from '@repo/constants';
 import { createApiClient, ENDPOINTS } from '@repo/api-client';
-import { VendorCard, Card } from '@repo/ui';
+import { VendorCard, Card, CategoryIcon } from '@repo/ui';
 import { Link } from '../../../i18n/navigation.js';
 import { Breadcrumb } from '../components/Breadcrumb.jsx';
 import { EmptyStateCta } from '../components/EmptyStateCta.jsx';
@@ -32,6 +32,7 @@ export default async function CategoryPage({ params }) {
 
   const t = await getTranslations();
   const categoryLabel = t(`categories.${categorySlug}`);
+  const otherCategories = CATEGORIES.filter((c) => c.slug !== categorySlug);
 
   const [cities, vendors] = await Promise.all([
     apiClient.get(`${ENDPOINTS.vendorCities}?category=${categorySlug}`).catch(() => ({ items: [] })),
@@ -83,12 +84,31 @@ export default async function CategoryPage({ params }) {
               vendor={{ ...vendor, images: (vendor.images ?? []).map(apiClient.assetUrl) }}
               categoryLabel={categoryLabel}
               verifiedLabel={t('vendor.verified')}
+              highlyRatedLabel={t('vendor.highlyRated')}
               as={Link}
               href={`/${categorySlug}/${vendor.citySlug}/${vendor.slug}`}
               favorite={<CardFavoriteButton vendorId={vendor._id} />}
             />
           ))}
         </div>
+      )}
+
+      {otherCategories.length > 0 && (
+        <section style={{ marginTop: 'var(--space-3xl)' }}>
+          <div className="section-heading section-heading--lg">
+            <h2>{t('category.otherCategoriesHeading')}</h2>
+          </div>
+          <div className="hscroll">
+            {otherCategories.map((other) => (
+              <Link key={other.slug} href={`/${other.slug}`} className="hscroll__item category-browse-card">
+                <span className="category-browse-card__icon">
+                  <CategoryIcon slug={other.slug} size={26} strokeWidth={1.5} />
+                </span>
+                <span className="category-browse-card__label">{t(`categories.${other.slug}`)}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
       )}
     </main>
   );

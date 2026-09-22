@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ENDPOINTS } from '@repo/api-client';
 import { loginSchema, toFieldErrors } from '@repo/utils';
-import { Button, Input, Card } from '@repo/ui';
+import { Button, Input } from '@repo/ui';
 import { apiClient } from '../../lib/apiClient.js';
 import { AuthShell } from '../components/AuthShell.jsx';
 
@@ -41,39 +41,43 @@ export default function LoginPage() {
   }
 
   return (
-    <AuthShell>
-      <Card>
-        <h1>Panel Girişi</h1>
-        <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-sm)' }} noValidate>
-          <Input
-            label="Email"
-            type="email"
-            required
-            maxLength={254}
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            error={fieldErrors.email}
-          />
-          <Input
-            label="Şifre"
-            type="password"
-            required
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            error={fieldErrors.password}
-          />
-          <Button type="submit" disabled={loading}>
-            {loading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
-          </Button>
-          {formError && <p style={{ color: 'var(--color-error)' }}>{formError}</p>}
-        </form>
-        <p style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--space-md)' }}>
-          <Link href="/forgot-password">Şifremi unuttum</Link>
-        </p>
-        <p style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--space-xs)' }}>
-          Henüz hesabınız yok mu? <Link href="/register">İşletme olarak kayıt olun</Link>
-        </p>
-      </Card>
+    <AuthShell
+      title="Panel Girişi"
+      footer={
+        <>
+          <p>
+            <Link href="/forgot-password" className="link-inline">Şifremi unuttum</Link>
+          </p>
+          <p>
+            Henüz hesabınız yok mu?{' '}
+            <Link href="/register" className="link-inline">İşletme olarak kayıt olun</Link>
+          </p>
+        </>
+      }
+    >
+      <form onSubmit={handleSubmit} className="auth-card__form" noValidate>
+        <Input
+          label="Email"
+          type="email"
+          required
+          maxLength={254}
+          value={form.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          error={fieldErrors.email}
+        />
+        <Input
+          label="Şifre"
+          type="password"
+          required
+          value={form.password}
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          error={fieldErrors.password}
+        />
+        <Button type="submit" disabled={loading}>
+          {loading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
+        </Button>
+        {formError && <p className="auth-card__error">{formError}</p>}
+      </form>
     </AuthShell>
   );
 }

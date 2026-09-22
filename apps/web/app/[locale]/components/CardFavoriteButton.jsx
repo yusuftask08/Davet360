@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { ENDPOINTS } from '@repo/api-client';
 import { Heart } from '@repo/ui';
 import { useRouter } from '../../../i18n/navigation.js';
@@ -11,6 +12,7 @@ import { getFavoriteIds, updateFavoriteCache } from '../lib/favoritesCache.js';
 // sarmalandığı için tıklamanın kartın linkine gitmesini engellemek (preventDefault +
 // stopPropagation) şart, aksi halde kalbe basan kullanıcı yanlışlıkla ilan sayfasına gider.
 export function CardFavoriteButton({ vendorId, onToggle }) {
+  const t = useTranslations('vendor');
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -58,7 +60,7 @@ export function CardFavoriteButton({ vendorId, onToggle }) {
       type="button"
       onClick={handleClick}
       className="ui-vendor-card__favorite-btn"
-      aria-label={isFavorite ? 'Favorilerden çıkar' : 'Favorilere ekle'}
+      aria-label={isFavorite ? t('removeFavorite') : t('addFavorite')}
       aria-pressed={isFavorite}
     >
       <Heart size={16} fill={isFavorite ? 'currentColor' : 'none'} aria-hidden="true" />

@@ -6,7 +6,9 @@
     "favorites": "My Favorites",
     "logout": "Log Out",
     "discover": "Discover",
-    "mobileNavLabel": "Mobile navigation"
+    "mobileNavLabel": "Mobile navigation",
+    "settings": "Settings",
+    "language": "Language"
   },
   "footer": {
     "browseHeading": "Browse by category and city",
@@ -22,6 +24,10 @@
     "rights": "All rights reserved."
   },
   "pages": {
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "intro": "The most common questions about Merasim360, answered."
+    },
     "about": {
       "title": "About Us",
       "intro": "Merasim360 is a marketplace that makes it easy to find the right vendor across Turkey for weddings, engagements, henna nights, circumcision ceremonies, birthdays and many other special occasions.",
@@ -155,7 +161,8 @@
     "featuredHeading": "Featured Vendors",
     "featuredSubheading": "Some of our highest-rated approved vendors",
     "cityRowHeading": "Featured vendors in {city}",
-    "faqHeading": "Frequently Asked Questions"
+    "categoryBrowseHeading": "Also browse for your {city} preparations",
+    "categoryBrowseHeadingGeneric": "Also browse for your preparations"
   },
   "faq": {
     "q1": "Is requesting a quote on Merasim360 free?",
@@ -201,8 +208,16 @@
     "allCities": "{category} vendors in all cities",
     "maxBudgetLabel": "Max Budget (₺)",
     "minCapacityLabel": "Min Capacity",
+    "noLimit": "No limit",
+    "sortLabel": "Sort",
+    "sortDefault": "Recommended",
+    "sortRating": "Highest rated",
+    "sortBudgetAsc": "Lowest budget",
+    "sortBudgetDesc": "Highest budget",
+    "amenitiesLabel": "Amenities",
     "filterButton": "Filter",
-    "relatedHeading": "Also check these while planning your event in {city}"
+    "relatedHeading": "Also check these while planning your event in {city}",
+    "otherCategoriesHeading": "Also browse for your event preparations"
   },
   "vendor": {
     "getQuote": "Get a Quote",
@@ -212,6 +227,9 @@
     "amenitiesHeading": "Amenities",
     "locationHeading": "Location",
     "verified": "Merasim360 Verified",
+    "highlyRated": "Highly rated",
+    "addFavorite": "Add to favorites",
+    "removeFavorite": "Remove from favorites",
     "verifiedShort": "Merasim360 Verified",
     "capacity": "Capacity: {count} guests",
     "galleryHeading": "Gallery",
@@ -247,6 +265,7 @@
   },
   "auth": {
     "loginTitle": "Log In",
+    "loginSubtitle": "Log in to access your favorites and quote requests.",
     "registerTitle": "Create an Account",
     "registerSubtitle": "Create an account to save favorites and leave reviews.",
     "nameLabel": "Full Name",
@@ -274,7 +293,9 @@
     "resetPasswordSubmit": "Update Password",
     "resetPasswordSuccess": "Your password has been updated. You can log in now.",
     "resetPasswordInvalidLink": "This link is invalid. Please start the password reset again.",
-    "backToLogin": "Back to login"
+    "backToLogin": "Back to login",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   },
   "account": {
     "title": "My Account",

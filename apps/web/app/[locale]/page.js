@@ -15,7 +15,7 @@ export default async function HomePage({ params: { locale } }) {
 
   const [featured, topCities] = await Promise.all([
     apiClient.get(`${ENDPOINTS.vendorFeatured}?limit=6`).catch(() => ({ items: [] })),
-    apiClient.get(`${ENDPOINTS.vendorTopCities}?limit=4`).catch(() => ({ items: [] })),
+    apiClient.get(`${ENDPOINTS.vendorTopCities}?limit=8`).catch(() => ({ items: [] })),
   ]);
 
   // Airbnb'deki "X yakınlarındaki popüler evler" satırları gibi — en çok işletmesi olan
@@ -28,6 +28,10 @@ export default async function HomePage({ params: { locale } }) {
         .catch(() => ({ city: cityItem.city, citySlug: cityItem.citySlug, items: [] })),
     ),
   );
+
+  // Airbnb'nin "Yakınlardaki deneyimleri keşfedin" kategori kartları satırı gibi — en çok
+  // işletmesi olan şehir varsa o şehre, yoksa genel kategori sayfasına yönlendirir.
+  const browseCity = topCities.items[0] ?? null;
 
   const organizationJsonLd = {
     '@context': 'https://schema.org',
@@ -49,35 +53,14 @@ export default async function HomePage({ params: { locale } }) {
     },
   };
 
-  const faqJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: [1, 2, 3, 4, 5].map((n) => ({
-      '@type': 'Question',
-      name: t(`faq.q${n}`),
-      acceptedAnswer: { '@type': 'Answer', text: t(`faq.a${n}`) },
-    })),
-  };
-
   return (
     <main className="container" style={{ paddingBottom: 'var(--space-3xl)' }}>
       {/* eslint-disable-next-line react/no-danger */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
       {/* eslint-disable-next-line react/no-danger */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
-      {/* eslint-disable-next-line react/no-danger */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <h1 className="sr-only">{t('home.title')}</h1>
-
-      <nav className="category-strip" aria-label={t('home.categoriesHeading')} style={{ marginTop: 'var(--space-lg)' }}>
-        {CATEGORIES.map((category) => (
-          <Link key={category.slug} href={`/${category.slug}`} className="category-strip__item">
-            <CategoryIcon slug={category.slug} size={24} strokeWidth={1.5} />
-            <span>{t(`categories.${category.slug}`)}</span>
-          </Link>
-        ))}
-      </nav>
 
       {featured.items.length > 0 && (
         <section style={{ marginTop: 'var(--space-3xl)' }}>
@@ -93,6 +76,7 @@ export default async function HomePage({ params: { locale } }) {
                   vendor={{ ...vendor, images: (vendor.images ?? []).map(apiClient.assetUrl) }}
                   categoryLabel={category ? t(`categories.${category.slug}`) : undefined}
                   verifiedLabel={t('vendor.verified')}
+                  highlyRatedLabel={t('vendor.highlyRated')}
                   as={Link}
                   href={`/${vendor.category}/${vendor.citySlug}/${vendor.slug}`}
                   className="hscroll__item hscroll__item--vendor"
@@ -104,6 +88,32 @@ export default async function HomePage({ params: { locale } }) {
           </div>
         </section>
       )}
+
+      <section style={{ marginTop: 'var(--space-3xl)' }}>
+        <div className="section-heading section-heading--lg">
+          <h2>
+            {browseCity
+              ? t('home.categoryBrowseHeading', {
+                  city: locale === 'tr' ? toLocativeCase(browseCity.city) : browseCity.city,
+                })
+              : t('home.categoryBrowseHeadingGeneric')}
+          </h2>
+        </div>
+        <div className="hscroll">
+          {CATEGORIES.map((category) => (
+            <Link
+              key={category.slug}
+              href={browseCity ? `/${category.slug}/${browseCity.citySlug}` : `/${category.slug}`}
+              className="hscroll__item category-browse-card"
+            >
+              <span className="category-browse-card__icon">
+                <CategoryIcon slug={category.slug} size={26} strokeWidth={1.5} />
+              </span>
+              <span className="category-browse-card__label">{t(`categories.${category.slug}`)}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       {cityRows
         .filter((row) => row.items.length > 0)
@@ -121,6 +131,7 @@ export default async function HomePage({ params: { locale } }) {
                     vendor={{ ...vendor, images: (vendor.images ?? []).map(apiClient.assetUrl) }}
                     categoryLabel={category ? t(`categories.${category.slug}`) : undefined}
                     verifiedLabel={t('vendor.verified')}
+                    highlyRatedLabel={t('vendor.highlyRated')}
                     as={Link}
                     href={`/${vendor.category}/${vendor.citySlug}/${vendor.slug}`}
                     className="hscroll__item hscroll__item--vendor"
@@ -131,20 +142,6 @@ export default async function HomePage({ params: { locale } }) {
             </div>
           </section>
         ))}
-
-      <section style={{ marginTop: 'var(--space-3xl)', marginBottom: 'var(--space-3xl)' }}>
-        <div className="section-heading section-heading--lg">
-          <h2>{t('home.faqHeading')}</h2>
-        </div>
-        <div className="faq-list">
-          {[1, 2, 3, 4, 5].map((n) => (
-            <details key={n} className="faq-list__item">
-              <summary>{t(`faq.q${n}`)}</summary>
-              <p>{t(`faq.a${n}`)}</p>
-            </details>
-          ))}
-        </div>
-      </section>
     </main>
   );
 }

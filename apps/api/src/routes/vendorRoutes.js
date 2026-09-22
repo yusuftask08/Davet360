@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { ROLES } from '@repo/constants';
-import { createVendorSchema, updateVendorSchema } from '@repo/utils';
+import { createVendorSchema, updateVendorSchema, vendorListQuerySchema } from '@repo/utils';
 import { requireAuth } from '../middleware/auth.js';
-import { validateBody } from '../middleware/validate.js';
+import { validateBody, validateQuery } from '../middleware/validate.js';
 import { ApiError } from '../middleware/errorHandler.js';
 import {
   listApprovedVendors,
@@ -20,10 +20,20 @@ import { Vendor } from '../models/index.js';
 
 export const vendorRouter = Router();
 
-vendorRouter.get('/', async (req, res, next) => {
+vendorRouter.get('/', validateQuery(vendorListQuerySchema), async (req, res, next) => {
   try {
-    const { category, citySlug, search, maxBudget, minCapacity, page, limit } = req.query;
-    const result = await listApprovedVendors({ category, citySlug, search, maxBudget, minCapacity, page, limit });
+    const { category, citySlug, search, maxBudget, minCapacity, amenities, sort, page, limit } = req.query;
+    const result = await listApprovedVendors({
+      category,
+      citySlug,
+      search,
+      maxBudget,
+      minCapacity,
+      amenities,
+      sort,
+      page,
+      limit,
+    });
     res.json(result);
   } catch (err) {
     next(err);

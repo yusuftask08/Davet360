@@ -11,12 +11,23 @@ export function approvedVendorFilter(extra = {}) {
   return { status: VENDOR_STATUS.APPROVED, ...extra };
 }
 
+// sort query param -> Mongo sort. "rating" ve "budget" seçenekleri, işletme kaydında
+// girilen gerçek alanlara (avgRating, priceRange) dayanır — uydurma bir sıralama değil.
+const VENDOR_SORTS = {
+  rating: { avgRating: -1, reviewCount: -1 },
+  'budget-asc': { 'priceRange.min': 1 },
+  'budget-desc': { 'priceRange.max': -1 },
+  default: { createdAt: -1 },
+};
+
 export async function listApprovedVendors({
   category,
   citySlug,
   search,
   maxBudget,
   minCapacity,
+  amenities,
+  sort,
   page = 1,
   limit = 20,
 }) {
@@ -28,13 +39,19 @@ export async function listApprovedVendors({
   // "500.000₺ altı" dediğinde fiyatını hiç belirtmemiş bir vendor'ı göstermek yanıltıcı olur.
   if (maxBudget) filter['priceRange.min'] = { $lte: Number(maxBudget) };
   if (minCapacity) filter.capacity = { $gte: Number(minCapacity) };
+  // Olanaklar (amenities) — vendor kayıt formunda işaretlenen gerçek alan. $all: seçilen
+  // her olanağı karşılayan vendor'lar (kısmi eşleşme değil, hepsi birden aranıyor).
+  const amenityList = (Array.isArray(amenities) ? amenities : amenities?.split(',')) ?? [];
+  const cleanAmenities = amenityList.map((a) => a.trim()).filter(Boolean);
+  if (cleanAmenities.length > 0) filter.amenities = { $all: cleanAmenities };
 
   const safeLimit = Math.min(Number(limit) || 20, 100);
   const safePage = Math.max(Number(page) || 1, 1);
   const skip = (safePage - 1) * safeLimit;
+  const sortSpec = VENDOR_SORTS[sort] ?? VENDOR_SORTS.default;
 
   const [items, total] = await Promise.all([
-    Vendor.find(filter).sort({ createdAt: -1 }).skip(skip).limit(safeLimit),
+    Vendor.find(filter).sort(sortSpec).skip(skip).limit(safeLimit),
     Vendor.countDocuments(filter),
   ]);
 

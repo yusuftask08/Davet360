@@ -1,5 +1,6 @@
 export const typography = {
   fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
+  size2xs: '11px',
   sizeXs: '12px',
   sizeSm: '14px',
   sizeMd: '16px',

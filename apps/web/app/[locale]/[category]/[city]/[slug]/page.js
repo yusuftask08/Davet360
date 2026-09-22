@@ -258,6 +258,7 @@ export default async function VendorPage({ params }) {
                 vendor={{ ...similar, images: (similar.images ?? []).map(apiClient.assetUrl) }}
                 categoryLabel={categoryLabel}
                 verifiedLabel={t('vendor.verified')}
+                highlyRatedLabel={t('vendor.highlyRated')}
                 as={Link}
                 href={`/${params.category}/${params.city}/${similar.slug}`}
                 favorite={<CardFavoriteButton vendorId={similar._id} />}
