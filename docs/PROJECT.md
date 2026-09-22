@@ -44,7 +44,7 @@
 ## Roller
 1. **Müşteri (ziyaretçi/kayıtlı kullanıcı)** — arama, filtreleme, vendor profili görüntüleme, teklif isteği gönderme. Giriş yaparsa `/account` sayfasından profilini düzenler, şifresini değiştirir, gönderdiği tüm teklif taleplerini ve yorumlarını görür (teklif formu giriş yapmış kullanıcıyı otomatik tanır — misafir gönderimi de çalışmaya devam eder).
 2. **Vendor (tedarikçi)** — kayıt olur, profil/ilan oluşturur, admin onayından sonra yayına girer, gelen teklif taleplerini görür, ilanını (`/vendor/edit`) sonradan düzenleyebilir.
-3. **Admin** — kapsamlı bir kontrol merkezinden (`apps/panel/app/admin`) yönetir:
+3. **Admin** — kendi ayrı app'inden (`apps/admin`, panelden bağımsız — ayrı port/login/oturum, denetim ve blast radius ayrımı için) kapsamlı bir kontrol merkezinden yönetir:
    - **Vendor'lar** — tüm durumlar (bekleyen/onaylı/askıda/reddedilen) filtrelenip aranabilir, herhangi bir vendor'ın herhangi bir alanı düzenlenebilir, onaylı bir ilan sonradan yayından kaldırılıp (suspend) geri açılabilir (reactivate)
    - **Yorumlar** — bekleyen/onaylı/reddedilen filtreli liste, onaylanmış bir yorum da sonradan yayından kaldırılabilir
    - **Blog** — taslak+yayında tüm yazılar listelenir, düzenlenir, yayından kaldırılır
@@ -58,7 +58,7 @@
 - Bu, platformun başlangıçta kalite/güven imajı oluşturması için tercih edildi.
 
 ## Ek Özellikler (MVP kapsamına dahil — hepsi implemente edildi)
-- **Blog / Düğün Rehberi** ✅ — `apps/web/app/[locale]/blog`, admin `apps/panel/app/admin/blog/new`'den yazı yayınlar, kategoriye göre ilişkilendirilir, ilgili kategori sayfasına internal link verilir. `BlogPosting` structured data.
+- **Blog / Düğün Rehberi** ✅ — `apps/web/app/[locale]/blog`, admin `apps/admin/app/(dashboard)/blog/new`'den yazı yayınlar, kategoriye göre ilişkilendirilir, ilgili kategori sayfasına internal link verilir. `BlogPosting` structured data.
 - **Yorum & puanlama sistemi** ✅ — Müşteri vendor sayfasından yorum bırakır (admin onayına düşer), admin panelden onaylar/reddeder, onaylanan yorum `Vendor.avgRating`/`reviewCount`'u otomatik günceller.
 - **Favorilere ekleme** ✅ — Kayıtlı müşteri vendor sayfasından favoriye ekler/çıkarır, `/favorites` sayfasında listeler.
 - **WhatsApp click-to-chat** ✅ — Vendor profilinde `wa.me` linki.
@@ -93,25 +93,26 @@ Tamamen ücretsiz/açık kaynak bileşenlerle, kendi sunucumuzda (Coolify) barı
 > Not: Her şey ücretsiz/self-hosted bileşenlerle kurulacak. Yeni bir bağımlılık (paket, servis, kütüphane) eklenmeden önce ücretli olup olmadığı kontrol edilecek.
 
 ## Monorepo Yapısı
-Turborepo + pnpm workspaces ile tek repo, 3 ayrı uygulama:
+Turborepo + pnpm workspaces ile tek repo, 4 ayrı uygulama:
 
 ```
 /apps
-  /web       -> Next.js, müşteri tarafı (public marketplace). PWA destekli.
-  /panel     -> Next.js, vendor paneli + admin paneli (role bazlı route koruması)
-  /api       -> Node.js/Express, backend API (Mongo bağlantısı burada)
+  /web       -> Next.js, müşteri tarafı (public marketplace). PWA destekli. Port 3600.
+  /panel     -> Next.js, vendor paneli (işletme sahibi). Port 3601.
+  /admin     -> Next.js, admin paneli — panelden ayrı app, ayrı port/login/oturum. Port 3602.
+  /api       -> Node.js/Express, backend API (Mongo bağlantısı burada). Port 4600.
 /packages
   /ui        -> Paylaşılan tasarım sistemi: token'lar + reusable bileşenler (bkz. aşağıda)
   /config    -> Ortak eslint/prettier/tailwind config
   /utils     -> Paylaşılan yardımcı fonksiyonlar (formatlayıcılar, validasyon şemaları)
-  /api-client -> web ve panel'in apps/api'ye istek atarken kullandığı tek merkezi client (fetch wrapper, endpoint sabitleri)
+  /api-client -> web/panel/admin'in apps/api'ye istek atarken kullandığı tek merkezi client (fetch wrapper, endpoint sabitleri)
   /constants -> Kategori listesi, şehir listesi, rol enum'ları gibi paylaşılan sabit veriler
 ```
 
 **Kural: apps ince (thin), packages kalın (fat) olacak.** Sayfa/route dosyaları sadece packages'daki bileşenleri ve client'ı çağırır; iş mantığı, stil, validasyon hep packages içinde yaşar. Böylece yarın yeni bir proje açıldığında (`apps/yeni-proje`), `packages/ui`, `packages/utils`, `packages/config` doğrudan reuse edilir — sıfırdan yazılmaz, sadece token/tema değerleri değişir.
 
-- `web` ve `panel` aynı API'yi (`apps/api`) tüketir, tek backend.
-- `panel` içinde vendor ve admin aynı app'te ama farklı yetki seviyeleriyle ayrılır (ayrı proje açmaya gerek yok, gereksiz karmaşıklık).
+- `web`, `panel` ve `admin` aynı API'yi (`apps/api`) tüketir, tek backend — auth da tek JWT/cookie şeması (httpOnly cookie + Bearer header ikisi de kabul edilir), üç app arasında ayrı bir auth sistemi yok.
+- `admin`, `panel`'den kasıtlı olarak ayrı bir app: aynı app içinde role bazlı ayrım da teknik olarak güvenliydi (backend `requireRole('admin')` zaten gerçek sınırdı), ama ayrı app + ayrı login ekranı + ayrı deployment denetim/audit netliği ve daha küçük blast radius sağlıyor.
 - İleride native mobil app (React Native / Expo) geldiğinde sadece yeni bir `apps/mobile` eklenir, `apps/api` değişmeden kullanılır — bu yüzden API sözleşmesi (endpoint/response formatı) baştan temiz tasarlanmalı.
 - İleride farklı bir sektör için ikinci bir pazaryeri kurulmak istenirse: yeni bir `apps/*` seti açılır, `packages/ui` + `packages/config` + `packages/utils` aynen taşınır, sadece `packages/ui/tokens` içindeki renk/font/logo değerleri ve `packages/constants` içindeki kategori listesi değişir.
 
@@ -188,7 +189,7 @@ SEO tek bir özellik değil — mimarinin her katmanına baştan işlenecek:
 - Kategori isimleri de çeviri dosyalarında (`categories.*`) — `packages/constants`'taki `label` alanı sadece varsayılan/fallback, gerçek gösterim metni locale'e göre `messages/*.json`'dan gelir.
 - `sitemap.js` her URL için iki dilin de `hreflang` alternate'ini üretir.
 - Navbar'da dil değiştirici (`LocaleSwitcher`) var.
-- `apps/panel` (vendor/admin, internal/private araç) kapsam dışı bırakıldı — sadece Türkçe. Public olmadığı ve SEO'ya girmediği için i18n gerekliliği yok; istenirse aynı pattern'le sonradan eklenebilir.
+- `apps/panel` ve `apps/admin` (internal/private araçlar) kapsam dışı bırakıldı — sadece Türkçe. Public olmadığı ve SEO'ya girmediği için i18n gerekliliği yok; istenirse aynı pattern'le sonradan eklenebilir.
 
 ## Hata Yönetimi (Frontend)
 Kullanıcı hiçbir zaman ham hata/çökme ekranı görmemeli:
@@ -232,7 +233,7 @@ Kendi sunucumuzda barındığımız için güvenlik tamamen bizim sorumluluğumu
 
 **Backend (apps/api)**
 - `helmet` ile güvenli HTTP header'ları
-- `cors` whitelist — sadece `web` ve `panel` domain'lerine izin, `*` yasak
+- `cors` whitelist — sadece `web`, `panel` ve `admin` domain'lerine izin, `*` yasak
 - `express-rate-limit` — login, kayıt, teklif formu gibi endpoint'lerde brute-force/spam koruması
 - `express-mongo-sanitize` — NoSQL injection önleme
 - Tüm input'lar `zod`/`joi` ile şema validasyonundan geçer, hiçbir endpoint validasyonsuz veri kabul etmez

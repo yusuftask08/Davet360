@@ -6,13 +6,14 @@ Düğün, nişan, orkestra/müzik, fotoğraf & video tedarikçilerini bir araya 
 ```
 /apps
   /web     -> Next.js, müşteri tarafı (public, PWA, SEO, i18n: /tr + /en)
-  /panel   -> Next.js, vendor + admin paneli (private, noindex, sadece TR)
+  /panel   -> Next.js, vendor paneli (private, noindex, sadece TR)
+  /admin   -> Next.js, admin paneli — panelden ayrı app, ayrı port/login (private, noindex, sadece TR)
   /api     -> Express API + MongoDB (Mongoose)
 /packages
   /ui           -> tasarım sistemi (token'lar + bileşenler, AltchaWidget dahil)
   /constants    -> kategori/rol/status enum'ları
   /utils        -> zod validasyon şemaları + yardımcılar
-  /api-client   -> web/panel'in ortak API client'ı
+  /api-client   -> web/panel/admin'in ortak API client'ı
   /config       -> ortak eslint/prettier tabanı
 /scripts
   backup.sh     -> Mongo + upload klasörü yedekleme
@@ -32,6 +33,7 @@ pnpm dev
 - API: http://localhost:4600/api/health
 - Web: http://localhost:3600 (otomatik `/tr`'a yönlenir, `/en` de mevcut)
 - Panel: http://localhost:3601
+- Admin: http://localhost:3602
 - Umami (analytics dashboard, ilk kurulumda hesap oluşturmanız gerekir): http://localhost:3002
 
 Production'da MongoDB + Umami Coolify/Hetzner üzerinde ayrı servisler olarak çalışır, `docker-compose.yml` sadece local geliştirme içindir.
