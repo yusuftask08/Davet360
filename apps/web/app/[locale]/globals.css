@@ -93,10 +93,16 @@ a {
 .site-navbar__inner {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--space-lg);
   min-height: 72px;
   flex-wrap: wrap;
   padding: var(--space-sm) 0;
+}
+.site-navbar__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
 }
 .site-navbar__logo {
   font-size: var(--font-size-xl);
