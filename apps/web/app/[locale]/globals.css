@@ -423,20 +423,20 @@ a {
   background: var(--color-primary-dark);
 }
 @media (max-width: 600px) {
-  .home-search {
-    flex-wrap: wrap;
-    border-radius: var(--radius-lg);
+  /* Alanları alt alta yığıp arama kutusunu ekranın yarısı kadar uzatıyordu — Airbnb'deki
+     mobil arama gibi tek, kompakt satır: alanlar yan yana küçülür, buton dairesel kalır. */
+  .home-search__field {
+    padding: 4px var(--space-sm);
   }
-  .home-search__divider {
+  .home-search__field label {
+    font-size: 10px;
+  }
+  .home-search__submit-label {
     display: none;
   }
-  .home-search__field {
-    flex: 1 1 100%;
-  }
   .home-search__submit {
-    width: 100%;
-    justify-content: center;
-    margin-top: 4px;
+    padding: 12px;
+    border-radius: 50%;
   }
 }
 
