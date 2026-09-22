@@ -5,7 +5,6 @@ import { toLocativeCase } from '@repo/utils';
 import { CategoryIcon, VendorCard } from '@repo/ui';
 import { Link } from '../../i18n/navigation.js';
 import { CardFavoriteButton } from './components/CardFavoriteButton.jsx';
-import { HomeSearchBar } from './components/HomeSearchBar.jsx';
 
 const apiClient = createApiClient({ baseUrl: process.env.NEXT_PUBLIC_API_URL });
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3600';
@@ -70,8 +69,6 @@ export default async function HomePage({ params: { locale } }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <h1 className="sr-only">{t('home.title')}</h1>
-
-      <HomeSearchBar />
 
       <nav className="category-strip" aria-label={t('home.categoriesHeading')} style={{ marginTop: 'var(--space-lg)' }}>
         {CATEGORIES.map((category) => (

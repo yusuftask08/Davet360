@@ -2,10 +2,11 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '../../../i18n/navigation.js';
 import { AuthNav } from './AuthNav.jsx';
 import { LocaleSwitcher } from './LocaleSwitcher.jsx';
-import { SearchBox } from './SearchBox.jsx';
+import { HomeSearchBar } from './HomeSearchBar.jsx';
 
-// Not: 18 kategori navbar'a tek tek sığmaz/taşar — kategoriler ana sayfadaki grid'de net
-// şekilde listeleniyor, navbar'da sadece arama + blog + hesap kalıyor.
+// Tek arama alanı: Kategori+Şehir bar'ı artık navbar'ın kendisinde, her sayfada görünür —
+// önceden anasayfaya özel ayrı bir bileşendi, navbar'da da küçük bir metin arama kutusu vardı,
+// ikisi birden kafa karıştırıyordu. Şimdi tek, site genelinde sabit bir arama var.
 export async function Navbar() {
   const t = await getTranslations();
 
@@ -15,13 +16,15 @@ export async function Navbar() {
         <Link href="/" className="site-navbar__logo">
           Davet<span>360</span>
         </Link>
-        <SearchBox />
         <nav className="site-navbar__links">
           <Link href="/blog">{t('nav.blog')}</Link>
           <AuthNav />
         </nav>
         <div className="site-navbar__divider" aria-hidden="true" />
         <LocaleSwitcher />
+      </div>
+      <div className="container site-navbar__search-row">
+        <HomeSearchBar />
       </div>
     </header>
   );
