@@ -4,9 +4,12 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Spinner } from '@repo/ui';
 
+const ADMIN_URL = process.env.NEXT_PUBLIC_ADMIN_URL ?? 'http://localhost:3602';
+
 // Panelin gerçek "protected route" katmanı — daha önce sayfalar sadece API'nin 401 dönmesine
 // güveniyordu, düzgün bir login yönlendirmesi yoktu. `role` verilirse o role hiç uymayan
-// kullanıcı kendi ana sayfasına (admin/vendor) yönlendirilir, hiç giriş yapmamışsa /login'e.
+// kullanıcı kendi ana sayfasına yönlendirilir (admin artık ayrı app'te — apps/admin), hiç
+// giriş yapmamışsa /login'e.
 export function RequireAuth({ role, children }) {
   const router = useRouter();
   const [status, setStatus] = useState('checking');
@@ -27,7 +30,11 @@ export function RequireAuth({ role, children }) {
       return;
     }
     if (role && user.role !== role) {
-      router.replace(user.role === 'admin' ? '/admin' : '/vendor');
+      if (user.role === 'admin') {
+        window.location.href = ADMIN_URL;
+      } else {
+        router.replace('/vendor');
+      }
       return;
     }
     setStatus('allowed');

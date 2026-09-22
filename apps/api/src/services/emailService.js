@@ -111,15 +111,15 @@ export async function sendVendorStatusChangeEmail(to, { businessName, status, re
 
 // Yeni bir vendor başvurusu geldiğinde tüm adminlere bildirim — kimse panele bakmayı unutup
 // başvuruyu günlerce beklemede bırakmasın.
-export async function sendNewVendorApplicationEmail(adminEmails, { businessName, city, category, panelUrl }) {
+export async function sendNewVendorApplicationEmail(adminEmails, { businessName, city, category, adminUrl }) {
   if (adminEmails.length === 0) return;
   await sendMail({
     to: adminEmails.join(','),
     subject: `Merasim360 — yeni vendor başvurusu: ${businessName}`,
-    text: `${businessName} (${category}, ${city}) onay bekliyor. Panelden inceleyin: ${panelUrl}/admin/vendors?status=pending`,
+    text: `${businessName} (${category}, ${city}) onay bekliyor. Admin panelinden inceleyin: ${adminUrl}/vendors?status=pending`,
     html: `
       <p><strong>${escapeHtml(businessName)}</strong> (${escapeHtml(category)}, ${escapeHtml(city)}) onay bekliyor.</p>
-      <p><a href="${panelUrl}/admin/vendors?status=pending">Panelden incele</a></p>
+      <p><a href="${adminUrl}/vendors?status=pending">Admin panelinden incele</a></p>
     `,
   });
 }

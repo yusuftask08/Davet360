@@ -17,11 +17,12 @@ export const env = {
   },
   uploadDir: process.env.UPLOAD_DIR ?? './uploads',
   altchaSecret: process.env.ALTCHA_SECRET ?? 'dev-altcha-secret-change-me',
-  corsOrigins: (process.env.CORS_ORIGINS ?? 'http://localhost:3600,http://localhost:3601').split(
-    ',',
-  ),
+  corsOrigins: (
+    process.env.CORS_ORIGINS ?? 'http://localhost:3600,http://localhost:3601,http://localhost:3602'
+  ).split(','),
   webUrl: process.env.WEB_URL ?? 'http://localhost:3600',
   panelUrl: process.env.PANEL_URL ?? 'http://localhost:3601',
+  adminUrl: process.env.ADMIN_URL ?? 'http://localhost:3602',
   contactEmail: process.env.CONTACT_EMAIL ?? '',
   smtp: {
     host: process.env.SMTP_HOST ?? '',

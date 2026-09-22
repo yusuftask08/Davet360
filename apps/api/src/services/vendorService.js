@@ -165,7 +165,7 @@ async function notifyAdminsOfNewApplication(vendor) {
     businessName: vendor.businessName,
     city: vendor.city,
     category: vendor.category,
-    panelUrl: env.panelUrl,
+    adminUrl: env.adminUrl,
   });
 }
 

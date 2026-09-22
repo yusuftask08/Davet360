@@ -50,7 +50,10 @@ export async function requestPasswordReset(email) {
   user.resetTokenExpires = new Date(Date.now() + RESET_TOKEN_TTL_MS);
   await user.save();
 
-  const resetUrl = `${env.webUrl}/reset-password?token=${rawToken}`;
+  // Sıfırlama linki kullanıcının ait olduğu app'e gitmeli — admin/vendor'ı müşteri sitesine
+  // değil kendi paneline yönlendiriyoruz.
+  const baseUrl = user.role === 'admin' ? env.adminUrl : user.role === 'vendor' ? env.panelUrl : env.webUrl;
+  const resetUrl = `${baseUrl}/reset-password?token=${rawToken}`;
   await sendPasswordResetEmail(user.email, resetUrl);
 }
 

@@ -9,8 +9,6 @@ import { Button, Input } from '@repo/ui';
 import { apiClient } from '../../lib/apiClient.js';
 import { AuthShell } from '../components/AuthShell.jsx';
 
-const ADMIN_URL = process.env.NEXT_PUBLIC_ADMIN_URL ?? 'http://localhost:3602';
-
 export default function LoginPage() {
   const router = useRouter();
   const [form, setForm] = useState({ email: '', password: '' });
@@ -31,15 +29,17 @@ export default function LoginPage() {
 
     setLoading(true);
     try {
-      // Token artık backend'in set ettiği httpOnly cookie'de tutuluyor, JS'e hiç dokunmuyor.
+      // Token backend'in set ettiği httpOnly cookie'de tutuluyor, JS'e hiç dokunmuyor.
       const { user } = await apiClient.post(ENDPOINTS.login, result.data);
-      if (user.role === 'admin') {
-        // Admin paneli artık ayrı bir app (apps/admin) — burada oturum açık bırakmıyoruz.
-        window.location.href = `${ADMIN_URL}/login`;
+      if (user.role !== 'admin') {
+        // Yönetici olmayan biri bu formu kullandı — burada oturum açık kalsın istemiyoruz,
+        // kendi paneline (apps/panel) yönlendirilmeli.
+        await apiClient.post(ENDPOINTS.logout).catch(() => {});
+        setFormError('Bu panel sadece yöneticiler içindir. İşletme girişi için panel uygulamasını kullanın.');
         return;
       }
       localStorage.setItem('user', JSON.stringify(user));
-      router.push('/vendor');
+      router.push('/');
     } catch (err) {
       setFormError(err.message);
     } finally {
@@ -49,17 +49,11 @@ export default function LoginPage() {
 
   return (
     <AuthShell
-      title="Panel Girişi"
+      title="Yönetici Girişi"
       footer={
-        <>
-          <p>
-            <Link href="/forgot-password" className="link-inline">Şifremi unuttum</Link>
-          </p>
-          <p>
-            Henüz hesabınız yok mu?{' '}
-            <Link href="/register" className="link-inline">İşletme olarak kayıt olun</Link>
-          </p>
-        </>
+        <p>
+          <Link href="/forgot-password" className="link-inline">Şifremi unuttum</Link>
+        </p>
       }
     >
       <form onSubmit={handleSubmit} className="auth-card__form" noValidate>

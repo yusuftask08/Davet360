@@ -10,9 +10,9 @@ const jakarta = Plus_Jakarta_Sans({
   display: 'swap',
 });
 
-// Panel (işletme sahibi) tamamen private — SEO bölümündeki kurala göre crawl'dan hariç tutulur.
+// Admin app tamamen private — arama motorları hariç tutulur.
 export const metadata = {
-  title: 'Merasim360 Panel',
+  title: 'Merasim360 Admin',
   robots: { index: false, follow: false },
 };
 
