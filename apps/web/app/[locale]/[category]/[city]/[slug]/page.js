@@ -12,6 +12,9 @@ import { FavoriteButton } from '../../../components/FavoriteButton.jsx';
 import { CardFavoriteButton } from '../../../components/CardFavoriteButton.jsx';
 import { Breadcrumb } from '../../../components/Breadcrumb.jsx';
 import { Link } from '../../../../../i18n/navigation.js';
+import { buildAlternates, buildOpenGraph, buildTwitter } from '../../../lib/seo.js';
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3600';
 
 const apiClient = createApiClient({ baseUrl: process.env.NEXT_PUBLIC_API_URL });
 
@@ -52,15 +55,17 @@ export async function generateMetadata({ params }) {
   const vendor = await fetchVendor(params.slug);
   if (!vendor || !matchesUrl(vendor, params)) return {};
 
+  const title = vendor.seoTitle || `${vendor.businessName} - ${vendor.city}`;
+  const description = vendor.seoDescription || vendor.description?.slice(0, 155);
+  const path = `/${params.category}/${params.city}/${vendor.slug}`;
+  const images = vendor.images?.[0] ? [apiClient.assetUrl(vendor.images[0])] : undefined;
+
   return {
-    title: vendor.seoTitle || `${vendor.businessName} - ${vendor.city}`,
-    description: vendor.seoDescription || vendor.description?.slice(0, 155),
-    alternates: { canonical: `/${params.locale}/${params.category}/${params.city}/${vendor.slug}` },
-    openGraph: {
-      title: vendor.businessName,
-      description: vendor.description?.slice(0, 155),
-      images: vendor.images?.[0] ? [apiClient.assetUrl(vendor.images[0])] : undefined,
-    },
+    title,
+    description,
+    alternates: buildAlternates(params.locale, path),
+    openGraph: buildOpenGraph(params.locale, { title: vendor.businessName, description, images }),
+    twitter: buildTwitter({ title: vendor.businessName, description, images }),
   };
 }
 
@@ -78,12 +83,17 @@ export default async function VendorPage({ params }) {
   const categoryLabel = t(`categories.${params.category}`);
   const [lng, lat] = vendor.location?.coordinates ?? [];
 
+  const vendorPath = `${SITE_URL}/${params.locale}/${params.category}/${params.city}/${vendor.slug}`;
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: vendor.businessName,
     description: vendor.description,
+    url: vendorPath,
+    ...(vendor.images?.length ? { image: vendor.images.map(apiClient.assetUrl) } : {}),
+    ...(vendor.whatsapp ? { telephone: vendor.whatsapp } : {}),
     address: { '@type': 'PostalAddress', addressLocality: vendor.city, addressCountry: 'TR' },
+    ...(lat && lng ? { geo: { '@type': 'GeoCoordinates', latitude: lat, longitude: lng } } : {}),
     ...(vendor.reviewCount > 0
       ? {
           aggregateRating: {
@@ -117,31 +127,50 @@ export default async function VendorPage({ params }) {
         ]}
       />
 
-      <div
-        style={{
-          position: 'relative',
-          overflow: 'hidden',
-          borderRadius: 'var(--radius-lg)',
-          background: vendor.images?.[0] ? undefined : 'var(--gradient-hero)',
-          aspectRatio: '16 / 6',
-          marginBottom: 'var(--space-xl)',
-        }}
-      >
-        {vendor.images?.[0] && (
-          <Image
-            src={apiClient.assetUrl(vendor.images[0])}
-            alt={vendor.businessName}
-            fill
-            priority
-            sizes="100vw"
-            style={{ objectFit: 'cover' }}
-          />
-        )}
-      </div>
+      {(() => {
+        const images = vendor.images ?? [];
+        const isSingle = images.length <= 1;
+        const thumbs = images.slice(1, 5);
+        const extraCount = images.length - 5;
+        return (
+          <div className={`vendor-hero ${isSingle ? 'vendor-hero--single' : ''}`}>
+            <div className="vendor-hero__main">
+              {images[0] && (
+                <Image
+                  src={apiClient.assetUrl(images[0])}
+                  alt={vendor.businessName}
+                  fill
+                  priority
+                  sizes="(max-width: 700px) 100vw, 60vw"
+                  style={{ objectFit: 'cover' }}
+                />
+              )}
+            </div>
+            {!isSingle && (
+              <div className="vendor-hero__thumbs">
+                {thumbs.map((image, index) => (
+                  <div key={image} className="vendor-hero__thumb">
+                    <Image
+                      src={apiClient.assetUrl(image)}
+                      alt={`${vendor.businessName} ${index + 2}`}
+                      fill
+                      sizes="25vw"
+                      style={{ objectFit: 'cover' }}
+                    />
+                    {index === thumbs.length - 1 && extraCount > 0 && (
+                      <div className="vendor-hero__thumb-more">+{extraCount}</div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })()}
 
       <div className="vendor-detail-grid">
         <div>
-          <div style={{ display: 'flex', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+          <div className="vendor-header__badges">
             <Badge variant="accent">{categoryLabel}</Badge>
             {/* Bu sayfaya ulaşan her vendor zaten backend'de onaylı filtresinden geçmiştir. */}
             <Badge variant="success">
@@ -149,10 +178,10 @@ export default async function VendorPage({ params }) {
               {t('vendor.verified')}
             </Badge>
           </div>
-          <h1 style={{ margin: 'var(--space-sm) 0 4px' }}>{vendor.businessName}</h1>
-          <p style={{ color: 'var(--color-neutral-500)', margin: 0 }}>{vendor.city}</p>
+          <h1 className="vendor-header__title">{vendor.businessName}</h1>
+          <p className="vendor-header__city">{vendor.city}</p>
 
-          <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', marginTop: 'var(--space-sm)' }}>
+          <div className="vendor-header__stats">
             {vendor.reviewCount > 0 && (
               <Badge>
                 <Star size={12} fill="currentColor" strokeWidth={0} aria-hidden="true" />
@@ -162,41 +191,17 @@ export default async function VendorPage({ params }) {
             {vendor.capacity && <Badge>{t('vendor.capacity', { count: vendor.capacity })}</Badge>}
           </div>
 
-          <p style={{ marginTop: 'var(--space-lg)', lineHeight: 1.7 }}>{vendor.description}</p>
+          <p className="vendor-description">{vendor.description}</p>
 
-          {vendor.images?.length > 1 && (
-            <div style={{ marginTop: 'var(--space-lg)' }}>
-              <h2 style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-neutral-500)' }}>
-                {t('vendor.galleryHeading')}
-              </h2>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: 'var(--space-sm)' }}>
-                {vendor.images.slice(1).map((image, index) => (
-                  <div
-                    key={image}
-                    style={{ position: 'relative', aspectRatio: '1 / 1', borderRadius: 'var(--radius-md)', overflow: 'hidden' }}
-                  >
-                    <Image
-                      src={apiClient.assetUrl(image)}
-                      alt={`${vendor.businessName} ${index + 2}`}
-                      fill
-                      sizes="120px"
-                      style={{ objectFit: 'cover' }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', marginTop: 'var(--space-md)' }}>
+          <div className="vendor-actions">
             <WhatsAppButton whatsapp={vendor.whatsapp} />
             <FavoriteButton vendorId={vendor._id} />
           </div>
 
           {vendor.amenities?.length > 0 && (
-            <div style={{ marginTop: 'var(--space-xl)' }}>
-              <h2 style={{ fontSize: 'var(--font-size-lg)' }}>{t('vendor.amenitiesHeading')}</h2>
-              <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+            <div className="vendor-section">
+              <h2 className="vendor-section__heading">{t('vendor.amenitiesHeading')}</h2>
+              <div className="vendor-amenities">
                 {vendor.amenities.map((key) => {
                   const amenity = AMENITIES.find((a) => a.key === key);
                   if (!amenity) return null;
@@ -212,26 +217,28 @@ export default async function VendorPage({ params }) {
           )}
 
           {lat && lng && (
-            <div style={{ marginTop: 'var(--space-xl)' }}>
-              <h2 style={{ fontSize: 'var(--font-size-lg)' }}>{t('vendor.locationHeading')}</h2>
+            <div className="vendor-section">
+              <h2 className="vendor-section__heading">{t('vendor.locationHeading')}</h2>
               <VendorMap lat={lat} lng={lng} name={vendor.businessName} />
             </div>
           )}
 
-          <div style={{ marginTop: 'var(--space-xl)' }}>
-            <h2 style={{ fontSize: 'var(--font-size-lg)' }}>{t('vendor.reviewsHeading')}</h2>
+          <div className="vendor-section">
+            <h2 className="vendor-section__heading">{t('vendor.reviewsHeading')}</h2>
             {reviews.length === 0 ? (
               <p style={{ color: 'var(--color-neutral-500)' }}>{t('vendor.noReviews')}</p>
             ) : (
               <div style={{ display: 'grid', gap: 'var(--space-sm)', marginBottom: 'var(--space-lg)' }}>
                 {reviews.map((review) => (
-                  <Card key={review._id}>
-                    <strong>{review.userId?.name ?? '—'}</strong>
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, marginLeft: 6 }}>
-                      <Star size={13} fill="currentColor" strokeWidth={0} aria-hidden="true" />
-                      {review.rating}
-                    </span>
-                    <p style={{ margin: '4px 0 0' }}>{review.comment}</p>
+                  <Card key={review._id} className="vendor-review-card">
+                    <div className="vendor-review-card__meta">
+                      <strong>{review.userId?.name ?? '—'}</strong>
+                      <span className="vendor-review-card__rating">
+                        <Star size={13} fill="currentColor" strokeWidth={0} aria-hidden="true" />
+                        {review.rating}
+                      </span>
+                    </div>
+                    <p className="vendor-review-card__comment">{review.comment}</p>
                   </Card>
                 ))}
               </div>
@@ -242,7 +249,7 @@ export default async function VendorPage({ params }) {
 
         <aside className="vendor-detail-aside">
           <Card>
-            <h2 style={{ marginTop: 0, fontSize: 'var(--font-size-lg)' }}>{t('vendor.getQuote')}</h2>
+            <h2 className="vendor-quote-card__heading">{t('vendor.getQuote')}</h2>
             <LeadForm vendorId={vendor._id} />
           </Card>
         </aside>

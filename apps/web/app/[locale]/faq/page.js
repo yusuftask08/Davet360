@@ -1,11 +1,12 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { buildAlternates } from '../lib/seo.js';
 
 export async function generateMetadata({ params: { locale } }) {
   const t = await getTranslations({ locale, namespace: 'pages.faq' });
   return {
     title: t('title'),
     description: t('intro'),
-    alternates: { canonical: `/${locale}/faq` },
+    alternates: buildAlternates(locale, '/faq'),
   };
 }
 

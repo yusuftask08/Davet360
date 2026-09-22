@@ -896,3 +896,128 @@ a {
     position: static;
   }
 }
+
+/* Vendor hero: Airbnb'deki gibi büyük sol görsel + sağda 2x2 küçük görsel ızgarası.
+   Tek görsel varsa (ya da hiç yoksa) tek büyük kareye düşer. */
+.vendor-hero {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: var(--space-xs);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: var(--space-xl);
+}
+.vendor-hero--single {
+  grid-template-columns: 1fr;
+}
+.vendor-hero__main {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--gradient-hero);
+}
+.vendor-hero--single .vendor-hero__main {
+  aspect-ratio: 16 / 7;
+}
+.vendor-hero__thumbs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--space-xs);
+}
+.vendor-hero__thumb {
+  position: relative;
+  background: var(--color-neutral-100);
+}
+.vendor-hero__thumb-more {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 16, 12, 0.5);
+  color: white;
+  font-weight: 700;
+  font-size: var(--font-size-md);
+}
+@media (max-width: 700px) {
+  .vendor-hero {
+    grid-template-columns: 1fr;
+  }
+  .vendor-hero__thumbs {
+    display: none;
+  }
+  .vendor-hero__main {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+.vendor-header__badges {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+.vendor-header__title {
+  margin: var(--space-sm) 0 4px;
+}
+.vendor-header__city {
+  color: var(--color-neutral-500);
+  margin: 0;
+}
+.vendor-header__stats {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  margin-top: var(--space-sm);
+}
+.vendor-description {
+  margin-top: var(--space-lg);
+  line-height: 1.7;
+  color: var(--color-neutral-700);
+}
+.vendor-actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  margin-top: var(--space-md);
+}
+.vendor-section {
+  margin-top: var(--space-xl);
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--color-border);
+}
+.vendor-section__heading {
+  font-size: var(--font-size-lg);
+  margin: 0 0 var(--space-md);
+}
+.vendor-amenities {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+.vendor-review-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.vendor-review-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.vendor-review-card__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-accent-dark, var(--color-primary));
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+}
+.vendor-review-card__comment {
+  margin: 0;
+  color: var(--color-neutral-700);
+  line-height: 1.6;
+}
+.vendor-quote-card__heading {
+  margin-top: 0;
+  font-size: var(--font-size-lg);
+}

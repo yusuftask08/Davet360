@@ -3,12 +3,13 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { createApiClient, ENDPOINTS } from '@repo/api-client';
 import { Card } from '@repo/ui';
 import { Link } from '../../../i18n/navigation.js';
+import { buildAlternates } from '../lib/seo.js';
 
 const apiClient = createApiClient({ baseUrl: process.env.NEXT_PUBLIC_API_URL });
 
 export async function generateMetadata({ params: { locale } }) {
   const t = await getTranslations({ locale, namespace: 'blog' });
-  return { title: t('heading') };
+  return { title: t('heading'), alternates: buildAlternates(locale, '/blog') };
 }
 
 export default async function BlogListPage({ params: { locale } }) {

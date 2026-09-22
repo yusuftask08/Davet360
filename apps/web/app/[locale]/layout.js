@@ -12,6 +12,7 @@ import { Navbar } from './components/Navbar.jsx';
 import { Footer } from './components/Footer.jsx';
 import { RouteProgress } from './components/RouteProgress.jsx';
 import { BottomNav } from './components/BottomNav.jsx';
+import { buildAlternates } from './lib/seo.js';
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -47,6 +48,9 @@ export async function generateMetadata({ params: { locale } }) {
     },
     description,
     manifest: '/manifest.json',
+    // Alt sayfalar kendi alternates'ini set ederek bunu override eder — burası sadece
+    // kendi alternates'i olmayan sayfalar (anasayfa gibi) için hreflang varsayılanı.
+    alternates: buildAlternates(locale, ''),
     // Vendor detay ve blog sayfaları kendi openGraph.images'ını set ederek bunun üzerine
     // yazar — burası sadece onların dışındaki sayfalar (anasayfa, kategori vb.) için varsayılan.
     openGraph: {

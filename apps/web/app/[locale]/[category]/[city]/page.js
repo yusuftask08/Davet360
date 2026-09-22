@@ -7,6 +7,7 @@ import { Link } from '../../../../i18n/navigation.js';
 import { Breadcrumb } from '../../components/Breadcrumb.jsx';
 import { CardFavoriteButton } from '../../components/CardFavoriteButton.jsx';
 import { EmptyStateCta } from '../../components/EmptyStateCta.jsx';
+import { buildAlternates } from '../../lib/seo.js';
 
 const apiClient = createApiClient({ baseUrl: process.env.NEXT_PUBLIC_API_URL });
 
@@ -39,7 +40,7 @@ export async function generateMetadata({ params: { category: categorySlug, city:
       locale === 'en'
         ? `Compare verified ${label} vendors in ${cityName} and request a free quote.`
         : `${cityName} bölgesinde onaylı ${label} işletmelerini karşılaştırın, ücretsiz teklif alın.`,
-    alternates: { canonical: `/${locale}/${categorySlug}/${citySlug}` },
+    alternates: buildAlternates(locale, `/${categorySlug}/${citySlug}`),
   };
 }
 

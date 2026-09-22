@@ -7,6 +7,7 @@ import { Link } from '../../../i18n/navigation.js';
 import { Breadcrumb } from '../components/Breadcrumb.jsx';
 import { EmptyStateCta } from '../components/EmptyStateCta.jsx';
 import { CardFavoriteButton } from '../components/CardFavoriteButton.jsx';
+import { buildAlternates } from '../lib/seo.js';
 
 const apiClient = createApiClient({ baseUrl: process.env.NEXT_PUBLIC_API_URL });
 
@@ -20,7 +21,7 @@ export async function generateMetadata({ params: { category: categorySlug, local
   return {
     title: label,
     description: t(`categoryIntros.${categorySlug}`),
-    alternates: { canonical: `/${locale}/${categorySlug}` },
+    alternates: buildAlternates(locale, `/${categorySlug}`),
   };
 }
 

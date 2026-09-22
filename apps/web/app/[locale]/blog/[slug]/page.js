@@ -5,6 +5,7 @@ import { createApiClient, ENDPOINTS } from '@repo/api-client';
 import { getCategoryBySlug } from '@repo/constants';
 import { Link } from '../../../../i18n/navigation.js';
 import { Breadcrumb } from '../../components/Breadcrumb.jsx';
+import { buildAlternates, buildOpenGraph, buildTwitter } from '../../lib/seo.js';
 
 const apiClient = createApiClient({ baseUrl: process.env.NEXT_PUBLIC_API_URL });
 
@@ -21,16 +22,14 @@ export async function generateMetadata({ params }) {
   const post = await fetchPost(params.slug);
   if (!post) return {};
 
+  const description = post.seoDescription || post.content.slice(0, 155);
+  const images = post.coverImage ? [apiClient.assetUrl(post.coverImage)] : undefined;
   return {
     title: post.seoTitle || post.title,
-    description: post.seoDescription || post.content.slice(0, 155),
-    alternates: { canonical: `/${params.locale}/blog/${post.slug}` },
-    openGraph: {
-      title: post.title,
-      description: post.content.slice(0, 155),
-      images: post.coverImage ? [apiClient.assetUrl(post.coverImage)] : undefined,
-      type: 'article',
-    },
+    description,
+    alternates: buildAlternates(params.locale, `/blog/${post.slug}`),
+    openGraph: buildOpenGraph(params.locale, { title: post.title, description, images, type: 'article' }),
+    twitter: buildTwitter({ title: post.title, description, images }),
   };
 }
 

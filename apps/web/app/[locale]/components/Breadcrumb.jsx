@@ -1,6 +1,6 @@
 import { Link } from '../../../i18n/navigation.js';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3600';
 
 // items: [{ name, href }] — href locale-relative path ('' = ana sayfa). Hem görünen breadcrumb
 // hem BreadcrumbList structured data tek yerden üretilir — iki yerde aynı veri tekrar yazılmaz.

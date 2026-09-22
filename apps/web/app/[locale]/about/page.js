@@ -1,8 +1,9 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { buildAlternates } from '../lib/seo.js';
 
 export async function generateMetadata({ params: { locale } }) {
   const t = await getTranslations({ locale, namespace: 'pages.about' });
-  return { title: t('title'), description: t('intro') };
+  return { title: t('title'), description: t('intro'), alternates: buildAlternates(locale, '/about') };
 }
 
 export default async function AboutPage({ params: { locale } }) {

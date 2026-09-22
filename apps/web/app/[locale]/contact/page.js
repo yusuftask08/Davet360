@@ -1,9 +1,10 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ContactForm } from './ContactForm.jsx';
+import { buildAlternates } from '../lib/seo.js';
 
 export async function generateMetadata({ params: { locale } }) {
   const t = await getTranslations({ locale, namespace: 'pages.contact' });
-  return { title: t('title'), description: t('intro') };
+  return { title: t('title'), description: t('intro'), alternates: buildAlternates(locale, '/contact') };
 }
 
 export default async function ContactPage({ params: { locale } }) {
