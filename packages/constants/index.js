@@ -4,3 +4,4 @@ export * from './vendor-status.js';
 export * from './lead-status.js';
 export * from './review-status.js';
 export * from './amenities.js';
+export * from './cities.js';

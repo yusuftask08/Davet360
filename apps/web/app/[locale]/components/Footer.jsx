@@ -73,6 +73,7 @@ export async function Footer() {
           <h3 className="site-footer__heading">{t('footer.companyHeading')}</h3>
           <ul className="site-footer__list">
             <li><Link href="/about">{t('footer.about')}</Link></li>
+            <li><Link href="/blog">{t('nav.blog')}</Link></li>
             <li><Link href="/contact">{t('footer.contact')}</Link></li>
           </ul>
         </div>
