@@ -1,5 +1,5 @@
 import { ROLES, VENDOR_STATUS, VENDOR_STATUS_LIST } from '@repo/constants';
-import { slugify } from '@repo/utils';
+import { slugify, escapeRegex } from '@repo/utils';
 import { User, Vendor } from '../models/index.js';
 import { ApiError } from '../middleware/errorHandler.js';
 import { sendVendorApprovedEmail, sendNewVendorApplicationEmail, sendVendorStatusChangeEmail } from './emailService.js';
@@ -199,7 +199,9 @@ export async function updateOwnVendor(vendorId, ownerId, data) {
 }
 
 export async function listPendingVendors() {
-  return Vendor.find({ status: VENDOR_STATUS.PENDING }).sort({ createdAt: 1 });
+  // Sınırsız sorgu değil — kuyruk anormal büyürse (spam kayıt vb.) tek seferde tüm koleksiyonu
+  // çekmek yerine üst sınır koyar, admin en eski 200 başvuruyu görür.
+  return Vendor.find({ status: VENDOR_STATUS.PENDING }).sort({ createdAt: 1 }).limit(200);
 }
 
 // Admin paneli — durum/kategori/şehir/isim filtreli, tüm statüleri kapsayan liste.
@@ -208,7 +210,7 @@ export async function listVendorsAdmin({ status, category, citySlug, search, pag
   if (status && VENDOR_STATUS_LIST.includes(status)) filter.status = status;
   if (category) filter.category = category;
   if (citySlug) filter.citySlug = citySlug;
-  if (search) filter.businessName = new RegExp(search, 'i');
+  if (search) filter.businessName = new RegExp(escapeRegex(search), 'i');
 
   const safeLimit = Math.min(Number(limit) || 20, 100);
   const safePage = Math.max(Number(page) || 1, 1);

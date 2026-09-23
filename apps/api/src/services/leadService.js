@@ -33,13 +33,14 @@ async function notifyVendorOfNewLead(vendor, lead) {
 }
 
 export async function listLeadsForVendor(vendorId) {
-  return LeadRequest.find({ vendorId }).sort({ createdAt: -1 });
+  return LeadRequest.find({ vendorId }).sort({ createdAt: -1 }).limit(200);
 }
 
 // "Hesabım" sayfası — müşterinin giriş yapmışken gönderdiği teklif taleplerinin geçmişi.
 export async function listLeadsForCustomer(userId) {
   return LeadRequest.find({ customerUserId: userId })
     .sort({ createdAt: -1 })
+    .limit(200)
     .populate('vendorId', 'businessName slug category citySlug');
 }
 

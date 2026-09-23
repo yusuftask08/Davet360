@@ -4,7 +4,7 @@ import { LEAD_STATUS, LEAD_STATUS_LIST } from '@repo/constants';
 const leadRequestSchema = new mongoose.Schema(
   {
     vendorId: { type: mongoose.Schema.Types.ObjectId, ref: 'Vendor', required: true, index: true },
-    customerUserId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    customerUserId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', index: true },
     customerName: { type: String, required: true },
     customerPhone: { type: String, required: true },
     customerEmail: { type: String },

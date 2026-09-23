@@ -78,11 +78,18 @@ export default async function LocaleLayout({ children, params: { locale } }) {
     <html lang={locale} className={jakarta.variable}>
       <body>
         <NextIntlClientProvider messages={messages}>
+          {/* Klavye kullanıcıları için — sticky navbar + kategori şeridi olmasa bile her
+              sayfada var, tab ile navbarı atlayıp doğrudan içeriğe geçmeyi sağlar. */}
+          <a href="#main-content" className="skip-link">
+            {locale === 'en' ? 'Skip to content' : 'İçeriğe geç'}
+          </a>
           <Suspense fallback={null}>
             <RouteProgress />
           </Suspense>
           <Navbar />
-          {children}
+          {/* Her sayfa zaten kendi <main>'ini render ediyor — burada ikinci bir <main>
+              açıp iç içe landmark oluşturmak yerine düz bir div skip-link hedefi olarak yeter. */}
+          <div id="main-content">{children}</div>
           <Footer />
           <BottomNav />
           <RegisterServiceWorker />

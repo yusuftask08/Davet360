@@ -11,19 +11,26 @@ export async function createReview(userId, data) {
 }
 
 export async function listApprovedReviews(vendorId) {
+  // Sınırsız değil — popüler bir vendor binlerce yorum biriktirebilir, sayfa en güncel 100'ü
+  // gösterir (tam sayfalama şimdilik kapsam dışı).
   return Review.find({ vendorId, status: REVIEW_STATUS.APPROVED })
     .sort({ createdAt: -1 })
+    .limit(100)
     .populate('userId', 'name');
 }
 
 // "Hesabım" sayfası — müşterinin şu ana kadar yazdığı tüm yorumlar (durumu ne olursa olsun).
 export async function listMyReviews(userId) {
-  return Review.find({ userId }).sort({ createdAt: -1 }).populate('vendorId', 'businessName slug category citySlug');
+  return Review.find({ userId })
+    .sort({ createdAt: -1 })
+    .limit(200)
+    .populate('vendorId', 'businessName slug category citySlug');
 }
 
 export async function listPendingReviews() {
   return Review.find({ status: REVIEW_STATUS.PENDING })
     .sort({ createdAt: 1 })
+    .limit(200)
     .populate('vendorId', 'businessName')
     .populate('userId', 'name');
 }

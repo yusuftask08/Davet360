@@ -9,6 +9,14 @@ import { useEffect, useRef, useState } from 'react';
 export function IconMenu({ icon, label, avatar = false, children }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef(null);
+  const triggerRef = useRef(null);
+
+  function close() {
+    setOpen(false);
+    // Panel kapanınca odak kaybolmasın diye tetikleyici butona geri döner — klavye
+    // kullanıcısı Escape'e bastığında sayfanın başına atılmaz.
+    triggerRef.current?.focus();
+  }
 
   useEffect(() => {
     if (!open) return undefined;
@@ -17,13 +25,21 @@ export function IconMenu({ icon, label, avatar = false, children }) {
         setOpen(false);
       }
     }
+    function handleKeyDown(event) {
+      if (event.key === 'Escape') close();
+    }
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, [open]);
 
   return (
     <div className="site-navbar__icon-menu" ref={rootRef}>
       <button
+        ref={triggerRef}
         type="button"
         className={`site-navbar__icon-trigger${avatar ? ' site-navbar__icon-trigger--avatar' : ''}`}
         onClick={() => setOpen((value) => !value)}
@@ -35,7 +51,7 @@ export function IconMenu({ icon, label, avatar = false, children }) {
       </button>
       {open && (
         <div className="site-navbar__icon-panel" role="menu">
-          {typeof children === 'function' ? children({ close: () => setOpen(false) }) : children}
+          {typeof children === 'function' ? children({ close }) : children}
         </div>
       )}
     </div>

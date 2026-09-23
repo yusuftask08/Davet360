@@ -78,7 +78,7 @@ function ResetPasswordContent() {
           <Button type="submit" disabled={loading}>
             {loading ? '...' : 'Şifreyi Güncelle'}
           </Button>
-          {formError && <p className="auth-card__error">{formError}</p>}
+          {formError && <p className="auth-card__error" role="alert">{formError}</p>}
         </form>
       )}
     </AuthShell>

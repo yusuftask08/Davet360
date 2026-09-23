@@ -13,5 +13,8 @@ const reviewSchema = new mongoose.Schema(
 );
 
 reviewSchema.index({ vendorId: 1, userId: 1 }, { unique: true });
+// Public vendor sayfasının onaylı yorumları çekmesi (vendorId+status birlikte) için —
+// yukarıdaki unique index'te userId araya girdiği için bu sorguyu karşılamıyor.
+reviewSchema.index({ vendorId: 1, status: 1 });
 
 export const Review = mongoose.model('Review', reviewSchema);

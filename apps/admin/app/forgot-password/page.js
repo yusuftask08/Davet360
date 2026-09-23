@@ -72,7 +72,7 @@ export default function ForgotPasswordPage() {
             <Button type="submit" disabled={loading || !altchaPayload}>
               {loading ? '...' : 'Sıfırlama Linki Gönder'}
             </Button>
-            {formError && <p className="auth-card__error">{formError}</p>}
+            {formError && <p className="auth-card__error" role="alert">{formError}</p>}
           </form>
         </>
       )}

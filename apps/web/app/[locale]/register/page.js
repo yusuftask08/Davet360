@@ -162,7 +162,7 @@ export default function RegisterPage() {
         <Button type="submit" disabled={loading || !altchaPayload || !termsAccepted}>
           {loading ? t('registerSubmitting') : t('registerSubmit')}
         </Button>
-        {formError && <p className="auth-card__error">{formError}</p>}
+        {formError && <p className="auth-card__error" role="alert">{formError}</p>}
       </form>
     </AuthShell>
   );

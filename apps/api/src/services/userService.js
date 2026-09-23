@@ -1,4 +1,5 @@
 import { ROLE_LIST } from '@repo/constants';
+import { escapeRegex } from '@repo/utils';
 import { User } from '../models/index.js';
 import { ApiError } from '../middleware/errorHandler.js';
 
@@ -6,7 +7,8 @@ export async function listUsersAdmin({ role, search, page = 1, limit = 20 }) {
   const filter = {};
   if (role && ROLE_LIST.includes(role)) filter.role = role;
   if (search) {
-    filter.$or = [{ name: new RegExp(search, 'i') }, { email: new RegExp(search, 'i') }];
+    const pattern = new RegExp(escapeRegex(search), 'i');
+    filter.$or = [{ name: pattern }, { email: pattern }];
   }
 
   const safeLimit = Math.min(Number(limit) || 20, 100);

@@ -39,6 +39,13 @@ export function toLocativeCase(cityName) {
   return `${cityName}'${suffix}`;
 }
 
+// Kullanıcı girdisini RegExp'e vermeden önce özel karakterleri kaçırır — aksi halde arama
+// kutusuna yazılan bir regex metakarakteri (ör. "(a+)+$") backend'de ReDoS'a (event loop'u
+// kilitleyen katastrofik backtracking) yol açabilir.
+export function escapeRegex(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 export function formatPhone(phone) {
   return phone.replace(/[^\d+]/g, '');
 }

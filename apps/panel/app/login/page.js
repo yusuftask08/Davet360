@@ -83,7 +83,7 @@ export default function LoginPage() {
         <Button type="submit" disabled={loading}>
           {loading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
         </Button>
-        {formError && <p className="auth-card__error">{formError}</p>}
+        {formError && <p className="auth-card__error" role="alert">{formError}</p>}
       </form>
     </AuthShell>
   );

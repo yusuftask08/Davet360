@@ -25,7 +25,13 @@ const transporter = env.smtp.host
 
 async function sendMail({ to, subject, html, text }) {
   if (!transporter) {
-    console.log(`[email] SMTP tanımlı değil — "${subject}" e-postası ${to} adresine gönderilmedi:\n${text}`);
+    // Prod'da bu yola hiç düşülmemeli (SMTP_HOST her zaman set olmalı) — yanlışlıkla
+    // düşülürse bile içerik/PII loglara sızmasın, sadece yapılandırma eksikliği uyarısı basılır.
+    if (env.nodeEnv === 'production') {
+      console.warn(`[email] SMTP tanımlı değil — "${subject}" e-postası ${to} adresine gönderilemedi (içerik gizlendi).`);
+    } else {
+      console.log(`[email] SMTP tanımlı değil — "${subject}" e-postası ${to} adresine gönderilmedi:\n${text}`);
+    }
     return;
   }
   await transporter.sendMail({ from: env.smtp.from, to, subject, html, text });
@@ -46,7 +52,11 @@ export async function sendPasswordResetEmail(to, resetUrl) {
 
 export async function sendContactMessage({ name, email, message }) {
   if (!env.contactEmail) {
-    console.log(`[email] CONTACT_EMAIL tanımlı değil — iletişim mesajı loglandı:\n${name} <${email}>: ${message}`);
+    if (env.nodeEnv === 'production') {
+      console.warn('[email] CONTACT_EMAIL tanımlı değil — iletişim mesajı gönderilemedi (içerik gizlendi).');
+    } else {
+      console.log(`[email] CONTACT_EMAIL tanımlı değil — iletişim mesajı loglandı:\n${name} <${email}>: ${message}`);
+    }
     return;
   }
   await sendMail({

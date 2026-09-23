@@ -13,7 +13,7 @@ export const colors = {
   neutral50: '#FBF7F2',
   neutral100: '#F3EDE5',
   neutral300: '#DED5C8',
-  neutral500: '#8A8074',
+  neutral500: '#70665B',
   neutral700: '#4A443C',
   neutral900: '#211D1B',
   success: '#2E7D32',

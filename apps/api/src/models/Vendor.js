@@ -48,5 +48,13 @@ const vendorSchema = new mongoose.Schema(
 vendorSchema.index({ location: '2dsphere' });
 vendorSchema.index({ businessName: 'text', description: 'text' });
 vendorSchema.index({ category: 1, citySlug: 1 });
+// Public listing sayfalarının asıl hot-path sorgusu her zaman status+category+citySlug'ı
+// birlikte filtreler (bkz. approvedVendorFilter) — ayrı tek-alan index'lere güvenmek yerine
+// bu üçlüyü birlikte karşılayan compound index çok daha verimli.
+vendorSchema.index({ status: 1, category: 1, citySlug: 1 });
+// VENDOR_SORTS'un rating/budget sıralamaları için — filtre sonrası küçük bir sonuç kümesi
+// üzerinde in-memory sort'a düşmesin diye.
+vendorSchema.index({ avgRating: -1 });
+vendorSchema.index({ 'priceRange.min': 1 });
 
 export const Vendor = mongoose.model('Vendor', vendorSchema);

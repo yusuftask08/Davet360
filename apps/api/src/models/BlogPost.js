@@ -12,7 +12,7 @@ const blogPostSchema = new mongoose.Schema(
     authorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     seoTitle: { type: String },
     seoDescription: { type: String },
-    publishedAt: { type: Date },
+    publishedAt: { type: Date, index: true },
   },
   { timestamps: true },
 );

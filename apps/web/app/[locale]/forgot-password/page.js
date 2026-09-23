@@ -84,7 +84,7 @@ export default function ForgotPasswordPage() {
           <Button type="submit" disabled={loading || !altchaPayload}>
             {loading ? '...' : t('forgotPasswordSubmit')}
           </Button>
-          {formError && <p className="auth-card__error">{formError}</p>}
+          {formError && <p className="auth-card__error" role="alert">{formError}</p>}
         </form>
       )}
     </AuthShell>
