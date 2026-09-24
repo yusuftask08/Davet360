@@ -2,7 +2,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { CATEGORIES, getCategoryBySlug } from '@repo/constants';
 import { createApiClient, ENDPOINTS } from '@repo/api-client';
 import { toLocativeCase } from '@repo/utils';
-import { CategoryIcon, VendorCard } from '@repo/ui';
+import { CategoryIcon, VendorCard, ScrollRow, ChevronRight } from '@repo/ui';
 import { Link } from '../../i18n/navigation.js';
 import { CardFavoriteButton } from './components/CardFavoriteButton.jsx';
 
@@ -67,7 +67,7 @@ export default async function HomePage({ params: { locale } }) {
           <div className="section-heading section-heading--lg">
             <h2>{t('home.featuredHeading')}</h2>
           </div>
-          <div className="hscroll">
+          <ScrollRow prevLabel={t('common.scrollPrev')} nextLabel={t('common.scrollNext')}>
             {featured.items.map((vendor, i) => {
               const category = getCategoryBySlug(vendor.category);
               return (
@@ -85,7 +85,7 @@ export default async function HomePage({ params: { locale } }) {
                 />
               );
             })}
-          </div>
+          </ScrollRow>
         </section>
       )}
 
@@ -99,7 +99,7 @@ export default async function HomePage({ params: { locale } }) {
               : t('home.categoryBrowseHeadingGeneric')}
           </h2>
         </div>
-        <div className="hscroll">
+        <ScrollRow prevLabel={t('common.scrollPrev')} nextLabel={t('common.scrollNext')}>
           {CATEGORIES.map((category) => (
             <Link
               key={category.slug}
@@ -112,17 +112,23 @@ export default async function HomePage({ params: { locale } }) {
               <span className="category-browse-card__label">{t(`categories.${category.slug}`)}</span>
             </Link>
           ))}
-        </div>
+        </ScrollRow>
       </section>
 
       {cityRows
         .filter((row) => row.items.length > 0)
         .map((row) => (
           <section key={row.citySlug} style={{ marginTop: 'var(--space-3xl)' }}>
+            {/* Başlığın kendisi link — satır sadece ilk 10 kartı gösteriyor, Airbnb'deki
+                gibi başlıktan o şehrin tamamına geçilir. */}
             <div className="section-heading section-heading--lg">
-              <h2>{t('home.cityRowHeading', { city: locale === 'tr' ? toLocativeCase(row.city) : row.city })}</h2>
+              <Link href={`/search?city=${row.citySlug}`} className="section-heading__link">
+                <h2>{t('home.cityRowHeading', { city: locale === 'tr' ? toLocativeCase(row.city) : row.city })}</h2>
+                <ChevronRight size={20} strokeWidth={2.5} aria-hidden="true" />
+                <span className="sr-only">{t('common.seeAll')}</span>
+              </Link>
             </div>
-            <div className="hscroll">
+            <ScrollRow prevLabel={t('common.scrollPrev')} nextLabel={t('common.scrollNext')}>
               {row.items.map((vendor) => {
                 const category = getCategoryBySlug(vendor.category);
                 return (
@@ -139,7 +145,7 @@ export default async function HomePage({ params: { locale } }) {
                   />
                 );
               })}
-            </div>
+            </ScrollRow>
           </section>
         ))}
     </main>

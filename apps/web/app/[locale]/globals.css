@@ -561,6 +561,22 @@ a {
   font-weight: 800;
   letter-spacing: -0.01em;
 }
+/* Tıklanabilir bölüm başlığı (Airbnb'nin "Popular homes in X ›" satır başlıkları gibi) —
+   chevron hover'da hafifçe sağa kayar, başlığın link olduğunu sezdirir. */
+.section-heading__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: inherit;
+  text-decoration: none;
+}
+.section-heading__link svg {
+  flex-shrink: 0;
+  transition: transform var(--motion-base) var(--motion-ease);
+}
+.section-heading__link:hover svg {
+  transform: translateX(3px);
+}
 
 /* Anasayfa: kategori şeridi — Airbnb'nin üst ikon barı gibi, kutu/kart yok, yatay scroll. */
 /* Anasayfa büyük arama çubuğu — Airbnb'nin segmentli "Yer / Ne zaman / Kişiler" barının bizim
@@ -760,30 +776,6 @@ a {
   }
 }
 
-/* Anasayfa: yatay kaydırmalı satırlar (Airbnb "Popular homes" satırı gibi) — sabit genişlikte
-   kartlar, grid gibi kırılıp yamulmaz, taşan içerik scroll ile gezilir. */
-.hscroll {
-  display: flex;
-  gap: var(--space-md);
-  overflow-x: auto;
-  padding: 2px 2px var(--space-sm);
-  scrollbar-width: none;
-}
-.hscroll::-webkit-scrollbar {
-  display: none;
-}
-.hscroll__item {
-  flex: 0 0 auto;
-  scroll-snap-align: start;
-}
-.hscroll__item--wide {
-  width: min(320px, 82vw);
-}
-/* Airbnb'nin ana sayfa satırları gibi — daha küçük, daha yoğun kartlar; aynı anda daha
-   fazla öge görünür, satır daha "dolu" durur. */
-.hscroll__item--vendor {
-  width: min(196px, 58vw);
-}
 
 /* Airbnb'nin "Yakınlardaki deneyimleri keşfedin" kategori kartları gibi — fotoğrafsız,
    ikon+etiketten oluşan sade bir kart, kategori+şehir sayfasına götürür. */

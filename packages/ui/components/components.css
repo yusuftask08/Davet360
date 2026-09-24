@@ -101,6 +101,83 @@
   font-size: var(--font-size-sm);
 }
 
+/* Linklerde tek tip odak halkası — butonlar/inputlar kendi odak stiline sahipti ama
+   linkler tarayıcı varsayılanına düşüyordu, bu da her tarayıcıda farklı görünüyordu.
+   :focus-visible olduğu için fareyle tıklamada çıkmaz, sadece klavye gezinmesinde. */
+a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Yatay kaydırmalı satır (Airbnb "Popular homes" satırı gibi) — sabit genişlikte kartlar,
+   grid gibi kırılıp yamulmaz. ScrollRow bileşeni bunu sağ/sol ok butonlarıyla sarmalar. */
+.hscroll {
+  display: flex;
+  gap: var(--space-md);
+  overflow-x: auto;
+  padding: 2px 2px var(--space-sm);
+  scrollbar-width: none;
+  /* Öğelerdeki scroll-snap-align'ın çalışması için kapsayıcıda type zorunlu — daha önce
+     yoktu, bu yüzden snap hiç devreye girmiyordu. proximity: kullanıcıyı zorlamaz,
+     yakınsa hizalar. */
+  scroll-snap-type: x proximity;
+}
+.hscroll::-webkit-scrollbar {
+  display: none;
+}
+.hscroll__item {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+.hscroll__item--wide {
+  width: min(320px, 82vw);
+}
+/* Airbnb'nin ana sayfa satırları gibi — daha küçük, daha yoğun kartlar; aynı anda daha
+   fazla öge görünür, satır daha "dolu" durur. */
+.hscroll__item--vendor {
+  width: min(196px, 58vw);
+}
+
+.ui-scroll-row {
+  position: relative;
+}
+/* Oklar satırın üstünde yüzer, dikey olarak kart görselinin ortasına denk gelir. */
+.ui-scroll-row__arrow {
+  position: absolute;
+  top: calc(50% - var(--space-md));
+  transform: translateY(-50%);
+  z-index: 2;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  transition: transform var(--motion-base) var(--motion-ease), box-shadow var(--motion-base) var(--motion-ease);
+}
+.ui-scroll-row__arrow:hover {
+  transform: translateY(-50%) scale(1.06);
+}
+.ui-scroll-row__arrow--prev {
+  left: calc(var(--space-md) * -1);
+}
+.ui-scroll-row__arrow--next {
+  right: calc(var(--space-md) * -1);
+}
+/* Dokunmatikte parmakla kaydırmak zaten doğal — oklar sadece işaretçi kullanılan
+   geniş ekranlarda gösterilir, mobilde yer kaplamaz. */
+@media (min-width: 769px) {
+  .ui-scroll-row__arrow {
+    display: flex;
+  }
+}
+
 /* "İçeriğe geç" linki — klavye kullanıcısı Tab'a bastığı an görünür olur (sr-only'nin
    aksine), odaklanana kadar ekran dışında durur. Üç app de (web/panel/admin) kullanır. */
 .skip-link {

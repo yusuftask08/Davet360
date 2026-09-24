@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getCategoryBySlug, AMENITIES } from '@repo/constants';
 import { createApiClient, ENDPOINTS } from '@repo/api-client';
-import { VendorCard, Button, CategoryIcon, Checkbox, Radio, ChevronDown } from '@repo/ui';
+import { VendorCard, Button, CategoryIcon, Checkbox, Radio, ChevronDown, ScrollRow } from '@repo/ui';
 import { Link } from '../../../../i18n/navigation.js';
 import { Breadcrumb } from '../../components/Breadcrumb.jsx';
 import { CardFavoriteButton } from '../../components/CardFavoriteButton.jsx';
@@ -214,7 +214,7 @@ export default async function CategoryCityPage({ params, searchParams }) {
           <div className="section-heading section-heading--lg">
             <h2>{t('category.relatedHeading', { city: cityName })}</h2>
           </div>
-          <div className="hscroll">
+          <ScrollRow prevLabel={t('common.scrollPrev')} nextLabel={t('common.scrollNext')}>
             {relatedCategories.map((item) => (
               <Link
                 key={item.category}
@@ -227,7 +227,7 @@ export default async function CategoryCityPage({ params, searchParams }) {
                 <span className="category-browse-card__label">{t(`categories.${item.category}`)}</span>
               </Link>
             ))}
-          </div>
+          </ScrollRow>
         </section>
       )}
     </main>

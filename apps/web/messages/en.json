@@ -1,6 +1,9 @@
 {
   "common": {
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "scrollPrev": "Previous",
+    "scrollNext": "Next",
+    "seeAll": "See all"
   },
   "nav": {
     "blog": "Blog",
@@ -334,7 +337,9 @@
     "heading": "Search results for \"{query}\"",
     "resultsCount": "{count} results",
     "empty": "No results found. Try a different search term.",
-    "noQuery": "Enter a search term to begin."
+    "noQuery": "Enter a search term to begin.",
+    "cityHeading": "Vendors in {city}",
+    "cityEmpty": "No approved vendors in this city yet."
   },
   "blog": {
     "heading": "Wedding Guide",

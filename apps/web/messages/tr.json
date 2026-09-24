@@ -1,6 +1,9 @@
 {
   "common": {
-    "loading": "Yükleniyor…"
+    "loading": "Yükleniyor…",
+    "scrollPrev": "Önceki",
+    "scrollNext": "Sonraki",
+    "seeAll": "Tümünü gör"
   },
   "nav": {
     "blog": "Blog",
@@ -334,7 +337,9 @@
     "heading": "\"{query}\" için arama sonuçları",
     "resultsCount": "{count} sonuç",
     "empty": "Sonuç bulunamadı. Farklı bir kelimeyle deneyin.",
-    "noQuery": "Aramak için bir kelime girin."
+    "noQuery": "Aramak için bir kelime girin.",
+    "cityHeading": "{city} bölgesindeki işletmeler",
+    "cityEmpty": "Bu şehirde henüz onaylı işletme yok."
   },
   "blog": {
     "heading": "Düğün Rehberi",

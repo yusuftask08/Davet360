@@ -13,26 +13,43 @@ export default async function SearchPage({ params: { locale }, searchParams }) {
   setRequestLocale(locale);
   const t = await getTranslations();
   const query = searchParams?.q?.trim() ?? '';
+  // Anasayfadaki şehir satırlarının "Tümünü gör" linki buraya düşer — o satırlar sadece
+  // ilk 10 kartı gösteriyor, devamını görecek bir yer gerekiyordu.
+  const citySlug = searchParams?.city?.trim() ?? '';
 
-  const data = query
-    ? await apiClient.get(`${ENDPOINTS.vendors}?search=${encodeURIComponent(query)}&limit=48`).catch(() => ({ items: [] }))
-    : { items: [] };
+  let data = { items: [] };
+  if (query) {
+    data = await apiClient
+      .get(`${ENDPOINTS.vendors}?search=${encodeURIComponent(query)}&limit=48`)
+      .catch(() => ({ items: [] }));
+  } else if (citySlug) {
+    data = await apiClient
+      .get(`${ENDPOINTS.vendors}?citySlug=${encodeURIComponent(citySlug)}&limit=48`)
+      .catch(() => ({ items: [] }));
+  }
+
+  // Şehrin görünen adı (İstanbul) slug'dan (istanbul) türetilemez — sonuçtaki vendor'dan alınır.
+  const cityName = data.items[0]?.city ?? citySlug;
 
   return (
     <main className="container" style={{ paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}>
-      {!query ? (
+      {!query && !citySlug ? (
         <p style={{ color: 'var(--color-neutral-500)' }}>{t('search.noQuery')}</p>
       ) : (
         <>
           <div className="section-heading">
-            <h1 style={{ fontSize: 'var(--font-size-xl)' }}>{t('search.heading', { query })}</h1>
+            <h1 style={{ fontSize: 'var(--font-size-xl)' }}>
+              {query ? t('search.heading', { query }) : t('search.cityHeading', { city: cityName })}
+            </h1>
             <span className="section-heading__meta">
               {t('search.resultsCount', { count: data.total ?? data.items.length })}
             </span>
           </div>
 
           {data.items.length === 0 ? (
-            <p style={{ color: 'var(--color-neutral-500)' }}>{t('search.empty')}</p>
+            <p style={{ color: 'var(--color-neutral-500)' }}>
+              {query ? t('search.empty') : t('search.cityEmpty')}
+            </p>
           ) : (
             <div className="vendor-grid">
               {data.items.map((vendor) => (

@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { CATEGORIES, getCategoryBySlug } from '@repo/constants';
 import { createApiClient, ENDPOINTS } from '@repo/api-client';
-import { VendorCard, Card, CategoryIcon } from '@repo/ui';
+import { VendorCard, Card, CategoryIcon, ScrollRow } from '@repo/ui';
 import { Link } from '../../../i18n/navigation.js';
 import { Breadcrumb } from '../components/Breadcrumb.jsx';
 import { EmptyStateCta } from '../components/EmptyStateCta.jsx';
@@ -99,7 +99,7 @@ export default async function CategoryPage({ params }) {
           <div className="section-heading section-heading--lg">
             <h2>{t('category.otherCategoriesHeading')}</h2>
           </div>
-          <div className="hscroll">
+          <ScrollRow prevLabel={t('common.scrollPrev')} nextLabel={t('common.scrollNext')}>
             {otherCategories.map((other) => (
               <Link key={other.slug} href={`/${other.slug}`} className="hscroll__item category-browse-card">
                 <span className="category-browse-card__icon">
@@ -108,7 +108,7 @@ export default async function CategoryPage({ params }) {
                 <span className="category-browse-card__label">{t(`categories.${other.slug}`)}</span>
               </Link>
             ))}
-          </div>
+          </ScrollRow>
         </section>
       )}
     </main>
