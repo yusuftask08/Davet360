@@ -17,6 +17,10 @@ body {
   background: var(--color-paper);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  /* Güvenlik ağı — bir yerde küçük bir genişlik taşması olursa (sabit genişlikli bir
+     öğe, negatif margin vb.) tüm sayfa yana kayabilir hale gelmesin diye. overflow-y
+     belirtilmediği için sticky navbar/aside etkilenmez. */
+  overflow-x: hidden;
 }
 
 /* Mobil alt gezinme barı — sadece dar ekranlarda görünür (bkz. .bottom-nav media query).
@@ -522,6 +526,10 @@ a {
   .filter-bar__field {
     min-width: 45%;
   }
+  /* iOS Safari 16px altındaki input'a dokununca sayfayı otomatik zoom'lar. */
+  .filter-bar__field input {
+    font-size: 16px;
+  }
   .filter-dropdown {
     flex: 1 1 45%;
   }
@@ -703,6 +711,9 @@ a {
   .home-search__field select,
   .home-search__field input {
     padding: 10px 0;
+    /* iOS Safari 16px altındaki input'a dokununca sayfayı otomatik zoom'lar — masaüstünde
+       daha küçük (--font-size-sm) kalabiliyordu ama mobilde bu rahatsız edici bir davranış. */
+    font-size: 16px;
   }
   .home-search__leading-icon {
     display: block;
@@ -971,6 +982,21 @@ a {
   gap: var(--space-sm);
   flex-wrap: wrap;
   margin-top: var(--space-md);
+}
+/* Masaüstünde aside zaten sticky+görünür — "Teklif Al" tekrarı gereksiz, sadece mobilde
+   çıkar. Sticky navbar'ın arkasına gitmesin diye #lead-form'a scroll-margin-top verildi. */
+.vendor-mobile-cta {
+  display: none;
+}
+@media (max-width: 900px) {
+  .vendor-mobile-cta {
+    display: inline-flex;
+    order: -1;
+    width: 100%;
+  }
+  #lead-form {
+    scroll-margin-top: 116px;
+  }
 }
 .vendor-section {
   margin-top: var(--space-xl);

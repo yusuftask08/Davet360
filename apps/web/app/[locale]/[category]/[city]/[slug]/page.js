@@ -202,6 +202,14 @@ export default async function VendorPage({ params }) {
           <p className="vendor-description">{vendor.description}</p>
 
           <div className="vendor-actions">
+            {/* Mobilde teklif formu (aside) DOM'da en sonda kalıyor — sayfa sırası galeri/
+                olanaklar/harita/yorumlar bittikten sonra geliyor. Masaüstünde aside zaten
+                sticky ve görünür olduğu için bu buton sadece mobilde çıkar, tıklanınca
+                forma kaydırır — kullanıcı teklif almak için tüm sayfayı kaydırmak zorunda
+                kalmasın. */}
+            <a href="#lead-form" className="ui-button ui-button--primary vendor-mobile-cta">
+              {t('vendor.getQuote')}
+            </a>
             <WhatsAppButton whatsapp={vendor.whatsapp} />
             <FavoriteButton vendorId={vendor._id} />
           </div>
@@ -255,7 +263,7 @@ export default async function VendorPage({ params }) {
           </div>
         </div>
 
-        <aside className="vendor-detail-aside">
+        <aside id="lead-form" className="vendor-detail-aside">
           <Card>
             <h2 className="vendor-quote-card__heading">{t('vendor.getQuote')}</h2>
             <LeadForm vendorId={vendor._id} />

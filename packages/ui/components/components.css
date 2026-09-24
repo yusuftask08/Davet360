@@ -412,6 +412,7 @@ a:focus-visible {
   right: var(--space-sm);
 }
 .ui-vendor-card__favorite-btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -423,6 +424,13 @@ a:focus-visible {
   color: white;
   cursor: pointer;
   transition: transform var(--motion-base) var(--motion-ease), background var(--motion-base) var(--motion-ease);
+}
+/* Görsel daire 30px kalsın (kartta daha büyüğü kaba durur) ama dokunma alanı 44px'e
+   genişlesin — parmak ucu 30px'i mobilde tutarlı şekilde ıskalıyor. */
+.ui-vendor-card__favorite-btn::after {
+  content: '';
+  position: absolute;
+  inset: -7px;
 }
 .ui-vendor-card__favorite-btn:hover {
   background: rgba(0, 0, 0, 0.28);
