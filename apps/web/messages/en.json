@@ -1,4 +1,7 @@
 {
+  "common": {
+    "loading": "Loading…"
+  },
   "nav": {
     "blog": "Blog",
     "login": "Log In",

@@ -24,7 +24,7 @@ export default function AdminDashboard() {
       <AdminHeader title="Admin Paneli" />
       <AdminNav />
 
-      {error && <p style={{ color: 'var(--color-error)' }}>{error}</p>}
+      {error && <p className="ui-error-text" role="alert">{error}</p>}
 
       {!stats && !error && <Spinner label="Yükleniyor..." />}
 

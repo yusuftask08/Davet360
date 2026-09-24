@@ -58,7 +58,7 @@ export function FavoriteButton({ vendorId }) {
         </span>
       </Button>
       {error && (
-        <p style={{ color: 'var(--color-error)', fontSize: 'var(--font-size-sm)', marginTop: 'var(--space-xs)' }}>
+        <p className="ui-error-text" role="alert" style={{ marginTop: 'var(--space-xs)' }}>
           {error}
         </p>
       )}

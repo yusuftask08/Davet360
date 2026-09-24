@@ -83,7 +83,7 @@ function AdminVendorsContent() {
         <Input placeholder="İşletme adına göre ara..." value={search} onChange={(e) => setSearch(e.target.value)} />
       </div>
 
-      {error && <p style={{ color: 'var(--color-error)' }}>{error}</p>}
+      {error && <p className="ui-error-text" role="alert">{error}</p>}
 
       {!data && !error ? (
         <Spinner label="Yükleniyor..." />

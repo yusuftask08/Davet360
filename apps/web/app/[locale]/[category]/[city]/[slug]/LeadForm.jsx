@@ -150,7 +150,7 @@ export function LeadForm({ vendorId }) {
       <Button type="submit" disabled={status === 'loading' || !altchaPayload || !consentAccepted}>
         {status === 'loading' ? t('submitting') : t('submit')}
       </Button>
-      {formError && <p style={{ color: 'var(--color-error)' }}>{formError}</p>}
+      {formError && <p className="ui-error-text" role="alert">{formError}</p>}
     </form>
   );
 }

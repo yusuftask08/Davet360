@@ -30,7 +30,7 @@ export default function AdminBlogListPage() {
         </Link>
       </div>
 
-      {error && <p style={{ color: 'var(--color-error)' }}>{error}</p>}
+      {error && <p className="ui-error-text" role="alert">{error}</p>}
 
       {!items && !error ? (
         <Spinner label="Yükleniyor..." />

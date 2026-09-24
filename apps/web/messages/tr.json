@@ -1,4 +1,7 @@
 {
+  "common": {
+    "loading": "Yükleniyor…"
+  },
   "nav": {
     "blog": "Blog",
     "login": "Giriş Yap",

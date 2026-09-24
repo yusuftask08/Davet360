@@ -162,7 +162,7 @@ export default function AccountPage() {
             {t('changePasswordButton')}
           </Button>
           {passwordSaved && <p style={{ color: 'var(--color-success)' }}>{t('passwordChanged')}</p>}
-          {passwordFormError && <p style={{ color: 'var(--color-error)' }}>{passwordFormError}</p>}
+          {passwordFormError && <p className="ui-error-text" role="alert">{passwordFormError}</p>}
         </form>
       </Card>
 

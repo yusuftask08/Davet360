@@ -16,6 +16,7 @@ export { AltchaWidget } from './components/AltchaWidget.jsx';
 export { Spinner } from './components/Spinner.jsx';
 export { CategoryIcon } from './components/CategoryIcon.jsx';
 export { AuthShell } from './components/AuthShell.jsx';
+export { Skeleton, VendorCardSkeleton } from './components/Skeleton.jsx';
 
 // Uygulamalarda emoji/unicode sembol yerine kullanılacak ortak ikon seti — tek yerden
 // re-export edilir ki her app ayrı ayrı lucide-react bağımlılığı eklemesin.

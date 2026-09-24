@@ -20,7 +20,7 @@ export default function AdminLeadsPage() {
       <AdminHeader title="Tüm Teklif Talepleri" />
       <AdminNav />
 
-      {error && <p style={{ color: 'var(--color-error)' }}>{error}</p>}
+      {error && <p className="ui-error-text" role="alert">{error}</p>}
 
       {!data && !error ? (
         <Spinner label="Yükleniyor..." />

@@ -59,8 +59,8 @@ export default function AdminReviewsPage() {
         ))}
       </div>
 
-      {error && <p style={{ color: 'var(--color-error)' }}>{error}</p>}
-      {actionError && <p style={{ color: 'var(--color-error)' }}>{actionError}</p>}
+      {error && <p className="ui-error-text" role="alert">{error}</p>}
+      {actionError && <p className="ui-error-text" role="alert">{actionError}</p>}
 
       {!data && !error ? (
         <Spinner label="Yükleniyor..." />

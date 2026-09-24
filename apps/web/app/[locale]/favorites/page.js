@@ -36,7 +36,7 @@ export default function FavoritesPage() {
       <h1 style={{ fontSize: 'var(--font-size-xl)' }}>{t('heading')}</h1>
       {loading && <p>{t('loading')}</p>}
       {error && (
-        <p style={{ color: 'var(--color-error)' }}>
+        <p className="ui-error-text" role="alert">
           {error} <Link href="/login" className="link-inline">{t('loginLink')}</Link>
         </p>
       )}

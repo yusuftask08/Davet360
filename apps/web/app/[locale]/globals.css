@@ -79,24 +79,6 @@ a {
   white-space: nowrap;
   border: 0;
 }
-/* Klavye kullanıcısı Tab'a bastığı an görünür olur (sr-only'nin aksine) — odaklanana kadar
-   ekran dışında durur, navbarın üstüne çıkıp sabit kalır. */
-.skip-link {
-  position: absolute;
-  top: -100px;
-  left: var(--space-md);
-  z-index: 200;
-  background: var(--color-primary);
-  color: white;
-  padding: 10px 16px;
-  border-radius: var(--radius-md);
-  font-weight: 700;
-  transition: top var(--motion-base) var(--motion-ease);
-}
-.skip-link:focus {
-  top: var(--space-md);
-}
-
 .container {
   max-width: 1160px;
   margin: 0 auto;

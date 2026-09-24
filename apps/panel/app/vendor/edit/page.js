@@ -142,7 +142,7 @@ export default function EditOwnVendorPage() {
     return (
       <main className="container" style={{ paddingTop: 'var(--space-md)' }}>
         <PanelHeader title="İlanımı Düzenle" />
-        {error ? <p style={{ color: 'var(--color-error)' }}>{error}</p> : <Spinner label="Yükleniyor..." />}
+        {error ? <p className="ui-error-text" role="alert">{error}</p> : <Spinner label="Yükleniyor..." />}
       </main>
     );
   }
@@ -330,7 +330,7 @@ export default function EditOwnVendorPage() {
             {saving ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
           </Button>
           {saved && <p style={{ color: 'var(--color-success)' }}>Kaydedildi.</p>}
-          {error && <p style={{ color: 'var(--color-error)' }}>{error}</p>}
+          {error && <p className="ui-error-text" role="alert">{error}</p>}
         </form>
       </Card>
     </main>

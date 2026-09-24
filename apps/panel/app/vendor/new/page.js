@@ -340,7 +340,7 @@ export default function NewVendorListingPage() {
           <Button type="submit" disabled={submitting || uploading}>
             {submitting ? 'Gönderiliyor...' : 'Başvuruyu Gönder'}
           </Button>
-          {formError && <p style={{ color: 'var(--color-error)' }}>{formError}</p>}
+          {formError && <p className="ui-error-text" role="alert">{formError}</p>}
         </form>
       </Card>
     </main>

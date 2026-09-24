@@ -74,7 +74,7 @@ export default function VendorDashboard() {
         </Link>
       </div>
       <h1>Gelen Teklif Talepleri</h1>
-      {error && <p style={{ color: 'var(--color-error)' }}>{error}</p>}
+      {error && <p className="ui-error-text" role="alert">{error}</p>}
       {!leads && !error ? (
         <Spinner label="Yükleniyor..." />
       ) : (

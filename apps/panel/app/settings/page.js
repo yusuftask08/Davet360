@@ -117,7 +117,7 @@ export default function SettingsPage() {
             Kaydet
           </Button>
           {profileSaved && <p style={{ color: 'var(--color-success)' }}>Kaydedildi.</p>}
-          {profileError && <p style={{ color: 'var(--color-error)' }}>{profileError}</p>}
+          {profileError && <p className="ui-error-text" role="alert">{profileError}</p>}
         </form>
       </Card>
 
@@ -146,7 +146,7 @@ export default function SettingsPage() {
             Şifreyi Değiştir
           </Button>
           {passwordSaved && <p style={{ color: 'var(--color-success)' }}>Şifreniz güncellendi.</p>}
-          {passwordError && <p style={{ color: 'var(--color-error)' }}>{passwordError}</p>}
+          {passwordError && <p className="ui-error-text" role="alert">{passwordError}</p>}
         </form>
       </Card>
     </main>

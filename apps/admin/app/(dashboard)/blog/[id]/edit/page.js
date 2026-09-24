@@ -108,7 +108,7 @@ export default function EditBlogPostPage() {
       <main className="container" style={{ paddingTop: 'var(--space-md)' }}>
         <AdminHeader title="Yazıyı Düzenle" />
         <AdminNav />
-        {error ? <p style={{ color: 'var(--color-error)' }}>{error}</p> : <Spinner label="Yükleniyor..." />}
+        {error ? <p className="ui-error-text" role="alert">{error}</p> : <Spinner label="Yükleniyor..." />}
       </main>
     );
   }
@@ -191,7 +191,7 @@ export default function EditBlogPostPage() {
           <Button type="submit" disabled={saving || uploading}>
             {saving ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
           </Button>
-          {error && <p style={{ color: 'var(--color-error)' }}>{error}</p>}
+          {error && <p className="ui-error-text" role="alert">{error}</p>}
         </form>
       </Card>
 

@@ -105,7 +105,7 @@ export default function AdminVendorDetailPage() {
     return (
       <main className="container" style={{ paddingTop: 'var(--space-md)' }}>
         <AdminHeader title="İşletme Detayı" />
-        <p style={{ color: 'var(--color-error)' }}>{error}</p>
+        <p className="ui-error-text" role="alert">{error}</p>
       </main>
     );
   }
@@ -177,7 +177,7 @@ export default function AdminVendorDetailPage() {
           <strong>Belirtilen neden:</strong> {vendor.statusReason}
         </p>
       )}
-      {actionError && <p style={{ color: 'var(--color-error)' }}>{actionError}</p>}
+      {actionError && <p className="ui-error-text" role="alert">{actionError}</p>}
 
       {vendor.images?.length > 0 && (
         <div style={{ display: 'flex', gap: 'var(--space-sm)', marginBottom: 'var(--space-lg)', flexWrap: 'wrap' }}>

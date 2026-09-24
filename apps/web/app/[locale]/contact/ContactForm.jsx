@@ -94,7 +94,7 @@ export function ContactForm() {
           <Button type="submit" disabled={loading || !altchaPayload}>
             {loading ? t('submitting') : t('submit')}
           </Button>
-          {formError && <p style={{ color: 'var(--color-error)' }}>{formError}</p>}
+          {formError && <p className="ui-error-text" role="alert">{formError}</p>}
         </form>
       )}
     </Card>

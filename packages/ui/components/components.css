@@ -4,6 +4,29 @@
   }
 }
 
+@keyframes ui-skeleton-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.ui-skeleton {
+  display: block;
+  background: var(--color-neutral-100);
+  animation: ui-skeleton-pulse 1.4s ease-in-out infinite;
+}
+/* Kart görseli iskeleti VendorCard'ın media alanıyla aynı kare oranı — içerik gelince
+   kartın yüksekliği değişmesin (layout shift olmasın) diye. */
+.ui-skeleton--card-media {
+  aspect-ratio: 1 / 1;
+}
+/* Hareketi azaltma tercihi açıksa nabız animasyonu durur, blok sabit kalır. */
+@media (prefers-reduced-motion: reduce) {
+  .ui-skeleton {
+    animation: none;
+  }
+}
+
 .ui-button {
   display: inline-flex;
   align-items: center;
@@ -68,6 +91,32 @@
 .ui-field__error {
   font-size: var(--font-size-xs);
   color: var(--color-error);
+}
+/* Form/sayfa seviyesindeki hata metni (tek bir alana değil, işlemin tamamına ait).
+   Panel ve admin'de aynı inline style ~20 yerde tekrarlanıyordu — tek sınıfa toplandı.
+   Kullanırken role="alert" da verilmeli ki ekran okuyucu hatayı anons etsin. */
+.ui-error-text {
+  margin: 0;
+  color: var(--color-error);
+  font-size: var(--font-size-sm);
+}
+
+/* "İçeriğe geç" linki — klavye kullanıcısı Tab'a bastığı an görünür olur (sr-only'nin
+   aksine), odaklanana kadar ekran dışında durur. Üç app de (web/panel/admin) kullanır. */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: var(--space-md);
+  z-index: 200;
+  background: var(--color-primary);
+  color: white;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  transition: top var(--motion-base) var(--motion-ease);
+}
+.skip-link:focus {
+  top: var(--space-md);
 }
 
 .ui-input {

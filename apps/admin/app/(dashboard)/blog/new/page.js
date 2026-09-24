@@ -139,7 +139,7 @@ export default function NewBlogPostPage() {
           <Button type="submit" disabled={submitting || uploading}>
             {submitting ? 'Yayınlanıyor...' : 'Yayınla'}
           </Button>
-          {formError && <p style={{ color: 'var(--color-error)' }}>{formError}</p>}
+          {formError && <p className="ui-error-text" role="alert">{formError}</p>}
         </form>
       </Card>
     </main>
