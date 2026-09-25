@@ -9,6 +9,9 @@ import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
 export function createApp() {
   const app = express();
+  // Coolify/Traefik reverse proxy arkasında — gerçek istemci IP'si X-Forwarded-For'dan okunsun,
+  // yoksa rate limiter tüm kullanıcıları proxy'nin tek IP'si sayar.
+  app.set('trust proxy', 1);
 
   app.use(helmet());
   // credentials:true + spesifik origin listesi (env.corsOrigins) zorunlu — httpOnly cookie

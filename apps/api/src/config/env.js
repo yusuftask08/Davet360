@@ -32,3 +32,10 @@ export const env = {
     from: process.env.SMTP_FROM ?? 'Merasim360 <no-reply@merasim360.com>',
   },
 };
+
+// Prod'da dev fallback secret'larıyla açılmak token sahteciliğine kapı açar — Coolify'da env
+// girilmeyi unutulursa sessizce çalışmak yerine başlangıçta patla.
+if (env.nodeEnv === 'production') {
+  const missing = ['JWT_SECRET', 'ALTCHA_SECRET', 'MONGO_URI'].filter((k) => !process.env[k]);
+  if (missing.length) throw new Error(`Production'da zorunlu env eksik: ${missing.join(', ')}`);
+}

@@ -21,5 +21,7 @@ COPY --from=installer /app .
 RUN mkdir -p /app/apps/api/uploads && chown -R apiuser:nodejs /app/apps/api/uploads
 USER apiuser
 WORKDIR /app/apps/api
+# NODE_ENV=production cookie'leri secure+SameSite=None yapar; PORT Coolify'daki port ayarıyla eşleşmeli.
+ENV NODE_ENV=production PORT=4000
 EXPOSE 4000
 CMD ["node", "src/index.js"]
