@@ -7,6 +7,7 @@ import { CATEGORIES } from '@repo/constants';
 import { Card, Button, Spinner, Phone, MessageCircle, Mail } from '@repo/ui';
 import { apiClient } from '../../lib/apiClient.js';
 import { PanelHeader } from '../components/PanelHeader.jsx';
+import { LEAD_STATUS_LABEL } from '../components/leadStatus.js';
 
 const WEB_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3600';
 
@@ -23,12 +24,6 @@ const VENDOR_STATUS_LABEL = {
   suspended: { label: 'Yayından kaldırıldı', tone: 'error' },
 };
 
-// Ham enum değerleri (new/contacted/closed) arayüzde İngilizce görünüyordu.
-const LEAD_STATUS_LABEL = {
-  new: { label: 'Yeni', tone: 'primary' },
-  contacted: { label: 'İletişime geçildi', tone: 'success' },
-  closed: { label: 'Kapandı', tone: 'neutral' },
-};
 
 const dateFormatter = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
 
@@ -84,6 +79,7 @@ export default function VendorDashboard() {
   const category = vendor ? CATEGORIES.find((c) => c.slug === vendor.category) : null;
   const newCount = leads?.filter((lead) => lead.status === 'new').length ?? 0;
   const contactedCount = leads?.filter((lead) => lead.status === 'contacted').length ?? 0;
+  const bookedCount = leads?.filter((lead) => lead.status === 'booked').length ?? 0;
 
   return (
     <main className="container panel-main">
@@ -148,7 +144,11 @@ export default function VendorDashboard() {
           </div>
           <div className="panel-stat">
             <span className="panel-stat__value">{contactedCount}</span>
-            <span className="panel-stat__label">İletişime geçildi</span>
+            <span className="panel-stat__label">Görüşülüyor</span>
+          </div>
+          <div className="panel-stat">
+            <span className="panel-stat__value">{bookedCount}</span>
+            <span className="panel-stat__label">Anlaşıldı</span>
           </div>
         </div>
       )}
@@ -174,9 +174,15 @@ export default function VendorDashboard() {
                     Etkinlik tarihi: <strong>{formatDate(lead.eventDate)}</strong>
                   </p>
                 )}
-                {lead.message && <p className="lead-card__message">{lead.message}</p>}
+                {(lead.lastMessagePreview ?? lead.message) && (
+                  <p className="lead-card__message">{lead.lastMessagePreview ?? lead.message}</p>
+                )}
                 <div className="lead-card__actions">
-                  <a href={`tel:${lead.customerPhone}`} className="ui-button ui-button--primary">
+                  <Link href={`/vendor/leads/${lead._id}`} className="ui-button ui-button--primary">
+                    Mesajlar
+                    {lead.vendorUnread > 0 && <span className="unread-count">{lead.vendorUnread}</span>}
+                  </Link>
+                  <a href={`tel:${lead.customerPhone}`} className="ui-button ui-button--secondary">
                     <Phone size={16} strokeWidth={2} aria-hidden="true" />
                     Ara
                   </a>

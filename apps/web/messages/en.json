@@ -253,13 +253,14 @@
     "message": "Your Note",
     "submit": "Get a Quote",
     "submitting": "Sending...",
-    "success": "Your request was sent, thank you! The vendor will get in touch with you soon.",
+    "success": "Your request was sent! You can follow the vendor's reply in your messages.",
     "genericError": "Something went wrong, please try again.",
     "altchaWaiting": "Please wait for the verification widget to finish",
     "consent": "I agree to share my information with this business. I have read the <privacy>Privacy Policy</privacy>.",
     "consentRequired": "You must agree to share your information to continue",
     "loginPrompt": "To contact this vendor,",
-    "loginLink": "log in"
+    "loginLink": "log in",
+    "goToThread": "Go to messages"
   },
   "reviewForm": {
     "ratingLabel": "Rating",
@@ -330,13 +331,17 @@
     "statusApproved": "Published",
     "statusRejected": "Rejected",
     "leadStatusNew": "Sent",
-    "leadStatusContacted": "Vendor replied",
+    "leadStatusContacted": "In discussion",
     "leadStatusClosed": "Closed",
     "settingsHeading": "Account Settings",
     "favoritesCard": "My Favorites",
     "favoritesCardText": "Vendors you saved",
     "logout": "Log Out",
-    "eventDate": "Event date"
+    "eventDate": "Event date",
+    "leadStatusBooked": "Booked",
+    "leadStatusDeclined": "Not available",
+    "unreadCount": "{count} new messages",
+    "openThread": "Open messages"
   },
   "favorites": {
     "heading": "My Favorites",
@@ -367,5 +372,18 @@
     "goHome": "Go Home",
     "notFoundTitle": "Page not found",
     "notFoundDescription": "The page you're looking for may have moved or never existed."
+  },
+  "leadThread": {
+    "back": "My requests",
+    "eventDate": "Event date",
+    "yourRequest": "Your request",
+    "viewVendor": "View vendor",
+    "empty": "No messages yet. The vendor will reply here; you can also send the first message.",
+    "placeholder": "Write a message...",
+    "send": "Send",
+    "you": "You",
+    "loadError": "Quote request not found.",
+    "sendError": "Message could not be sent, please try again.",
+    "statusHint": "You will be notified by e-mail when the vendor updates the status."
   }
 }

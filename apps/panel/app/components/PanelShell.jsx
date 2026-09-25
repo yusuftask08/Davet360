@@ -7,7 +7,7 @@ import { ClipboardList, Home, User } from '@repo/ui';
 import { apiClient } from '../../lib/apiClient.js';
 
 const NAV_ITEMS = [
-  { href: '/vendor', label: 'Teklifler', Icon: ClipboardList, match: (p) => p === '/vendor' },
+  { href: '/vendor', label: 'Teklifler', Icon: ClipboardList, match: (p) => p === '/vendor' || p.startsWith('/vendor/leads') },
   { href: '/vendor/edit', label: 'İlanım', Icon: Home, match: (p) => p.startsWith('/vendor/edit') || p.startsWith('/vendor/new') },
   { href: '/settings', label: 'Hesap', Icon: User, match: (p) => p.startsWith('/settings') },
 ];

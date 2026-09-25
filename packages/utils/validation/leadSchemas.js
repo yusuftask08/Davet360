@@ -9,3 +9,11 @@ export const createLeadSchema = z.object({
   eventDate: z.coerce.date().optional(),
   message: z.string().max(1000).optional(),
 });
+
+export const leadMessageSchema = z.object({
+  body: z.string().trim().min(1, 'Mesaj boş olamaz').max(2000, 'En fazla 2000 karakter'),
+});
+
+export const leadStatusSchema = z.object({
+  status: z.enum(['contacted', 'booked', 'declined']),
+});

@@ -9,8 +9,14 @@ import { Link, useRouter } from '../../../i18n/navigation.js';
 import { apiClient } from '../../../lib/apiClient.js';
 import { invalidateFavoritesCache } from '../lib/favoritesCache.js';
 
-const STATUS_VARIANT = { new: 'default', contacted: 'success', closed: 'default' };
-const LEAD_STATUS_KEY = { new: 'leadStatusNew', contacted: 'leadStatusContacted', closed: 'leadStatusClosed' };
+const STATUS_VARIANT = { new: 'default', contacted: 'accent', booked: 'success', declined: 'error', closed: 'default' };
+const LEAD_STATUS_KEY = {
+  new: 'leadStatusNew',
+  contacted: 'leadStatusContacted',
+  booked: 'leadStatusBooked',
+  declined: 'leadStatusDeclined',
+  closed: 'leadStatusClosed',
+};
 
 export default function AccountPage() {
   const t = useTranslations('account');
@@ -150,7 +156,7 @@ export default function AccountPage() {
         <div className="account-list">
           {leads?.length === 0 && <p className="empty-state">{t('noLeads')}</p>}
           {leads?.map((lead) => (
-            <Card key={lead._id} className="account-item">
+            <Link key={lead._id} href={`/account/leads/${lead._id}`} className="account-item account-item--link">
               <div className="account-item__head">
                 <strong>{lead.vendorId?.businessName ?? '—'}</strong>
                 <Badge variant={STATUS_VARIANT[lead.status]}>
@@ -161,8 +167,16 @@ export default function AccountPage() {
                 {dateFormatter.format(new Date(lead.createdAt))}
                 {lead.eventDate && ` · ${t('eventDate')}: ${dateFormatter.format(new Date(lead.eventDate))}`}
               </p>
-              {lead.message && <p className="account-item__text">{lead.message}</p>}
-            </Card>
+              <p className="account-item__text">{lead.lastMessagePreview ?? lead.message}</p>
+              <span className="account-item__cta">
+                {lead.customerUnread > 0 ? (
+                  <span className="unread-pill">{t('unreadCount', { count: lead.customerUnread })}</span>
+                ) : (
+                  t('openThread')
+                )}
+                <ChevronRight size={16} strokeWidth={2} aria-hidden="true" />
+              </span>
+            </Link>
           ))}
         </div>
       </section>

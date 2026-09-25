@@ -8,7 +8,9 @@ const STATUS_LABELS = {
   rejected: 'Reddedildi',
   suspended: 'Askıda',
   new: 'Yeni',
-  contacted: 'İletişime geçildi',
+  contacted: 'Görüşülüyor',
+  booked: 'Anlaşıldı',
+  declined: 'Olmadı',
   closed: 'Kapandı',
 };
 
@@ -28,4 +30,12 @@ export function roleLabel(role) {
 
 export function categoryLabel(slug) {
   return CATEGORIES.find((c) => c.slug === slug)?.label ?? slug;
+}
+
+// Rozet rengi — teklif durumları için.
+export function leadStatusVariant(status) {
+  if (status === 'new') return 'accent';
+  if (status === 'booked') return 'success';
+  if (status === 'declined') return 'error';
+  return 'default';
 }

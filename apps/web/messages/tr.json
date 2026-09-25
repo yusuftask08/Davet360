@@ -253,13 +253,14 @@
     "message": "Notunuz",
     "submit": "Teklif Al",
     "submitting": "Gönderiliyor...",
-    "success": "Talebiniz iletildi, teşekkürler! İşletme sizinle en kısa sürede iletişime geçecek.",
+    "success": "Talebiniz iletildi! İşletmenin cevabını mesajlar bölümünden takip edebilirsiniz.",
     "genericError": "Bir hata oluştu, tekrar deneyin.",
     "altchaWaiting": "Lütfen doğrulama kutucuğunun tamamlanmasını bekleyin",
     "consent": "Bilgilerimin bu işletmeyle paylaşılmasını kabul ediyorum. <privacy>Gizlilik Politikası'nı</privacy> okudum.",
     "consentRequired": "Devam etmek için bilgilerinizin paylaşılmasını kabul etmelisiniz",
     "loginPrompt": "İşletmeyle iletişime geçmek için",
-    "loginLink": "giriş yapın"
+    "loginLink": "giriş yapın",
+    "goToThread": "Mesajlara git"
   },
   "reviewForm": {
     "ratingLabel": "Puan",
@@ -330,13 +331,17 @@
     "statusApproved": "Yayında",
     "statusRejected": "Reddedildi",
     "leadStatusNew": "Gönderildi",
-    "leadStatusContacted": "İşletme dönüş yaptı",
+    "leadStatusContacted": "Görüşülüyor",
     "leadStatusClosed": "Kapandı",
     "settingsHeading": "Hesap Ayarları",
     "favoritesCard": "Favorilerim",
     "favoritesCardText": "Kaydettiğiniz işletmeler",
     "logout": "Çıkış Yap",
-    "eventDate": "Etkinlik tarihi"
+    "eventDate": "Etkinlik tarihi",
+    "leadStatusBooked": "Anlaşıldı",
+    "leadStatusDeclined": "Müsait değil",
+    "unreadCount": "{count} yeni mesaj",
+    "openThread": "Mesajlara git"
   },
   "favorites": {
     "heading": "Favorilerim",
@@ -367,5 +372,18 @@
     "goHome": "Ana Sayfaya Dön",
     "notFoundTitle": "Sayfa bulunamadı",
     "notFoundDescription": "Aradığınız sayfa taşınmış veya hiç var olmamış olabilir."
+  },
+  "leadThread": {
+    "back": "Tekliflerim",
+    "eventDate": "Etkinlik tarihi",
+    "yourRequest": "Talebiniz",
+    "viewVendor": "İşletmeyi gör",
+    "empty": "Henüz mesaj yok. İşletme size buradan dönüş yapacak; sorunuz varsa ilk mesajı siz yazabilirsiniz.",
+    "placeholder": "Mesajınızı yazın...",
+    "send": "Gönder",
+    "you": "Siz",
+    "loadError": "Teklif talebi bulunamadı.",
+    "sendError": "Mesaj gönderilemedi, lütfen tekrar deneyin.",
+    "statusHint": "İşletme durumu güncellediğinde e-posta ile bilgilendirileceksiniz."
   }
 }

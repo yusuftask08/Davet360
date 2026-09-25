@@ -19,6 +19,7 @@ export function LeadForm({ vendorId }) {
   const [formError, setFormError] = useState(null);
   const [altchaPayload, setAltchaPayload] = useState(null);
   const [consentAccepted, setConsentAccepted] = useState(false);
+  const [createdLeadId, setCreatedLeadId] = useState(null);
 
   const handleAltchaSolved = useCallback((payload) => setAltchaPayload(payload), []);
 
@@ -70,7 +71,8 @@ export function LeadForm({ vendorId }) {
 
     setStatus('loading');
     try {
-      await apiClient.post(ENDPOINTS.leads, { ...result.data, altcha: altchaPayload });
+      const data = await apiClient.post(ENDPOINTS.leads, { ...result.data, altcha: altchaPayload });
+      setCreatedLeadId(data.lead?._id ?? null);
       setStatus('success');
     } catch (err) {
       if (err.status === 400 && err.details) {
@@ -92,7 +94,17 @@ export function LeadForm({ vendorId }) {
   }
 
   if (status === 'success') {
-    return <p>{t('success')}</p>;
+    // Gönderimden sonra doğrudan yazışmaya yönlendirilir — işletmenin cevabı orada görünecek.
+    return (
+      <div className="lead-success">
+        <p>{t('success')}</p>
+        {createdLeadId && (
+          <Link href={`/account/leads/${createdLeadId}`} className="ui-button ui-button--secondary">
+            {t('goToThread')}
+          </Link>
+        )}
+      </div>
+    );
   }
 
   return (

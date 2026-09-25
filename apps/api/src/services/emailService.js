@@ -133,3 +133,36 @@ export async function sendNewVendorApplicationEmail(adminEmails, { businessName,
     `,
   });
 }
+
+// Teklif yazışmasında yeni mesaj — karşı tarafın okunmamış mesajı yokken gelen ilk mesajda
+// gönderilir (her mesajda değil), sohbet hızlı akarken gelen kutusu dolmasın diye.
+export async function sendLeadMessageEmail(to, { senderName, businessName, preview, url }) {
+  await sendMail({
+    to,
+    subject: `Merasim360 — ${senderName} size mesaj gönderdi`,
+    text: `${senderName} "${businessName}" teklif talebi hakkında yazdı:\n\n${preview}\n\nYanıtlamak için: ${url}`,
+    html: `
+      <p><strong>${escapeHtml(senderName)}</strong> "${escapeHtml(businessName)}" teklif talebi hakkında yazdı:</p>
+      <blockquote>${escapeHtml(preview).replace(/\n/g, '<br>')}</blockquote>
+      <p><a href="${url}">Yanıtla</a></p>
+    `,
+  });
+}
+
+const LEAD_STATUS_EMAIL_TEXT = {
+  contacted: 'teklif talebinizle ilgileniyor',
+  booked: 'sizinle anlaştığını işaretledi',
+  declined: 'bu talep için müsait olmadığını bildirdi',
+};
+
+// İşletme teklifin durumunu değiştirdiğinde müşteriye bilgi.
+export async function sendLeadStatusEmail(to, { businessName, status, url }) {
+  const text = LEAD_STATUS_EMAIL_TEXT[status];
+  if (!text) return;
+  await sendMail({
+    to,
+    subject: `Merasim360 — "${businessName}" ${text}`,
+    text: `"${businessName}" ${text}.\n\nDetaylar: ${url}`,
+    html: `<p><strong>${escapeHtml(businessName)}</strong> ${text}.</p><p><a href="${url}">Talebi görüntüle</a></p>`,
+  });
+}
