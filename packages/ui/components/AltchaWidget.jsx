@@ -23,5 +23,5 @@ export function AltchaWidget({ challengeUrl, onSolved }) {
     return () => el.removeEventListener('statechange', handleStateChange);
   }, [onSolved]);
 
-  return <altcha-widget ref={ref} challengeurl={challengeUrl} hidefooter hidelogo />;
+  return <altcha-widget ref={ref} challenge={challengeUrl} hidefooter hidelogo />;
 }
