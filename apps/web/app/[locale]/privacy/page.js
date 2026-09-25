@@ -12,7 +12,7 @@ export default async function PrivacyPage({ params: { locale } }) {
   const sections = t.raw('sections');
 
   return (
-    <main className="container" style={{ maxWidth: 720, paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}>
+    <main className="container page-main" style={{ maxWidth: 720 }}>
       <h1>{t('title')}</h1>
       <p style={{ color: 'var(--color-neutral-500)' }}>{t('intro')}</p>
 

@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { createApiClient, ENDPOINTS } from '@repo/api-client';
 import { getCategoryBySlug } from '@repo/constants';
 import { Link } from '../../../../i18n/navigation.js';
+import { RichText } from '../../lib/richText.jsx';
 import { Breadcrumb } from '../../components/Breadcrumb.jsx';
 import { buildAlternates, buildOpenGraph, buildTwitter } from '../../lib/seo.js';
 
@@ -50,7 +51,7 @@ export default async function BlogPostPage({ params }) {
   };
 
   return (
-    <main className="container" style={{ maxWidth: 720, paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}>
+    <main className="container page-main" style={{ maxWidth: 720 }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
       <Breadcrumb
@@ -83,8 +84,15 @@ export default async function BlogPostPage({ params }) {
         </div>
       )}
 
-      <h1>{post.title}</h1>
-      <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.8, marginTop: 'var(--space-lg)' }}>{post.content}</div>
+      <h1 className="page-header__title">{post.title}</h1>
+      {post.publishedAt && (
+        <p className="page-header__meta">
+          {new Intl.DateTimeFormat(params.locale === 'tr' ? 'tr-TR' : 'en-US', { dateStyle: 'long' }).format(
+            new Date(post.publishedAt),
+          )}
+        </p>
+      )}
+      <RichText content={post.content} />
 
       {category && (
         <p style={{ marginTop: 'var(--space-xl)' }}>

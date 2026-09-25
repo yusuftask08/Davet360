@@ -8,6 +8,7 @@ import { createVendorSchema, toFieldErrors } from '@repo/utils';
 import { Button, Input, Card } from '@repo/ui';
 import { apiClient } from '../../../lib/apiClient.js';
 import { PanelHeader } from '../../components/PanelHeader.jsx';
+import { ImageUploader } from '../../components/ImageUploader.jsx';
 
 const INITIAL_FORM = {
   businessName: '',
@@ -135,16 +136,9 @@ export default function NewVendorListingPage() {
   }
 
   return (
-    <main
-      className="container"
-      style={{ paddingTop: 'var(--space-md)', paddingBottom: 'var(--space-2xl)', maxWidth: 640 }}
-    >
-      <PanelHeader title="İlan Oluştur" />
+    <main className="container panel-main panel-main--narrow">
+      <PanelHeader title="İlan Oluştur" subtitle="Başvurunuz admin onayından geçtikten sonra yayına girer." />
       <Card>
-        <h1 style={{ marginTop: 0 }}>İşletme Bilgileriniz</h1>
-        <p style={{ color: 'var(--color-neutral-500)' }}>
-          Başvurunuz admin onayından geçtikten sonra yayına girer.
-        </p>
 
         <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-sm)' }} noValidate>
           <Input
@@ -285,57 +279,7 @@ export default function NewVendorListingPage() {
             </div>
           </div>
 
-          <div className="ui-field">
-            <label className="ui-field__label" htmlFor="images">
-              Görseller (jpg, png, webp — en fazla 5MB, en fazla 10 görsel)
-            </label>
-            <input
-              id="images"
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              multiple
-              onChange={handleImageChange}
-              disabled={uploading || images.length >= 10}
-            />
-            {uploading && (
-              <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-neutral-500)' }}>
-                Yükleniyor...
-              </span>
-            )}
-            {images.length > 0 && (
-              <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', marginTop: 'var(--space-sm)' }}>
-                {images.map((src) => (
-                  <div key={src} style={{ position: 'relative' }}>
-                    <img
-                      src={apiClient.assetUrl(src)}
-                      alt=""
-                      style={{ width: 72, height: 72, objectFit: 'cover', borderRadius: 'var(--radius-md)' }}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeImage(src)}
-                      aria-label="Görseli kaldır"
-                      style={{
-                        position: 'absolute',
-                        top: -6,
-                        right: -6,
-                        width: 20,
-                        height: 20,
-                        borderRadius: '999px',
-                        border: 'none',
-                        background: 'var(--color-error)',
-                        color: 'white',
-                        cursor: 'pointer',
-                        lineHeight: 1,
-                      }}
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <ImageUploader images={images} uploading={uploading} onChange={handleImageChange} onRemove={removeImage} />
 
           <Button type="submit" disabled={submitting || uploading}>
             {submitting ? 'Gönderiliyor...' : 'Başvuruyu Gönder'}

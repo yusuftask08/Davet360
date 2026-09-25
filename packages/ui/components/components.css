@@ -354,7 +354,7 @@ a:focus-visible {
 }
 .ui-vendor-card__media {
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
   background: var(--gradient-hero);
   border-radius: var(--radius-lg);
   display: flex;

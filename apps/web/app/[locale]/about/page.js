@@ -11,7 +11,7 @@ export default async function AboutPage({ params: { locale } }) {
   const t = await getTranslations('pages.about');
 
   return (
-    <main className="container" style={{ maxWidth: 720, paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}>
+    <main className="container page-main" style={{ maxWidth: 720 }}>
       <h1>{t('title')}</h1>
       <p style={{ fontSize: 'var(--font-size-lg)', lineHeight: 1.6 }}>{t('intro')}</p>
 

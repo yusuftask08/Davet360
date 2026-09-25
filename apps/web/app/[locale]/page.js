@@ -2,12 +2,20 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { CATEGORIES, getCategoryBySlug } from '@repo/constants';
 import { createApiClient, ENDPOINTS } from '@repo/api-client';
 import { toLocativeCase } from '@repo/utils';
-import { CategoryIcon, VendorCard, ScrollRow, ChevronRight } from '@repo/ui';
+import { CategoryIcon, VendorCard, ScrollRow, ChevronRight, Search, ClipboardList, Handshake } from '@repo/ui';
 import { Link } from '../../i18n/navigation.js';
 import { CardFavoriteButton } from './components/CardFavoriteButton.jsx';
+import { HomeSearchBar } from './components/HomeSearchBar.jsx';
 
 const apiClient = createApiClient({ baseUrl: process.env.NEXT_PUBLIC_API_URL });
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3600';
+const panelUrl = process.env.NEXT_PUBLIC_PANEL_URL ?? 'http://localhost:3001';
+
+const HOW_STEPS = [
+  { Icon: Search, title: 'home.step1Title', text: 'home.step1Text' },
+  { Icon: ClipboardList, title: 'home.step2Title', text: 'home.step2Text' },
+  { Icon: Handshake, title: 'home.step3Title', text: 'home.step3Text' },
+];
 
 export default async function HomePage({ params: { locale } }) {
   setRequestLocale(locale);
@@ -54,16 +62,45 @@ export default async function HomePage({ params: { locale } }) {
   };
 
   return (
-    <main className="container" style={{ paddingBottom: 'var(--space-3xl)' }}>
+    <main style={{ paddingBottom: 'var(--space-3xl)' }}>
       {/* eslint-disable-next-line react/no-danger */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
       {/* eslint-disable-next-line react/no-danger */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
 
-      <h1 className="sr-only">{t('home.title')}</h1>
+      {/* The Knot düzeni: sayfa büyük bir başlık + kategori/şehir aramasıyla açılır. Header'daki
+          arama çubuğu bu sayfada CSS ile gizlenir (bkz. .home-hero), iki arama yan yana durmasın. */}
+      <section className="home-hero">
+        <div className="container home-hero__inner">
+          <h1 className="home-hero__title">{t('home.title')}</h1>
+          <p className="home-hero__subtitle">{t('home.description')}</p>
+          <HomeSearchBar variant="hero" />
+        </div>
+      </section>
+
+      <div className="container">
+      <section className="home-section">
+        <div className="section-heading section-heading--lg">
+<h2>{t('home.categoryCirclesHeading')}</h2>
+        </div>
+        <ScrollRow prevLabel={t('common.scrollPrev')} nextLabel={t('common.scrollNext')}>
+          {CATEGORIES.map((category) => (
+            <Link
+              key={category.slug}
+              href={browseCity ? `/${category.slug}/${browseCity.citySlug}` : `/${category.slug}`}
+              className="hscroll__item category-circle"
+            >
+              <span className="category-circle__icon">
+                <CategoryIcon slug={category.slug} size={28} strokeWidth={1.5} />
+              </span>
+              <span className="category-circle__label">{t(`categories.${category.slug}`)}</span>
+            </Link>
+          ))}
+        </ScrollRow>
+      </section>
 
       {featured.items.length > 0 && (
-        <section style={{ marginTop: 'var(--space-3xl)' }}>
+        <section className="home-section">
           <div className="section-heading section-heading--lg">
             <h2>{t('home.featuredHeading')}</h2>
           </div>
@@ -89,36 +126,10 @@ export default async function HomePage({ params: { locale } }) {
         </section>
       )}
 
-      <section style={{ marginTop: 'var(--space-3xl)' }}>
-        <div className="section-heading section-heading--lg">
-          <h2>
-            {browseCity
-              ? t('home.categoryBrowseHeading', {
-                  city: locale === 'tr' ? toLocativeCase(browseCity.city) : browseCity.city,
-                })
-              : t('home.categoryBrowseHeadingGeneric')}
-          </h2>
-        </div>
-        <ScrollRow prevLabel={t('common.scrollPrev')} nextLabel={t('common.scrollNext')}>
-          {CATEGORIES.map((category) => (
-            <Link
-              key={category.slug}
-              href={browseCity ? `/${category.slug}/${browseCity.citySlug}` : `/${category.slug}`}
-              className="hscroll__item category-browse-card"
-            >
-              <span className="category-browse-card__icon">
-                <CategoryIcon slug={category.slug} size={26} strokeWidth={1.5} />
-              </span>
-              <span className="category-browse-card__label">{t(`categories.${category.slug}`)}</span>
-            </Link>
-          ))}
-        </ScrollRow>
-      </section>
-
       {cityRows
         .filter((row) => row.items.length > 0)
         .map((row) => (
-          <section key={row.citySlug} style={{ marginTop: 'var(--space-3xl)' }}>
+          <section key={row.citySlug} className="home-section">
             {/* Başlığın kendisi link — satır sadece ilk 10 kartı gösteriyor, Airbnb'deki
                 gibi başlıktan o şehrin tamamına geçilir. */}
             <div className="section-heading section-heading--lg">
@@ -148,6 +159,38 @@ export default async function HomePage({ params: { locale } }) {
             </ScrollRow>
           </section>
         ))}
+
+      <section className="home-section">
+        <div className="section-heading section-heading--lg">
+          <h2>{t('home.howHeading')}</h2>
+        </div>
+        <ol className="how-steps">
+          {HOW_STEPS.map(({ Icon, title, text }, i) => (
+            <li key={title} className="how-steps__item">
+              <span className="how-steps__icon">
+                <Icon size={24} strokeWidth={1.75} aria-hidden="true" />
+              </span>
+              <div>
+                <h3 className="how-steps__title">
+                  <span className="how-steps__num">{i + 1}.</span> {t(title)}
+                </h3>
+                <p className="how-steps__text">{t(text)}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="home-section vendor-cta">
+        <div>
+          <h2 className="vendor-cta__title">{t('home.vendorCtaTitle')}</h2>
+          <p className="vendor-cta__text">{t('home.vendorCtaText')}</p>
+        </div>
+        <a href={`${panelUrl}/register`} className="ui-button ui-button--primary vendor-cta__button">
+          {t('footer.addBusiness')}
+        </a>
+      </section>
+      </div>
     </main>
   );
 }

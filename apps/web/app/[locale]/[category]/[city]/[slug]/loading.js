@@ -7,7 +7,7 @@ export default async function VendorLoading() {
   const t = await getTranslations('common');
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}>
+    <main className="container page-main">
       <div role="status" aria-label={t('loading')}>
         <Skeleton width="60%" height={14} />
         {/* Hero: solda büyük görsel, sağda 2x2 küçük görsel ızgarası (vendor-hero ile aynı düzen) */}

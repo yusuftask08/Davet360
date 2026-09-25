@@ -5,7 +5,7 @@ import { ENDPOINTS } from '@repo/api-client';
 import { Card, Badge, Button, Input, Spinner } from '@repo/ui';
 import { apiClient } from '../../../lib/apiClient.js';
 import { AdminHeader } from '../../components/AdminHeader.jsx';
-import { AdminNav } from '../../components/AdminNav.jsx';
+import { roleLabel } from '../../../lib/labels.js';
 
 const ROLES = ['customer', 'vendor', 'admin'];
 
@@ -53,9 +53,8 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-md)', paddingBottom: 'var(--space-2xl)' }}>
+    <main className="container admin-main">
       <AdminHeader title="Kullanıcı Yönetimi" />
-      <AdminNav />
 
       <div style={{ maxWidth: 320, marginBottom: 'var(--space-lg)' }}>
         <Input placeholder="İsim veya email ara..." value={search} onChange={(e) => setSearch(e.target.value)} />
@@ -88,7 +87,7 @@ export default function AdminUsersPage() {
                   >
                     {ROLES.map((role) => (
                       <option key={role} value={role}>
-                        {role}
+                        {roleLabel(role)}
                       </option>
                     ))}
                   </select>

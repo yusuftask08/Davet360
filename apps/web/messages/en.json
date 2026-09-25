@@ -14,7 +14,9 @@
     "discover": "Discover",
     "mobileNavLabel": "Mobile navigation",
     "settings": "Settings",
-    "language": "Language"
+    "language": "Language",
+    "menu": "Menu",
+    "closeMenu": "Close menu"
   },
   "footer": {
     "browseHeading": "Browse by category and city",
@@ -168,7 +170,10 @@
     "featuredSubheading": "Some of our highest-rated approved vendors",
     "cityRowHeading": "Featured vendors in {city}",
     "categoryBrowseHeading": "Also browse for your {city} preparations",
-    "categoryBrowseHeadingGeneric": "Also browse for your preparations"
+    "categoryBrowseHeadingGeneric": "Also browse for your preparations",
+    "vendorCtaTitle": "Own a business?",
+    "vendorCtaText": "Join Merasim360 for free and receive quote requests directly from couples in your area.",
+    "categoryCirclesHeading": "What are you looking for?"
   },
   "faq": {
     "q1": "Is requesting a quote on Merasim360 free?",
@@ -323,7 +328,15 @@
     "favoritesLink": "My Favorites →",
     "statusPending": "Under Review",
     "statusApproved": "Published",
-    "statusRejected": "Rejected"
+    "statusRejected": "Rejected",
+    "leadStatusNew": "Sent",
+    "leadStatusContacted": "Vendor replied",
+    "leadStatusClosed": "Closed",
+    "settingsHeading": "Account Settings",
+    "favoritesCard": "My Favorites",
+    "favoritesCardText": "Vendors you saved",
+    "logout": "Log Out",
+    "eventDate": "Event date"
   },
   "favorites": {
     "heading": "My Favorites",
@@ -339,7 +352,8 @@
     "empty": "No results found. Try a different search term.",
     "noQuery": "Enter a search term to begin.",
     "cityHeading": "Vendors in {city}",
-    "cityEmpty": "No approved vendors in this city yet."
+    "cityEmpty": "No approved vendors in this city yet.",
+    "orBrowse": "or search by category and city"
   },
   "blog": {
     "heading": "Wedding Guide",

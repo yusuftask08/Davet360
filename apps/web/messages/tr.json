@@ -14,7 +14,9 @@
     "discover": "Keşfet",
     "mobileNavLabel": "Alt gezinme menüsü",
     "settings": "Ayarlar",
-    "language": "Dil"
+    "language": "Dil",
+    "menu": "Menü",
+    "closeMenu": "Menüyü kapat"
   },
   "footer": {
     "browseHeading": "Kategoriye ve şehre göre göz atın",
@@ -168,7 +170,10 @@
     "featuredSubheading": "En yüksek puanlı onaylı işletmelerden bazıları",
     "cityRowHeading": "{city} öne çıkan işletmeler",
     "categoryBrowseHeading": "{city} hazırlığında ayrıca göz atabilirsiniz",
-    "categoryBrowseHeadingGeneric": "Hazırlığınızda ayrıca göz atabilirsiniz"
+    "categoryBrowseHeadingGeneric": "Hazırlığınızda ayrıca göz atabilirsiniz",
+    "vendorCtaTitle": "İşletmeniz mi var?",
+    "vendorCtaText": "Merasim360'a ücretsiz katılın, bölgenizdeki çiftlerden doğrudan teklif talebi alın.",
+    "categoryCirclesHeading": "Ne arıyorsunuz?"
   },
   "faq": {
     "q1": "Merasim360 üzerinden teklif almak ücretli mi?",
@@ -323,7 +328,15 @@
     "favoritesLink": "Favorilerim →",
     "statusPending": "İncelemede",
     "statusApproved": "Yayında",
-    "statusRejected": "Reddedildi"
+    "statusRejected": "Reddedildi",
+    "leadStatusNew": "Gönderildi",
+    "leadStatusContacted": "İşletme dönüş yaptı",
+    "leadStatusClosed": "Kapandı",
+    "settingsHeading": "Hesap Ayarları",
+    "favoritesCard": "Favorilerim",
+    "favoritesCardText": "Kaydettiğiniz işletmeler",
+    "logout": "Çıkış Yap",
+    "eventDate": "Etkinlik tarihi"
   },
   "favorites": {
     "heading": "Favorilerim",
@@ -339,7 +352,8 @@
     "empty": "Sonuç bulunamadı. Farklı bir kelimeyle deneyin.",
     "noQuery": "Aramak için bir kelime girin.",
     "cityHeading": "{city} bölgesindeki işletmeler",
-    "cityEmpty": "Bu şehirde henüz onaylı işletme yok."
+    "cityEmpty": "Bu şehirde henüz onaylı işletme yok.",
+    "orBrowse": "veya kategori ve şehre göre arayın"
   },
   "blog": {
     "heading": "Düğün Rehberi",

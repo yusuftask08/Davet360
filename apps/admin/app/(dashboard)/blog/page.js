@@ -6,7 +6,6 @@ import { ENDPOINTS } from '@repo/api-client';
 import { Card, Badge, Button, Spinner } from '@repo/ui';
 import { apiClient } from '../../../lib/apiClient.js';
 import { AdminHeader } from '../../components/AdminHeader.jsx';
-import { AdminNav } from '../../components/AdminNav.jsx';
 
 export default function AdminBlogListPage() {
   const [items, setItems] = useState(null);
@@ -20,9 +19,8 @@ export default function AdminBlogListPage() {
   }, []);
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-md)', paddingBottom: 'var(--space-2xl)' }}>
+    <main className="container admin-main">
       <AdminHeader title="Blog Yönetimi" />
-      <AdminNav />
 
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 'var(--space-md)' }}>
         <Link href="/blog/new">

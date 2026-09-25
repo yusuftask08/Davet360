@@ -12,7 +12,7 @@ export default async function ContactPage({ params: { locale } }) {
   const t = await getTranslations('pages.contact');
 
   return (
-    <main className="container" style={{ maxWidth: 560, paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}>
+    <main className="container page-main" style={{ maxWidth: 560 }}>
       <h1>{t('title')}</h1>
       <p style={{ color: 'var(--color-neutral-500)' }}>{t('intro')}</p>
       <ContactForm />

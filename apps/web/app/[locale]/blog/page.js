@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { createApiClient, ENDPOINTS } from '@repo/api-client';
-import { Card } from '@repo/ui';
 import { Link } from '../../../i18n/navigation.js';
 import { buildAlternates } from '../lib/seo.js';
+import { excerpt } from '../lib/richText.jsx';
 
 const apiClient = createApiClient({ baseUrl: process.env.NEXT_PUBLIC_API_URL });
 
@@ -16,39 +16,40 @@ export default async function BlogListPage({ params: { locale } }) {
   setRequestLocale(locale);
   const t = await getTranslations('blog');
   const data = await apiClient.get(ENDPOINTS.blogList).catch(() => ({ items: [] }));
+  const dateFormatter = new Intl.DateTimeFormat(locale === 'tr' ? 'tr-TR' : 'en-US', { dateStyle: 'long' });
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}>
-      <h1 style={{ fontSize: 'var(--font-size-xl)' }}>{t('heading')}</h1>
+    <main className="container page-main">
+      <h1 className="page-header__title" style={{ marginBottom: 'var(--space-lg)' }}>{t('heading')}</h1>
       {data.items.length === 0 ? (
-        <p style={{ color: 'var(--color-neutral-500)' }}>{t('empty')}</p>
+        <p className="empty-state">{t('empty')}</p>
       ) : (
-        <div style={{ display: 'grid', gap: 'var(--space-lg)', marginTop: 'var(--space-lg)' }}>
+        <div className="blog-grid">
           {data.items.map((post) => (
-            <Link key={post._id} href={`/blog/${post.slug}`} style={{ textDecoration: 'none' }}>
-              <Card>
-                {post.coverImage && (
-                  <div
-                    style={{
-                      position: 'relative',
-                      overflow: 'hidden',
-                      aspectRatio: '16 / 7',
-                      borderRadius: 'var(--radius-md)',
-                      marginBottom: 'var(--space-md)',
-                    }}
-                  >
-                    <Image
-                      src={apiClient.assetUrl(post.coverImage)}
-                      alt={post.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 720px"
-                      style={{ objectFit: 'cover' }}
-                    />
-                  </div>
+            <Link key={post._id} href={`/blog/${post.slug}`} className="blog-card">
+              <div className="blog-card__media">
+                {post.coverImage ? (
+                  <Image
+                    src={apiClient.assetUrl(post.coverImage)}
+                    alt=""
+                    fill
+                    sizes="(max-width: 768px) 100vw, 360px"
+                    style={{ objectFit: 'cover' }}
+                  />
+                ) : (
+                  <span aria-hidden="true">{post.title.charAt(0)}</span>
                 )}
-                <h2 style={{ margin: '0 0 4px' }}>{post.title}</h2>
-                <p style={{ color: 'var(--color-neutral-500)', margin: 0 }}>{t('readMore')}</p>
-              </Card>
+              </div>
+              <div className="blog-card__body">
+                {post.publishedAt && (
+                  <time className="blog-card__date" dateTime={post.publishedAt}>
+                    {dateFormatter.format(new Date(post.publishedAt))}
+                  </time>
+                )}
+                <h2 className="blog-card__title">{post.title}</h2>
+                <p className="blog-card__excerpt">{excerpt(post.content)}</p>
+                <span className="blog-card__more">{t('readMore')}</span>
+              </div>
             </Link>
           ))}
         </div>

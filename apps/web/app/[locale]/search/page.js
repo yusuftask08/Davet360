@@ -1,8 +1,9 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { createApiClient, ENDPOINTS } from '@repo/api-client';
-import { VendorCard } from '@repo/ui';
+import { VendorCard, Search } from '@repo/ui';
 import { Link } from '../../../i18n/navigation.js';
 import { CardFavoriteButton } from '../components/CardFavoriteButton.jsx';
+import { HomeSearchBar } from '../components/HomeSearchBar.jsx';
 
 const apiClient = createApiClient({ baseUrl: process.env.NEXT_PUBLIC_API_URL });
 
@@ -32,19 +33,35 @@ export default async function SearchPage({ params: { locale }, searchParams }) {
   const cityName = data.items[0]?.city ?? citySlug;
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}>
+    <main className="container page-main">
+      {/* Mobil header'daki arama ikonu buraya düşer — sorgu yoksa boş bir mesaj yerine hem
+          serbest metin araması hem kategori+şehir araması gösterilir. */}
+      <form method="get" className="search-page__form" role="search">
+        <Search size={18} strokeWidth={2} aria-hidden="true" />
+        <input
+          type="search"
+          name="q"
+          defaultValue={query}
+          placeholder={t('search.placeholder')}
+          aria-label={t('search.placeholder')}
+        />
+        <button type="submit" className="ui-button ui-button--primary">{t('home.searchSubmit')}</button>
+      </form>
       {!query && !citySlug ? (
-        <p style={{ color: 'var(--color-neutral-500)' }}>{t('search.noQuery')}</p>
+        <div className="search-page__browse">
+          <p className="search-page__or">{t('search.orBrowse')}</p>
+          <HomeSearchBar variant="hero" />
+        </div>
       ) : (
         <>
-          <div className="section-heading">
-            <h1 style={{ fontSize: 'var(--font-size-xl)' }}>
+          <header className="page-header">
+            <h1 className="page-header__title">
               {query ? t('search.heading', { query }) : t('search.cityHeading', { city: cityName })}
             </h1>
-            <span className="section-heading__meta">
+            <p className="page-header__meta">
               {t('search.resultsCount', { count: data.total ?? data.items.length })}
-            </span>
-          </div>
+            </p>
+          </header>
 
           {data.items.length === 0 ? (
             <p style={{ color: 'var(--color-neutral-500)' }}>

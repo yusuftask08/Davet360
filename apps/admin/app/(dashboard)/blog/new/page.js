@@ -8,7 +8,6 @@ import { createBlogPostSchema, toFieldErrors } from '@repo/utils';
 import { Button, Input, Card } from '@repo/ui';
 import { apiClient } from '../../../../lib/apiClient.js';
 import { AdminHeader } from '../../../components/AdminHeader.jsx';
-import { AdminNav } from '../../../components/AdminNav.jsx';
 
 const INITIAL_FORM = { title: '', content: '', relatedCategory: '', coverImage: '' };
 
@@ -77,9 +76,8 @@ export default function NewBlogPostPage() {
   }
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-md)', paddingBottom: 'var(--space-2xl)', maxWidth: 640 }}>
+    <main className="container admin-main admin-main--narrow">
       <AdminHeader title="Yeni Blog Yazısı" />
-      <AdminNav />
       <Card>
         <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-sm)' }} noValidate>
           <Input

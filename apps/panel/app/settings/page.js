@@ -81,7 +81,7 @@ export default function SettingsPage() {
 
   if (!user) {
     return (
-      <main className="container" style={{ paddingTop: 'var(--space-md)' }}>
+      <main className="container panel-main">
         <PanelHeader title="Hesap Ayarları" />
         <Spinner label="Yükleniyor..." />
       </main>
@@ -89,11 +89,11 @@ export default function SettingsPage() {
   }
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-md)', paddingBottom: 'var(--space-2xl)', maxWidth: 560 }}>
+    <main className="container panel-main panel-main--narrow">
       <PanelHeader title="Hesap Ayarları" />
 
       <Card style={{ marginBottom: 'var(--space-lg)' }}>
-        <h1 style={{ marginTop: 0, fontSize: 'var(--font-size-lg)' }}>Profil Bilgileri</h1>
+        <h2 className="panel-card-title">Profil Bilgileri</h2>
         <form onSubmit={handleProfileSubmit} style={{ display: 'grid', gap: 'var(--space-sm)' }} noValidate>
           <Input
             label="Ad Soyad"
@@ -122,7 +122,7 @@ export default function SettingsPage() {
       </Card>
 
       <Card>
-        <h1 style={{ marginTop: 0, fontSize: 'var(--font-size-lg)' }}>Şifre Değiştir</h1>
+        <h2 className="panel-card-title">Şifre Değiştir</h2>
         <form onSubmit={handlePasswordSubmit} style={{ display: 'grid', gap: 'var(--space-sm)' }} noValidate>
           <Input
             label="Mevcut Şifre"

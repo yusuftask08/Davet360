@@ -8,6 +8,7 @@ import { updateVendorSchema, toFieldErrors } from '@repo/utils';
 import { Button, Input, Card, Spinner } from '@repo/ui';
 import { apiClient } from '../../../lib/apiClient.js';
 import { PanelHeader } from '../../components/PanelHeader.jsx';
+import { ImageUploader } from '../../components/ImageUploader.jsx';
 
 export default function EditOwnVendorPage() {
   const router = useRouter();
@@ -140,7 +141,7 @@ export default function EditOwnVendorPage() {
 
   if (!form) {
     return (
-      <main className="container" style={{ paddingTop: 'var(--space-md)' }}>
+      <main className="container panel-main">
         <PanelHeader title="İlanımı Düzenle" />
         {error ? <p className="ui-error-text" role="alert">{error}</p> : <Spinner label="Yükleniyor..." />}
       </main>
@@ -148,12 +149,9 @@ export default function EditOwnVendorPage() {
   }
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-md)', paddingBottom: 'var(--space-2xl)', maxWidth: 640 }}>
-      <PanelHeader title="İlanımı Düzenle" />
+    <main className="container panel-main panel-main--narrow">
+      <PanelHeader title="İlanımı Düzenle" subtitle="Değişiklikler admin onayı beklemeden hemen yayına yansır." />
       <Card>
-        <p style={{ color: 'var(--color-neutral-500)', marginTop: 0 }}>
-          Değişiklikler admin onayı beklemeden hemen yayına yansır.
-        </p>
         <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-sm)' }} noValidate>
           <Input
             label="İşletme Adı"
@@ -278,53 +276,7 @@ export default function EditOwnVendorPage() {
             </div>
           </div>
 
-          <div className="ui-field">
-            <label className="ui-field__label" htmlFor="images">
-              Görseller
-            </label>
-            <input
-              id="images"
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              multiple
-              onChange={handleImageChange}
-              disabled={uploading || images.length >= 10}
-            />
-            {uploading && <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-neutral-500)' }}>Yükleniyor...</span>}
-            {images.length > 0 && (
-              <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', marginTop: 'var(--space-sm)' }}>
-                {images.map((src) => (
-                  <div key={src} style={{ position: 'relative' }}>
-                    <img
-                      src={apiClient.assetUrl(src)}
-                      alt=""
-                      style={{ width: 72, height: 72, objectFit: 'cover', borderRadius: 'var(--radius-md)' }}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeImage(src)}
-                      aria-label="Görseli kaldır"
-                      style={{
-                        position: 'absolute',
-                        top: -6,
-                        right: -6,
-                        width: 20,
-                        height: 20,
-                        borderRadius: '999px',
-                        border: 'none',
-                        background: 'var(--color-error)',
-                        color: 'white',
-                        cursor: 'pointer',
-                        lineHeight: 1,
-                      }}
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <ImageUploader images={images} uploading={uploading} onChange={handleImageChange} onRemove={removeImage} />
 
           <Button type="submit" disabled={saving || uploading}>
             {saving ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}

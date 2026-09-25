@@ -15,29 +15,193 @@ body {
 }
 
 .container {
-  max-width: 960px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: 0 var(--space-md);
 }
 
 @media (max-width: 768px) {
   .container {
-    padding: 0 var(--space-sm);
+    padding: 0 var(--space-md);
   }
 }
 
-.panel-header {
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ============================================================
+   Admin kabuğu (AdminShell)
+   ============================================================ */
+.admin-bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(var(--color-paper-rgb), 0.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-border);
+}
+.admin-bar__top,
+.admin-bar__nav {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+.admin-bar__top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-md) 0;
-  border-bottom: 1px solid var(--color-border);
+  min-height: 56px;
+}
+.admin-bar__logo {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.admin-bar__logo b {
+  font-weight: inherit;
+}
+.admin-bar__logo span {
+  color: var(--color-primary);
+}
+.admin-bar__logo small {
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-ink);
+  color: white;
+  font-size: var(--font-size-2xs);
+  font-weight: 700;
+}
+.admin-bar__actions {
+  display: flex;
+  gap: var(--space-xs);
+}
+.admin-bar__action {
+  padding: 7px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-neutral-700);
+  cursor: pointer;
+}
+.admin-bar__action:hover,
+.admin-bar__action.is-active {
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+/* 7 sekme mobilde sığmıyor — yatay kaydırılır, kaydırma çubuğu gizli. */
+.admin-bar__nav {
+  display: flex;
+  gap: var(--space-lg);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.admin-bar__nav::-webkit-scrollbar {
+  display: none;
+}
+.admin-bar__link {
+  flex-shrink: 0;
+  padding: 10px 0 12px;
+  border-bottom: 2px solid transparent;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-neutral-500);
+  white-space: nowrap;
+}
+.admin-bar__link:hover {
+  color: var(--color-ink);
+}
+.admin-bar__link.is-active {
+  color: var(--color-ink);
+  border-bottom-color: var(--color-primary);
+}
+
+.admin-main {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-3xl);
+}
+.admin-main--narrow {
+  max-width: 680px;
+}
+.admin-page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-md);
   margin-bottom: var(--space-lg);
 }
-.panel-header__logo {
+.admin-page-head__title {
+  margin: 0;
+  font-size: clamp(24px, 3vw, 32px);
   font-weight: 800;
-  font-size: var(--font-size-lg);
+  letter-spacing: -0.015em;
 }
-.panel-header__logo span {
-  color: var(--color-primary);
+.admin-page-head__subtitle {
+  margin: var(--space-xs) 0 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+}
+@media (max-width: 768px) {
+  .admin-main {
+    padding-top: var(--space-lg);
+  }
+}
+
+/* Durum filtresi sekmeleri (İşletmeler, Yorumlar) — mobilde tek satır, kaydırılabilir. */
+.admin-tabs {
+  display: flex;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.admin-tabs::-webkit-scrollbar {
+  display: none;
+}
+.admin-tab {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-neutral-700);
+  cursor: pointer;
+}
+.admin-tab:hover {
+  border-color: var(--color-ink);
+}
+.admin-tab.is-active {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: white;
+}
+
+
+
+/* Tarayıcının ham "Choose File" butonu (blog kapak görseli) — tasarım sistemine uydurulur. */
+input[type='file'] {
+  font: inherit;
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+}
+input[type='file']::file-selector-button {
+  margin-right: var(--space-sm);
+  padding: 8px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-ink);
+  cursor: pointer;
 }

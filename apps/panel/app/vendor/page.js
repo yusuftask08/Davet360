@@ -3,15 +3,44 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ENDPOINTS } from '@repo/api-client';
-import { Card, Badge, Button, Spinner } from '@repo/ui';
+import { CATEGORIES } from '@repo/constants';
+import { Card, Button, Spinner, Phone, MessageCircle, Mail } from '@repo/ui';
 import { apiClient } from '../../lib/apiClient.js';
 import { PanelHeader } from '../components/PanelHeader.jsx';
+
+const WEB_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3600';
 
 const STATUS_BANNER = {
   pending: { tone: 'warning', text: 'İlanınız admin onayı bekliyor. Onaylandığında yayına alınacak.' },
   rejected: { tone: 'error', text: 'İlanınız reddedildi. Bilgilerinizi düzenleyip tekrar onaya gönderebilirsiniz.' },
   suspended: { tone: 'error', text: 'İlanınız yayından kaldırıldı. Tekrar yayına alınması için bizimle iletişime geçin.' },
 };
+
+const VENDOR_STATUS_LABEL = {
+  approved: { label: 'Yayında', tone: 'success' },
+  pending: { label: 'Onay bekliyor', tone: 'warning' },
+  rejected: { label: 'Reddedildi', tone: 'error' },
+  suspended: { label: 'Yayından kaldırıldı', tone: 'error' },
+};
+
+// Ham enum değerleri (new/contacted/closed) arayüzde İngilizce görünüyordu.
+const LEAD_STATUS_LABEL = {
+  new: { label: 'Yeni', tone: 'primary' },
+  contacted: { label: 'İletişime geçildi', tone: 'success' },
+  closed: { label: 'Kapandı', tone: 'neutral' },
+};
+
+const dateFormatter = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+
+function formatDate(value) {
+  return value ? dateFormatter.format(new Date(value)) : null;
+}
+
+// wa.me sadece rakam kabul eder — "+90 532 ..." gibi girilmiş numaralardan diğer karakterler atılır.
+function whatsappLink(phone) {
+  const digits = phone.replace(/\D/g, '');
+  return `https://wa.me/${digits}`;
+}
 
 export default function VendorDashboard() {
   const [leads, setLeads] = useState(null);
@@ -37,15 +66,13 @@ export default function VendorDashboard() {
 
   if (!hasVendor) {
     return (
-      <main className="container" style={{ paddingTop: 'var(--space-md)' }}>
-        <PanelHeader title="İşletme Paneli" />
-        <Card>
-          <h1 style={{ marginTop: 0 }}>Henüz bir ilanınız yok</h1>
-          <p style={{ color: 'var(--color-neutral-500)' }}>
-            Teklif talebi alabilmek için önce işletme bilgilerinizi girmeniz gerekiyor.
-          </p>
-          <Link href="/vendor/new">
-            <Button>İlan Oluştur</Button>
+      <main className="container panel-main">
+        <PanelHeader title="Hoş geldiniz" />
+        <Card className="panel-empty">
+          <h2>Henüz bir ilanınız yok</h2>
+          <p>Teklif talebi alabilmek için önce işletme bilgilerinizi girmeniz gerekiyor.</p>
+          <Link href="/vendor/new" className="ui-button ui-button--primary">
+            İlan Oluştur
           </Link>
         </Card>
       </main>
@@ -53,39 +80,132 @@ export default function VendorDashboard() {
   }
 
   const banner = vendor?.status ? STATUS_BANNER[vendor.status] : null;
+  const vendorStatus = vendor?.status ? VENDOR_STATUS_LABEL[vendor.status] : null;
+  const category = vendor ? CATEGORIES.find((c) => c.slug === vendor.category) : null;
+  const newCount = leads?.filter((lead) => lead.status === 'new').length ?? 0;
+  const contactedCount = leads?.filter((lead) => lead.status === 'contacted').length ?? 0;
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-md)' }}>
-      <PanelHeader title="İşletme Paneli" />
+    <main className="container panel-main">
+      <PanelHeader title="Teklif Talepleri" subtitle="Çiftlerin size gönderdiği teklif talepleri burada listelenir." />
+
       {banner && (
-        <Card
-          style={{
-            marginBottom: 'var(--space-md)',
-            borderLeft: `4px solid var(--color-${banner.tone})`,
-          }}
-        >
-          <p style={{ margin: 0, color: `var(--color-${banner.tone})`, fontWeight: 600 }}>{banner.text}</p>
-          {vendor.statusReason && <p style={{ margin: '4px 0 0' }}>{vendor.statusReason}</p>}
+        <div className={`panel-banner panel-banner--${banner.tone}`} role="status">
+          <p className="panel-banner__text">{banner.text}</p>
+          {vendor.statusReason && <p className="panel-banner__reason">{vendor.statusReason}</p>}
+        </div>
+      )}
+
+      {vendor && (
+        <Card className="panel-listing">
+          <div className="panel-listing__media">
+            {vendor.images?.[0] ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={apiClient.assetUrl(vendor.images[0])} alt="" />
+            ) : (
+              <span>{vendor.businessName.charAt(0)}</span>
+            )}
+          </div>
+          <div className="panel-listing__body">
+            <div className="panel-listing__row">
+              <h2 className="panel-listing__name">{vendor.businessName}</h2>
+              {vendorStatus && (
+                <span className={`panel-pill panel-pill--${vendorStatus.tone}`}>{vendorStatus.label}</span>
+              )}
+            </div>
+            <p className="panel-listing__meta">
+              {vendor.city}
+              {category ? ` · ${category.label}` : ''}
+            </p>
+            <div className="panel-listing__actions">
+              <Link href="/vendor/edit" className="ui-button ui-button--secondary">
+                İlanımı Düzenle
+              </Link>
+              {vendor.status === 'approved' && (
+                <a
+                  href={`${WEB_URL}/tr/${vendor.category}/${vendor.citySlug}/${vendor.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ui-button ui-button--ghost"
+                >
+                  Sitede Gör
+                </a>
+              )}
+            </div>
+          </div>
         </Card>
       )}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 'var(--space-md)' }}>
-        <Link href="/vendor/edit">
-          <Button variant="secondary">İlanımı Düzenle</Button>
-        </Link>
-      </div>
-      <h1>Gelen Teklif Talepleri</h1>
+
+      {leads && leads.length > 0 && (
+        <div className="panel-stats">
+          <div className="panel-stat">
+            <span className="panel-stat__value">{leads.length}</span>
+            <span className="panel-stat__label">Toplam talep</span>
+          </div>
+          <div className="panel-stat">
+            <span className="panel-stat__value">{newCount}</span>
+            <span className="panel-stat__label">Yeni</span>
+          </div>
+          <div className="panel-stat">
+            <span className="panel-stat__value">{contactedCount}</span>
+            <span className="panel-stat__label">İletişime geçildi</span>
+          </div>
+        </div>
+      )}
+
       {error && <p className="ui-error-text" role="alert">{error}</p>}
       {!leads && !error ? (
         <Spinner label="Yükleniyor..." />
       ) : (
-        <div style={{ display: 'grid', gap: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
-          {(leads ?? []).map((lead) => (
-            <Card key={lead._id}>
-              <strong>{lead.customerName}</strong> — {lead.customerPhone} <Badge>{lead.status}</Badge>
-              {lead.message && <p>{lead.message}</p>}
+        <div className="lead-list">
+          {(leads ?? []).map((lead) => {
+            const status = LEAD_STATUS_LABEL[lead.status] ?? { label: lead.status, tone: 'neutral' };
+            return (
+              <Card key={lead._id} className="lead-card">
+                <div className="lead-card__head">
+                  <div>
+                    <h3 className="lead-card__name">{lead.customerName}</h3>
+                    <p className="lead-card__received">{formatDate(lead.createdAt)}</p>
+                  </div>
+                  <span className={`panel-pill panel-pill--${status.tone}`}>{status.label}</span>
+                </div>
+                {lead.eventDate && (
+                  <p className="lead-card__event">
+                    Etkinlik tarihi: <strong>{formatDate(lead.eventDate)}</strong>
+                  </p>
+                )}
+                {lead.message && <p className="lead-card__message">{lead.message}</p>}
+                <div className="lead-card__actions">
+                  <a href={`tel:${lead.customerPhone}`} className="ui-button ui-button--primary">
+                    <Phone size={16} strokeWidth={2} aria-hidden="true" />
+                    Ara
+                  </a>
+                  <a
+                    href={whatsappLink(lead.customerPhone)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ui-button ui-button--secondary"
+                  >
+                    <MessageCircle size={16} strokeWidth={2} aria-hidden="true" />
+                    WhatsApp
+                  </a>
+                  {lead.customerEmail && (
+                    <a href={`mailto:${lead.customerEmail}`} className="ui-button ui-button--ghost">
+                      <Mail size={16} strokeWidth={2} aria-hidden="true" />
+                      E-posta
+                    </a>
+                  )}
+                </div>
+                <p className="lead-card__phone">{lead.customerPhone}</p>
+              </Card>
+            );
+          })}
+          {leads?.length === 0 && !error && (
+            <Card className="panel-empty">
+              <h2>Henüz teklif talebi yok</h2>
+              <p>İlanınız yayındayken çiftlerin gönderdiği talepler burada görünecek.</p>
             </Card>
-          ))}
-          {leads?.length === 0 && !error && <p>Henüz teklif talebi yok.</p>}
+          )}
         </div>
       )}
     </main>

@@ -27,7 +27,7 @@ export default async function FaqPage({ params: { locale } }) {
   };
 
   return (
-    <main className="container" style={{ maxWidth: 720, paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}>
+    <main className="container page-main" style={{ maxWidth: 720 }}>
       {/* eslint-disable-next-line react/no-danger */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 

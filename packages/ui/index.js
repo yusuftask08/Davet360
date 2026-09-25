@@ -38,6 +38,8 @@ export {
   Home,
   User,
   Menu,
+  X,
+  ArrowRight,
   Mail,
   Lock,
   Eye,

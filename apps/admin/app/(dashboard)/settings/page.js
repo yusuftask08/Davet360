@@ -81,7 +81,7 @@ export default function SettingsPage() {
 
   if (!user) {
     return (
-      <main className="container" style={{ paddingTop: 'var(--space-md)' }}>
+      <main className="container admin-main">
         <AdminHeader title="Hesap Ayarları" />
         <Spinner label="Yükleniyor..." />
       </main>
@@ -89,7 +89,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-md)', paddingBottom: 'var(--space-2xl)', maxWidth: 560 }}>
+    <main className="container admin-main admin-main--narrow">
       <AdminHeader title="Hesap Ayarları" />
 
       <Card style={{ marginBottom: 'var(--space-lg)' }}>

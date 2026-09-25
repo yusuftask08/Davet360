@@ -5,7 +5,7 @@ import { ENDPOINTS } from '@repo/api-client';
 import { Card, Badge, Button, Spinner, Star } from '@repo/ui';
 import { apiClient } from '../../../lib/apiClient.js';
 import { AdminHeader } from '../../components/AdminHeader.jsx';
-import { AdminNav } from '../../components/AdminNav.jsx';
+import { statusLabel } from '../../../lib/labels.js';
 
 const STATUS_TABS = [
   { value: '', label: 'Tümü' },
@@ -42,17 +42,16 @@ export default function AdminReviewsPage() {
   }
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-md)', paddingBottom: 'var(--space-2xl)' }}>
+    <main className="container admin-main">
       <AdminHeader title="Yorum Yönetimi" />
-      <AdminNav />
 
-      <div style={{ display: 'flex', gap: 'var(--space-sm)', marginBottom: 'var(--space-lg)', flexWrap: 'wrap' }}>
+      <div className="admin-tabs" role="tablist">
         {STATUS_TABS.map((tab) => (
           <button
             key={tab.value}
             type="button"
             onClick={() => setStatus(tab.value)}
-            className={`ui-button ${status === tab.value ? 'ui-button--primary' : 'ui-button--ghost'}`}
+            className={`admin-tab${status === tab.value ? ' is-active' : ''}`}
           >
             {tab.label}
           </button>
@@ -70,7 +69,7 @@ export default function AdminReviewsPage() {
             <Card key={review._id}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <strong>{review.vendorId?.businessName}</strong>
-                <Badge>{review.status}</Badge>
+                <Badge variant={review.status === 'approved' ? 'success' : review.status === 'rejected' ? 'error' : 'default'}>{statusLabel(review.status)}</Badge>
               </div>
               <p
                 style={{

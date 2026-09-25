@@ -1,35 +1,13 @@
-'use client';
-
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { ENDPOINTS } from '@repo/api-client';
-import { Button } from '@repo/ui';
-import { apiClient } from '../../lib/apiClient.js';
-
-export function PanelHeader({ title }) {
-  const router = useRouter();
-
-  function handleLogout() {
-    // httpOnly cookie JS'ten silinemez — backend'e /auth/logout isteği atıp clearCookie
-    // yaptırmak gerekiyor.
-    apiClient.post(ENDPOINTS.logout).catch(() => {});
-    localStorage.removeItem('user');
-    router.push('/login');
-  }
-
+// Sayfa başlığı — gezinme ve çıkış artık layout'taki PanelShell'de. Başlık ve isteğe bağlı
+// sağdaki eylem (ör. "İlanımı Düzenle") aynı satırda, mobilde alt alta.
+export function PanelHeader({ title, subtitle, action }) {
   return (
-    <div className="panel-header">
-      <div className="panel-header__logo">
-        Merasim<span>360</span> {title && `· ${title}`}
+    <div className="panel-page-head">
+      <div>
+        <h1 className="panel-page-head__title">{title}</h1>
+        {subtitle && <p className="panel-page-head__subtitle">{subtitle}</p>}
       </div>
-      <div style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'center' }}>
-        <Link href="/settings" style={{ fontSize: 'var(--font-size-sm)' }}>
-          Hesap Ayarları
-        </Link>
-        <Button variant="ghost" onClick={handleLogout}>
-          Çıkış Yap
-        </Button>
-      </div>
+      {action}
     </div>
   );
 }

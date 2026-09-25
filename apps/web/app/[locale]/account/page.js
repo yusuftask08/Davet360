@@ -1,17 +1,31 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { ENDPOINTS } from '@repo/api-client';
 import { updateProfileSchema, changePasswordSchema, toFieldErrors } from '@repo/utils';
-import { Button, Input, Card, Badge, Star } from '@repo/ui';
-import { Link } from '../../../i18n/navigation.js';
+import { Button, Input, Card, Badge, Star, Heart, ChevronRight } from '@repo/ui';
+import { Link, useRouter } from '../../../i18n/navigation.js';
 import { apiClient } from '../../../lib/apiClient.js';
+import { invalidateFavoritesCache } from '../lib/favoritesCache.js';
 
-const STATUS_VARIANT = { new: 'default', contacted: 'accent', closed: 'success' };
+const STATUS_VARIANT = { new: 'default', contacted: 'success', closed: 'default' };
+const LEAD_STATUS_KEY = { new: 'leadStatusNew', contacted: 'leadStatusContacted', closed: 'leadStatusClosed' };
 
 export default function AccountPage() {
   const t = useTranslations('account');
+  const locale = useLocale();
+  const router = useRouter();
+  const dateFormatter = new Intl.DateTimeFormat(locale === 'tr' ? 'tr-TR' : 'en-US', { dateStyle: 'long' });
+
+  // Mobilde çıkış yapmanın tek yolu burası — alt gezinme barında yok, masaüstündeki avatar
+  // menüsü (AuthNav) mobilde gizli.
+  function handleLogout() {
+    apiClient.post(ENDPOINTS.logout).catch(() => {});
+    localStorage.removeItem('user');
+    invalidateFavoritesCache();
+    router.push('/');
+  }
   const [user, setUser] = useState(null);
   const [profileForm, setProfileForm] = useState({ name: '', phone: '' });
   const [profileErrors, setProfileErrors] = useState({});
@@ -106,11 +120,78 @@ export default function AccountPage() {
   if (!user) return null;
 
   return (
-    <main className="container" style={{ maxWidth: 640, paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}>
-      <h1>{t('title')}</h1>
+    <main className="container page-main account-page">
+      <header className="account-head">
+        <span className="account-head__avatar" aria-hidden="true">
+          {user.name?.charAt(0)?.toUpperCase() ?? '?'}
+        </span>
+        <div className="account-head__info">
+          <h1 className="account-head__name">{user.name}</h1>
+          <p className="account-head__email">{user.email}</p>
+        </div>
+        <button type="button" className="account-head__logout" onClick={handleLogout}>
+          {t('logout')}
+        </button>
+      </header>
 
-      <Card style={{ marginBottom: 'var(--space-lg)' }}>
-        <h2 style={{ marginTop: 0, fontSize: 'var(--font-size-lg)' }}>{t('profileHeading')}</h2>
+      <Link href="/favorites" className="account-link-card">
+        <span className="account-link-card__icon">
+          <Heart size={20} strokeWidth={2} aria-hidden="true" />
+        </span>
+        <span className="account-link-card__text">
+          <strong>{t('favoritesCard')}</strong>
+          <span>{t('favoritesCardText')}</span>
+        </span>
+        <ChevronRight size={20} strokeWidth={2} aria-hidden="true" />
+      </Link>
+
+      <section className="account-section">
+        <h2 className="account-section__heading">{t('leadsHeading')}</h2>
+        <div className="account-list">
+          {leads?.length === 0 && <p className="empty-state">{t('noLeads')}</p>}
+          {leads?.map((lead) => (
+            <Card key={lead._id} className="account-item">
+              <div className="account-item__head">
+                <strong>{lead.vendorId?.businessName ?? '—'}</strong>
+                <Badge variant={STATUS_VARIANT[lead.status]}>
+                  {LEAD_STATUS_KEY[lead.status] ? t(LEAD_STATUS_KEY[lead.status]) : lead.status}
+                </Badge>
+              </div>
+              <p className="account-item__meta">
+                {dateFormatter.format(new Date(lead.createdAt))}
+                {lead.eventDate && ` · ${t('eventDate')}: ${dateFormatter.format(new Date(lead.eventDate))}`}
+              </p>
+              {lead.message && <p className="account-item__text">{lead.message}</p>}
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="account-section">
+        <h2 className="account-section__heading">{t('reviewsHeading')}</h2>
+        <div className="account-list">
+          {reviews?.length === 0 && <p className="empty-state">{t('noReviews')}</p>}
+          {reviews?.map((review) => (
+            <Card key={review._id} className="account-item">
+              <div className="account-item__head">
+                <strong>{review.vendorId?.businessName ?? '—'}</strong>
+                <Badge variant={review.status === 'approved' ? 'success' : review.status === 'rejected' ? 'error' : 'default'}>
+                  {t(`status${review.status.charAt(0).toUpperCase()}${review.status.slice(1)}`)}
+                </Badge>
+              </div>
+              <p className="account-item__text account-item__rating">
+                <Star size={13} fill="currentColor" strokeWidth={0} aria-hidden="true" />
+                {review.rating} — {review.comment}
+              </p>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="account-section">
+        <h2 className="account-section__heading">{t('settingsHeading')}</h2>
+        <Card style={{ marginBottom: 'var(--space-md)' }}>
+          <h3 className="account-card-title">{t('profileHeading')}</h3>
         <form onSubmit={handleProfileSubmit} style={{ display: 'grid', gap: 'var(--space-sm)' }} noValidate>
           <Input
             label={t('nameLabel')}
@@ -135,10 +216,10 @@ export default function AccountPage() {
           </Button>
           {profileSaved && <p style={{ color: 'var(--color-success)' }}>{t('saved')}</p>}
         </form>
-      </Card>
+        </Card>
 
-      <Card style={{ marginBottom: 'var(--space-lg)' }}>
-        <h2 style={{ marginTop: 0, fontSize: 'var(--font-size-lg)' }}>{t('passwordHeading')}</h2>
+        <Card>
+          <h3 className="account-card-title">{t('passwordHeading')}</h3>
         <form onSubmit={handlePasswordSubmit} style={{ display: 'grid', gap: 'var(--space-sm)' }} noValidate>
           <Input
             label={t('currentPasswordLabel')}
@@ -164,44 +245,8 @@ export default function AccountPage() {
           {passwordSaved && <p style={{ color: 'var(--color-success)' }}>{t('passwordChanged')}</p>}
           {passwordFormError && <p className="ui-error-text" role="alert">{passwordFormError}</p>}
         </form>
-      </Card>
-
-      <p style={{ marginBottom: 'var(--space-lg)' }}>
-        <Link href="/favorites">{t('favoritesLink')}</Link>
-      </p>
-
-      <h2 style={{ fontSize: 'var(--font-size-lg)' }}>{t('leadsHeading')}</h2>
-      <div style={{ display: 'grid', gap: 'var(--space-sm)', marginBottom: 'var(--space-xl)' }}>
-        {leads?.length === 0 && <p style={{ color: 'var(--color-neutral-500)' }}>{t('noLeads')}</p>}
-        {leads?.map((lead) => (
-          <Card key={lead._id}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <strong>{lead.vendorId?.businessName ?? '—'}</strong>
-              <Badge variant={STATUS_VARIANT[lead.status]}>{lead.status}</Badge>
-            </div>
-            {lead.message && <p style={{ margin: '4px 0 0', color: 'var(--color-neutral-500)' }}>{lead.message}</p>}
-          </Card>
-        ))}
-      </div>
-
-      <h2 style={{ fontSize: 'var(--font-size-lg)' }}>{t('reviewsHeading')}</h2>
-      <div style={{ display: 'grid', gap: 'var(--space-sm)' }}>
-        {reviews?.length === 0 && <p style={{ color: 'var(--color-neutral-500)' }}>{t('noReviews')}</p>}
-        {reviews?.map((review) => (
-          <Card key={review._id}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <strong>{review.vendorId?.businessName ?? '—'}</strong>
-              <Badge variant={review.status === 'approved' ? 'success' : review.status === 'rejected' ? 'error' : 'default'}>
-                {t(`status${review.status.charAt(0).toUpperCase()}${review.status.slice(1)}`)}
-              </Badge>
-            </div>
-            <p style={{ margin: '4px 0 0', display: 'flex', alignItems: 'center', gap: 4 }}>
-              <Star size={13} fill="currentColor" strokeWidth={0} aria-hidden="true" />
-              {review.rating} — {review.comment}
-            </p>
-          </Card>
-        ))}
-      </div>
+        </Card>
+      </section>
     </main>
   );
 }

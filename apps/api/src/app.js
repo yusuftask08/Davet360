@@ -21,7 +21,17 @@ export function createApp() {
   app.use(express.json({ limit: '2mb' }));
   app.use(cookieParser());
   app.use(mongoSanitize());
-  app.use('/uploads', express.static(env.uploadDir));
+  // Yüklenen görseller herkese açık ve panel/admin gibi başka origin'lerden <img> ile
+  // gösteriliyor — helmet'in varsayılan CORP: same-origin başlığı bunları tarayıcıda
+  // engelliyordu. Sadece bu statik klasör için cross-origin'e izin verilir.
+  app.use(
+    '/uploads',
+    (_req, res, next) => {
+      res.set('Cross-Origin-Resource-Policy', 'cross-origin');
+      next();
+    },
+    express.static(env.uploadDir),
+  );
 
   app.use('/api', apiRouter);
 

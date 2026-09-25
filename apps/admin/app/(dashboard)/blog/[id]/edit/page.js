@@ -8,7 +8,6 @@ import { updateBlogPostSchema, toFieldErrors } from '@repo/utils';
 import { Button, Input, Card, Badge, Spinner } from '@repo/ui';
 import { apiClient } from '../../../../../lib/apiClient.js';
 import { AdminHeader } from '../../../../components/AdminHeader.jsx';
-import { AdminNav } from '../../../../components/AdminNav.jsx';
 
 export default function EditBlogPostPage() {
   const { id } = useParams();
@@ -105,18 +104,16 @@ export default function EditBlogPostPage() {
 
   if (!post || !form) {
     return (
-      <main className="container" style={{ paddingTop: 'var(--space-md)' }}>
+      <main className="container admin-main">
         <AdminHeader title="Yazıyı Düzenle" />
-        <AdminNav />
         {error ? <p className="ui-error-text" role="alert">{error}</p> : <Spinner label="Yükleniyor..." />}
       </main>
     );
   }
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-md)', paddingBottom: 'var(--space-2xl)', maxWidth: 640 }}>
+    <main className="container admin-main admin-main--narrow">
       <AdminHeader title="Yazıyı Düzenle" />
-      <AdminNav />
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-md)' }}>
         <Badge variant={post.publishedAt ? 'success' : 'default'}>{post.publishedAt ? 'Yayında' : 'Taslak'}</Badge>

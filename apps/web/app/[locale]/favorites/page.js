@@ -32,15 +32,16 @@ export default function FavoritesPage() {
   }, []);
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}>
-      <h1 style={{ fontSize: 'var(--font-size-xl)' }}>{t('heading')}</h1>
+    <main className="container page-main">
+      <h1 className="page-header__title" style={{ marginBottom: 'var(--space-lg)' }}>{t('heading')}</h1>
       {loading && <p>{t('loading')}</p>}
       {error && (
-        <p className="ui-error-text" role="alert">
-          {error} <Link href="/login" className="link-inline">{t('loginLink')}</Link>
+        <p className="empty-state" role="status">
+          {error}
+          <Link href="/login" className="ui-button ui-button--primary">{t('loginLink')}</Link>
         </p>
       )}
-      {!loading && !error && items.length === 0 && <p>{t('empty')}</p>}
+      {!loading && !error && items.length === 0 && <p className="empty-state">{t('empty')}</p>}
       <div className="vendor-grid" style={{ marginTop: 'var(--space-lg)' }}>
         {items.map((vendor) => (
           <VendorCard

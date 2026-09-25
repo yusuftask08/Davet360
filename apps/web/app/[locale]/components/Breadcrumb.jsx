@@ -19,10 +19,7 @@ export function Breadcrumb({ locale, items }) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-      <nav
-        aria-label="Breadcrumb"
-        style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-neutral-500)', marginBottom: 'var(--space-md)' }}
-      >
+      <nav aria-label="Breadcrumb" className="breadcrumb">
         {items.map((item, index) => (
           <span key={item.href}>
             {index > 0 && ' / '}

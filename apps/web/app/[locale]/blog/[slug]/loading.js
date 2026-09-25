@@ -5,7 +5,7 @@ export default async function BlogPostLoading() {
   const t = await getTranslations('common');
 
   return (
-    <main className="container" style={{ maxWidth: 760, paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}>
+    <main className="container page-main" style={{ maxWidth: 760 }}>
       <div role="status" aria-label={t('loading')}>
         <Skeleton width="50%" height={14} />
         <Skeleton width="85%" height={34} style={{ marginTop: 'var(--space-md)' }} />

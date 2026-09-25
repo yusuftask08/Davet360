@@ -12,7 +12,9 @@ import { useRouter } from '../../../i18n/navigation.js';
 // platformuyuz), bunun yerine kategori + şehir soruyoruz. Şehir alanı Türkiye'nin 81 ilini
 // öneren bir autocomplete: serbest metin de kabul edilir (yazıp direkt Enter'a basılabilir),
 // hedef kategori+şehir sayfası artık veri yoksa 404 değil "ilk işletme siz olun" gösteriyor.
-export function HomeSearchBar() {
+// variant="hero": anasayfa hero'su ve /search için alt alta yığılmış, etiketli, tam genişlikte
+// butonlu kart düzeni — mobilde tek satırlık pill'e iki alan sığmıyordu.
+export function HomeSearchBar({ variant }) {
   const t = useTranslations();
   const router = useRouter();
   const listboxId = useId();
@@ -78,11 +80,11 @@ export function HomeSearchBar() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="home-search">
+    <form onSubmit={handleSubmit} className={variant === 'hero' ? 'home-search home-search--hero' : 'home-search'}>
       <Search size={18} strokeWidth={2} className="home-search__leading-icon" aria-hidden="true" />
       <div className="home-search__field">
-        <label htmlFor="home-search-category">{t('home.searchCategoryLabel')}</label>
-        <select id="home-search-category" value={category} onChange={(e) => setCategory(e.target.value)}>
+        <label htmlFor={`${listboxId}-category`}>{t('home.searchCategoryLabel')}</label>
+        <select id={`${listboxId}-category`} value={category} onChange={(e) => setCategory(e.target.value)}>
           {CATEGORIES.map((c) => (
             <option key={c.slug} value={c.slug}>
               {t(`categories.${c.slug}`)}
@@ -92,9 +94,9 @@ export function HomeSearchBar() {
       </div>
       <div className="home-search__divider" aria-hidden="true" />
       <div className="home-search__field home-search__field--autocomplete">
-        <label htmlFor="home-search-city">{t('home.searchCityLabel')}</label>
+        <label htmlFor={`${listboxId}-city`}>{t('home.searchCityLabel')}</label>
         <input
-          id="home-search-city"
+          id={`${listboxId}-city`}
           type="text"
           role="combobox"
           aria-expanded={isOpen && suggestions.length > 0}

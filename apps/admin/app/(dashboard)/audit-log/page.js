@@ -5,7 +5,6 @@ import { ENDPOINTS } from '@repo/api-client';
 import { Card, Badge, Spinner } from '@repo/ui';
 import { apiClient } from '../../../lib/apiClient.js';
 import { AdminHeader } from '../../components/AdminHeader.jsx';
-import { AdminNav } from '../../components/AdminNav.jsx';
 
 export default function AdminAuditLogPage() {
   const [data, setData] = useState(null);
@@ -16,9 +15,8 @@ export default function AdminAuditLogPage() {
   }, []);
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-md)', paddingBottom: 'var(--space-2xl)' }}>
+    <main className="container admin-main">
       <AdminHeader title="İşlem Geçmişi" />
-      <AdminNav />
 
       {error && <p className="ui-error-text" role="alert">{error}</p>}
 

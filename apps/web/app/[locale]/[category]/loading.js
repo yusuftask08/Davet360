@@ -8,7 +8,7 @@ export default async function CategoryLoading() {
   const t = await getTranslations('common');
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}>
+    <main className="container page-main">
       <div role="status" aria-label={t('loading')}>
         <Skeleton width="45%" height={14} />
         <Skeleton width="55%" height={30} style={{ marginTop: 'var(--space-md)' }} />

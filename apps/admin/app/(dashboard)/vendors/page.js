@@ -7,7 +7,7 @@ import { ENDPOINTS } from '@repo/api-client';
 import { Card, Badge, Input, Spinner } from '@repo/ui';
 import { apiClient } from '../../../lib/apiClient.js';
 import { AdminHeader } from '../../components/AdminHeader.jsx';
-import { AdminNav } from '../../components/AdminNav.jsx';
+import { statusLabel, categoryLabel } from '../../../lib/labels.js';
 
 const STATUS_TABS = [
   { value: '', label: 'Tümü' },
@@ -62,17 +62,16 @@ function AdminVendorsContent() {
   }
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-md)', paddingBottom: 'var(--space-2xl)' }}>
+    <main className="container admin-main">
       <AdminHeader title="İşletme Yönetimi" />
-      <AdminNav />
 
-      <div style={{ display: 'flex', gap: 'var(--space-sm)', marginBottom: 'var(--space-md)', flexWrap: 'wrap' }}>
+      <div className="admin-tabs" role="tablist">
         {STATUS_TABS.map((tab) => (
           <button
             key={tab.value}
             type="button"
             onClick={() => setStatus(tab.value)}
-            className={`ui-button ${status === tab.value ? 'ui-button--primary' : 'ui-button--ghost'}`}
+            className={`admin-tab${status === tab.value ? ' is-active' : ''}`}
           >
             {tab.label}
           </button>
@@ -98,10 +97,10 @@ function AdminVendorsContent() {
                     <div>
                       <strong>{vendor.businessName}</strong>
                       <p style={{ margin: '4px 0 0', color: 'var(--color-neutral-500)', fontSize: 'var(--font-size-sm)' }}>
-                        {vendor.category} · {vendor.city}
+                        {categoryLabel(vendor.category)} · {vendor.city}
                       </p>
                     </div>
-                    <Badge variant={STATUS_BADGE_VARIANT[vendor.status]}>{vendor.status}</Badge>
+                    <Badge variant={STATUS_BADGE_VARIANT[vendor.status]}>{statusLabel(vendor.status)}</Badge>
                   </div>
                 </Card>
               </Link>

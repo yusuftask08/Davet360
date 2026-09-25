@@ -8,7 +8,7 @@ import { updateVendorSchema, toFieldErrors } from '@repo/utils';
 import { Card, Badge, Button, Input, Spinner } from '@repo/ui';
 import { apiClient } from '../../../../lib/apiClient.js';
 import { AdminHeader } from '../../../components/AdminHeader.jsx';
-import { AdminNav } from '../../../components/AdminNav.jsx';
+import { statusLabel } from '../../../../lib/labels.js';
 
 export default function AdminVendorDetailPage() {
   const { id } = useParams();
@@ -103,7 +103,7 @@ export default function AdminVendorDetailPage() {
 
   if (error) {
     return (
-      <main className="container" style={{ paddingTop: 'var(--space-md)' }}>
+      <main className="container admin-main">
         <AdminHeader title="İşletme Detayı" />
         <p className="ui-error-text" role="alert">{error}</p>
       </main>
@@ -112,21 +112,19 @@ export default function AdminVendorDetailPage() {
 
   if (!vendor || !form) {
     return (
-      <main className="container" style={{ paddingTop: 'var(--space-md)' }}>
+      <main className="container admin-main">
         <AdminHeader title="İşletme Detayı" />
-        <AdminNav />
         <Spinner label="Yükleniyor..." />
       </main>
     );
   }
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-md)', paddingBottom: 'var(--space-2xl)', maxWidth: 640 }}>
+    <main className="container admin-main admin-main--narrow">
       <AdminHeader title="İşletme Detayı" />
-      <AdminNav />
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-sm)' }}>
-        <Badge>{vendor.status}</Badge>
+        <Badge>{statusLabel(vendor.status)}</Badge>
         <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
           {vendor.status === 'pending' && (
             <>

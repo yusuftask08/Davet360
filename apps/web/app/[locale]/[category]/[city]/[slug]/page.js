@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getCategoryBySlug, AMENITIES } from '@repo/constants';
 import { createApiClient, ENDPOINTS } from '@repo/api-client';
 import { Card, Badge, VendorCard, Check, Star } from '@repo/ui';
 import { LeadForm } from './LeadForm.jsx';
+import { VendorMapLazy } from './VendorMapLazy.jsx';
 import { ReviewForm } from './ReviewForm.jsx';
 import { WhatsAppButton } from './WhatsAppButton.jsx';
 import { FavoriteButton } from '../../../components/FavoriteButton.jsx';
@@ -17,14 +17,6 @@ import { buildAlternates, buildOpenGraph, buildTwitter } from '../../../lib/seo.
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3600';
 
 const apiClient = createApiClient({ baseUrl: process.env.NEXT_PUBLIC_API_URL });
-
-// Leaflet (~150KB) sadece konumu olan vendor'larda gerekiyor — statik import her vendor
-// sayfasının bundle'ına bunu gömerdi, konum yoksa bile. Dinamik import + ssr:false ile
-// sadece gerçekten render edilecekse indirilir.
-const VendorMap = dynamic(() => import('./VendorMap.jsx').then((mod) => mod.VendorMap), {
-  ssr: false,
-  loading: () => <div style={{ height: 260, borderRadius: 'var(--radius-lg)', background: 'var(--color-neutral-100)' }} />,
-});
 
 async function fetchVendor(slug) {
   try {
@@ -114,10 +106,7 @@ export default async function VendorPage({ params }) {
   };
 
   return (
-    <main
-      className="container"
-      style={{ paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}
-    >
+    <main className="container page-main vendor-page">
       {/* JSON-LD için tek istisna: ham HTML değil, JSON veri gömülüyor; script türü
           application/ld+json olduğu için tarayıcı bunu asla çalıştırmaz. */}
       <script
@@ -235,7 +224,7 @@ export default async function VendorPage({ params }) {
           {lat && lng && (
             <div className="vendor-section">
               <h2 className="vendor-section__heading">{t('vendor.locationHeading')}</h2>
-              <VendorMap lat={lat} lng={lng} name={vendor.businessName} />
+              <VendorMapLazy lat={lat} lng={lng} name={vendor.businessName} />
             </div>
           )}
 

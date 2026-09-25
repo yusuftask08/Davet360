@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { CATEGORIES, getCategoryBySlug } from '@repo/constants';
 import { createApiClient, ENDPOINTS } from '@repo/api-client';
-import { VendorCard, Card, CategoryIcon, ScrollRow } from '@repo/ui';
+import { VendorCard, CategoryIcon, ScrollRow } from '@repo/ui';
 import { Link } from '../../../i18n/navigation.js';
 import { Breadcrumb } from '../components/Breadcrumb.jsx';
 import { EmptyStateCta } from '../components/EmptyStateCta.jsx';
@@ -41,34 +41,22 @@ export default async function CategoryPage({ params }) {
   ]);
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}>
+    <main className="container page-main">
       <Breadcrumb locale={locale} items={[{ name: 'Merasim360', href: '' }, { name: categoryLabel, href: `/${categorySlug}` }]} />
-      <div className="section-heading">
-        <h1 style={{ fontSize: 'var(--font-size-xl)' }}>{categoryLabel}</h1>
-        <span className="section-heading__meta">{t('category.nationwide')}</span>
-      </div>
-      <p style={{ color: 'var(--color-neutral-700)', maxWidth: 640, marginTop: 0 }}>
-        {t(`categoryIntros.${categorySlug}`)}
-      </p>
+      <header className="page-header">
+        <h1 className="page-header__title">{categoryLabel}</h1>
+        <p className="page-header__meta">{t('category.nationwide')}</p>
+        <p className="page-header__intro">{t(`categoryIntros.${categorySlug}`)}</p>
+      </header>
 
       {cities.items.length > 0 && (
-        <section style={{ marginBottom: 'var(--space-2xl)', marginTop: 'var(--space-xl)' }}>
-          <h2 style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-neutral-500)' }}>
-            {t('category.pickCity')}
-          </h2>
-          <div className="category-grid">
+        <section className="city-picker">
+          <h2 className="city-picker__heading">{t('category.pickCity')}</h2>
+          <div className="city-picker__list">
             {cities.items.map((cityItem) => (
-              <Link
-                key={cityItem.citySlug}
-                href={`/${categorySlug}/${cityItem.citySlug}`}
-                style={{ textDecoration: 'none' }}
-              >
-                <Card>
-                  <strong>{cityItem.city}</strong>
-                  <p style={{ margin: '4px 0 0', color: 'var(--color-neutral-500)', fontSize: 'var(--font-size-sm)' }}>
-                    {t('category.vendorCount', { count: cityItem.count })}
-                  </p>
-                </Card>
+              <Link key={cityItem.citySlug} href={`/${categorySlug}/${cityItem.citySlug}`} className="city-picker__chip">
+                {cityItem.city}
+                <span className="city-picker__count">{cityItem.count}</span>
               </Link>
             ))}
           </div>
@@ -95,17 +83,17 @@ export default async function CategoryPage({ params }) {
       )}
 
       {otherCategories.length > 0 && (
-        <section style={{ marginTop: 'var(--space-3xl)' }}>
+        <section className="home-section">
           <div className="section-heading section-heading--lg">
             <h2>{t('category.otherCategoriesHeading')}</h2>
           </div>
           <ScrollRow prevLabel={t('common.scrollPrev')} nextLabel={t('common.scrollNext')}>
             {otherCategories.map((other) => (
-              <Link key={other.slug} href={`/${other.slug}`} className="hscroll__item category-browse-card">
-                <span className="category-browse-card__icon">
-                  <CategoryIcon slug={other.slug} size={26} strokeWidth={1.5} />
+              <Link key={other.slug} href={`/${other.slug}`} className="hscroll__item category-circle">
+                <span className="category-circle__icon">
+                  <CategoryIcon slug={other.slug} size={28} strokeWidth={1.5} />
                 </span>
-                <span className="category-browse-card__label">{t(`categories.${other.slug}`)}</span>
+                <span className="category-circle__label">{t(`categories.${other.slug}`)}</span>
               </Link>
             ))}
           </ScrollRow>

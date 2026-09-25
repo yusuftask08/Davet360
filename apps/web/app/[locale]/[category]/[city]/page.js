@@ -83,7 +83,7 @@ export default async function CategoryCityPage({ params, searchParams }) {
   const cityName = cityInfo?.city ?? citySlug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 
   return (
-    <main className="container" style={{ paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-3xl)' }}>
+    <main className="container page-main">
       <Breadcrumb
         locale={locale}
         items={[
@@ -92,20 +92,18 @@ export default async function CategoryCityPage({ params, searchParams }) {
           { name: cityName, href: `/${categorySlug}/${citySlug}` },
         ]}
       />
-      <div className="section-heading">
-        <h1 style={{ fontSize: 'var(--font-size-xl)' }}>
+      <header className="page-header">
+        <h1 className="page-header__title">
           {cityName} {categoryLabel}
         </h1>
-        <span className="section-heading__meta">
+        <p className="page-header__meta">
           {t('category.vendorCount', { count: data.total ?? data.items.length })}
-        </span>
-      </div>
-
-      <p style={{ marginBottom: 'var(--space-lg)' }}>
-        <Link href={`/${categorySlug}`} style={{ color: 'var(--color-neutral-500)' }}>
-          ← {t('category.allCities', { category: categoryLabel })}
-        </Link>
-      </p>
+          {' · '}
+          <Link href={`/${categorySlug}`} className="page-header__link">
+            {t('category.allCities', { category: categoryLabel })}
+          </Link>
+        </p>
+      </header>
 
       {/* Tek bir birleşik çubuk — bütçe/kapasite alanları, sıralama ve olanaklar birer
           <details> açılır panel (selectbox gibi kapalı durur, tıklayınca açılır, JS
@@ -210,7 +208,7 @@ export default async function CategoryCityPage({ params, searchParams }) {
       )}
 
       {relatedCategories.length > 0 && (
-        <section style={{ marginTop: 'var(--space-3xl)' }}>
+        <section className="home-section">
           <div className="section-heading section-heading--lg">
             <h2>{t('category.relatedHeading', { city: cityName })}</h2>
           </div>
@@ -219,12 +217,12 @@ export default async function CategoryCityPage({ params, searchParams }) {
               <Link
                 key={item.category}
                 href={`/${item.category}/${citySlug}`}
-                className="hscroll__item category-browse-card"
+                className="hscroll__item category-circle"
               >
-                <span className="category-browse-card__icon">
-                  <CategoryIcon slug={item.category} size={26} strokeWidth={1.5} />
+                <span className="category-circle__icon">
+                  <CategoryIcon slug={item.category} size={28} strokeWidth={1.5} />
                 </span>
-                <span className="category-browse-card__label">{t(`categories.${item.category}`)}</span>
+                <span className="category-circle__label">{t(`categories.${item.category}`)}</span>
               </Link>
             ))}
           </ScrollRow>
