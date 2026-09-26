@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 // AuthNav) ortak iskeleti: aç/kapa state'i + dışarı tıklayınca kapatma. İki yerde ayrı ayrı
 // yazılmasın diye buradan paylaşılır. children bir fonksiyonsa `close()` alır (link/logout
 // tıklanınca menüyü kapatmak için).
-export function IconMenu({ icon, label, avatar = false, children }) {
+export function IconMenu({ icon, label, avatar = false, triggerClassName, children }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef(null);
   const triggerRef = useRef(null);
@@ -41,7 +41,7 @@ export function IconMenu({ icon, label, avatar = false, children }) {
       <button
         ref={triggerRef}
         type="button"
-        className={`site-navbar__icon-trigger${avatar ? ' site-navbar__icon-trigger--avatar' : ''}`}
+        className={triggerClassName ?? `site-navbar__icon-trigger${avatar ? ' site-navbar__icon-trigger--avatar' : ''}`}
         onClick={() => setOpen((value) => !value)}
         aria-haspopup="menu"
         aria-expanded={open}

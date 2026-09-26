@@ -16,7 +16,29 @@
     "settings": "Settings",
     "language": "Language",
     "menu": "Menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "planning": "Planning",
+    "weddingEngagement": "Wedding & Engagement",
+    "specialDays": "Special Days",
+    "guide": "Wedding Guide",
+    "forBusinesses": "For Businesses",
+    "home": "Home",
+    "myLeads": "My requests",
+    "messages": "Messages",
+    "myVendors": "Your vendors",
+    "services": "Services",
+    "events": "Events",
+    "buildTeam": "BUILD YOUR TEAM",
+    "planningEasier": "MAKE PLANNING EASIER",
+    "promoQuote": "Get free quotes with one form",
+    "promoFavorites": "Save and compare favorites",
+    "promoGuide": "Read the wedding guide",
+    "addBusiness": "List your business",
+    "businessLogin": "Business login",
+    "businessPitch": "Join Merasim360 for free and get quote requests from couples nearby.",
+    "search": "Search",
+    "accountPill": "My account",
+    "faq": "FAQ"
   },
   "footer": {
     "browseHeading": "Browse by category and city",
@@ -29,7 +51,13 @@
     "terms": "Terms of Use",
     "vendorsHeading": "For Businesses",
     "addBusiness": "List Your Business",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "planningHeading": "Planning & Inspiration",
+    "categoriesHeading": "Categories",
+    "vendorTitle": "Own a business?",
+    "vendorText": "Join Merasim360 for free and receive quote requests directly from couples in your area.",
+    "vendorCta": "Get started",
+    "madeWith": "made with love"
   },
   "pages": {
     "faq": {

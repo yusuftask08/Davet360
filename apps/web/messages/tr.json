@@ -16,7 +16,29 @@
     "settings": "Ayarlar",
     "language": "Dil",
     "menu": "Menü",
-    "closeMenu": "Menüyü kapat"
+    "closeMenu": "Menüyü kapat",
+    "planning": "Planlama",
+    "weddingEngagement": "Düğün & Nişan",
+    "specialDays": "Özel Günler",
+    "guide": "Düğün Rehberi",
+    "forBusinesses": "İşletmeler İçin",
+    "home": "Ana Sayfa",
+    "myLeads": "Tekliflerim",
+    "messages": "Mesajlar",
+    "myVendors": "İşletmelerim",
+    "services": "Hizmetler",
+    "events": "Etkinlikler",
+    "buildTeam": "EKİBİNİ KUR",
+    "planningEasier": "PLANLAMAYI KOLAYLAŞTIR",
+    "promoQuote": "Tek formla ücretsiz teklif al",
+    "promoFavorites": "Beğendiklerini kaydet, karşılaştır",
+    "promoGuide": "Düğün rehberini oku",
+    "addBusiness": "İşletmeni ekle",
+    "businessLogin": "İşletme girişi",
+    "businessPitch": "Merasim360'a ücretsiz katıl, bölgendeki çiftlerden teklif talebi al.",
+    "search": "Ara",
+    "accountPill": "Hesabım",
+    "faq": "Sıkça Sorulan Sorular"
   },
   "footer": {
     "browseHeading": "Kategoriye ve şehre göre göz atın",
@@ -29,7 +51,13 @@
     "terms": "Kullanım Şartları",
     "vendorsHeading": "İşletmeler İçin",
     "addBusiness": "İşletmeni Ekle",
-    "rights": "Tüm hakları saklıdır."
+    "rights": "Tüm hakları saklıdır.",
+    "planningHeading": "Planlama & İlham",
+    "categoriesHeading": "Kategoriler",
+    "vendorTitle": "İşletmeniz mi var?",
+    "vendorText": "Merasim360'a ücretsiz katılın, bölgenizdeki çiftlerden doğrudan teklif talebi alın.",
+    "vendorCta": "Hemen başlayın",
+    "madeWith": "sevgiyle yapıldı"
   },
   "pages": {
     "faq": {

@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslations } from 'next-intl';
-import { CATEGORIES } from '@repo/constants';
 import { CategoryIcon, Menu, X } from '@repo/ui';
 import { Link, usePathname } from '../../../i18n/navigation.js';
 import { LocaleSwitcher } from './LocaleSwitcher.jsx';
+import { SPECIAL_DAY_CATEGORIES, WEDDING_CATEGORIES } from '../lib/navGroups.js';
 
 // Mobil header'ın sol üstündeki hamburger — soldan açılan tam yükseklikte bir çekmece.
 // Masaüstündeki küçük ayarlar menüsünün (SettingsMenu) aksine burada tüm site gezinmesi var:
@@ -73,17 +73,24 @@ export function MobileMenu({ panelUrl }) {
               </button>
             </div>
 
-            <p className="mobile-menu__label">{t('home.categoriesHeading')}</p>
-            <ul className="mobile-menu__list">
-              {CATEGORIES.map((category) => (
-                <li key={category.slug}>
-                  <Link href={`/${category.slug}`} className="mobile-menu__link">
-                    <CategoryIcon slug={category.slug} size={20} strokeWidth={1.5} />
-                    {t(`categories.${category.slug}`)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            {[
+              { label: t('nav.weddingEngagement'), slugs: WEDDING_CATEGORIES },
+              { label: t('nav.specialDays'), slugs: SPECIAL_DAY_CATEGORIES },
+            ].map((group) => (
+              <div key={group.label}>
+                <p className="mobile-menu__label">{group.label}</p>
+                <ul className="mobile-menu__list">
+                  {group.slugs.map((slug) => (
+                    <li key={slug}>
+                      <Link href={`/${slug}`} className="mobile-menu__link">
+                        <CategoryIcon slug={slug} size={20} strokeWidth={1.5} />
+                        {t(`categories.${slug}`)}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
 
             <ul className="mobile-menu__list mobile-menu__list--plain">
               <li><Link href="/blog" className="mobile-menu__link">{t('nav.blog')}</Link></li>

@@ -2,7 +2,19 @@ import { getTranslations } from 'next-intl/server';
 import { getCategoryBySlug, CATEGORIES } from '@repo/constants';
 import { createApiClient, ENDPOINTS } from '@repo/api-client';
 import { slugify } from '@repo/utils';
+import { ArrowRight, Heart } from '@repo/ui';
 import { Link } from '../../../i18n/navigation.js';
+import { LocaleSwitcher } from './LocaleSwitcher.jsx';
+
+// Footer'daki kısa kategori listesi — en çok aranan düğün kategorileri + özel günlerden birkaçı.
+const FOOTER_CATEGORIES = [
+  'dugun-mekani',
+  'dugun-organizasyonu',
+  'nisan-organizasyonu',
+  'fotograf-video',
+  'gelinlik-damatlik',
+  'sunnet-organizasyonu',
+];
 
 const apiClient = createApiClient({ baseUrl: process.env.NEXT_PUBLIC_API_URL });
 
@@ -61,43 +73,61 @@ export async function Footer() {
         </div>
       </div>
 
-      <div className="container site-footer__grid">
-        <div>
-          <div className="site-navbar__logo" style={{ marginBottom: 'var(--space-sm)' }}>
+      <div className="container site-footer__main">
+        <div className="site-footer__brand">
+          <div className="site-navbar__logo">
             Merasim<span>360</span>
           </div>
+          <p className="site-footer__made">
+            {t('footer.madeWith')} <Heart size={14} fill="currentColor" strokeWidth={0} aria-hidden="true" />
+          </p>
           <p className="site-footer__muted">{t('footer.tagline')}</p>
+        </div>
+
+        <div>
+          <h3 className="site-footer__heading">{t('footer.planningHeading')}</h3>
+          <ul className="site-footer__list">
+            <li><Link href="/blog">{t('nav.guide')}</Link></li>
+            <li><Link href="/faq">{t('pages.faq.title')}</Link></li>
+            <li><Link href="/favorites">{t('nav.favorites')}</Link></li>
+            <li><Link href="/account">{t('nav.myLeads')}</Link></li>
+            <li><Link href="/search">{t('nav.search')}</Link></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="site-footer__heading">{t('footer.categoriesHeading')}</h3>
+          <ul className="site-footer__list">
+            {FOOTER_CATEGORIES.map((slug) => (
+              <li key={slug}>
+                <Link href={`/${slug}`}>{t(`categories.${slug}`)}</Link>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div>
           <h3 className="site-footer__heading">{t('footer.companyHeading')}</h3>
           <ul className="site-footer__list">
             <li><Link href="/about">{t('footer.about')}</Link></li>
-            <li><Link href="/blog">{t('nav.blog')}</Link></li>
-            <li><Link href="/faq">{t('pages.faq.title')}</Link></li>
             <li><Link href="/contact">{t('footer.contact')}</Link></li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="site-footer__heading">{t('footer.legalHeading')}</h3>
-          <ul className="site-footer__list">
             <li><Link href="/privacy">{t('footer.privacy')}</Link></li>
             <li><Link href="/terms">{t('footer.terms')}</Link></li>
           </ul>
         </div>
 
-        <div>
-          <h3 className="site-footer__heading">{t('footer.vendorsHeading')}</h3>
-          <ul className="site-footer__list">
-            <li>
-              <a href={`${panelUrl}/register`}>{t('footer.addBusiness')}</a>
-            </li>
-          </ul>
+        <div className="site-footer__vendor">
+          <h3 className="site-footer__vendor-title">{t('footer.vendorTitle')}</h3>
+          <p className="site-footer__muted">{t('footer.vendorText')}</p>
+          <a href={`${panelUrl}/register`} className="site-footer__vendor-link">
+            {t('footer.vendorCta')}
+            <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
+          </a>
         </div>
       </div>
       <div className="container site-footer__bottom">
-        © {new Date().getFullYear()} Merasim360 — {t('footer.rights')}
+        <span>© {new Date().getFullYear()} Merasim360 — {t('footer.rights')}</span>
+        <LocaleSwitcher />
       </div>
     </footer>
   );

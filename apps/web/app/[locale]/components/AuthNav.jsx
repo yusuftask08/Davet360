@@ -9,8 +9,8 @@ import { apiClient } from '../../../lib/apiClient.js';
 import { invalidateFavoritesCache } from '../lib/favoritesCache.js';
 import { IconMenu } from './IconMenu.jsx';
 
-// Ayrı bir avatar butonu — hesap menüsü. Hamburger/dil menüsünden (SettingsMenu) kasıtlı
-// olarak ayrı: biri "hesabım" biri "ayarlar", tek bir birleşik pilla sıkıştırılmadı.
+// Header'ın sağındaki hesap hapı (The Knot'taki "Your account" gibi): giriş yapılmamışsa
+// doğrudan giriş sayfasına giden bir hap, yapılmışsa baş harfli hap + hesap menüsü.
 // Aç/kapa mantığı IconMenu'de yaşıyor, burada tekrarlanmıyor.
 export function AuthNav() {
   const t = useTranslations('nav');
@@ -36,27 +36,46 @@ export function AuthNav() {
     router.push('/');
   }
 
+  if (!user) {
+    return (
+      <Link href="/login" className="account-pill">
+        <span className="account-pill__avatar" aria-hidden="true">
+          <User size={14} strokeWidth={2.25} />
+        </span>
+        {t('login')}
+      </Link>
+    );
+  }
+
   return (
-    <IconMenu icon={<User size={18} strokeWidth={2} aria-hidden="true" />} label={user ? t('account') : t('login')} avatar>
-      {({ close }) =>
-        user ? (
-          <>
-            <Link href="/account" role="menuitem" onClick={close}>
-              {t('account')}
-            </Link>
-            <Link href="/favorites" role="menuitem" onClick={close}>
-              {t('favorites')}
-            </Link>
-            <button type="button" role="menuitem" onClick={() => handleLogout(close)}>
-              {t('logout')}
-            </button>
-          </>
-        ) : (
-          <Link href="/login" role="menuitem" onClick={close}>
-            {t('login')}
-          </Link>
-        )
+    <IconMenu
+      triggerClassName="account-pill"
+      label={t('account')}
+      icon={
+        <>
+          <span className="account-pill__avatar" aria-hidden="true">
+            {user.name?.charAt(0)?.toUpperCase() ?? '?'}
+          </span>
+          {t('accountPill')}
+        </>
       }
+    >
+      {({ close }) => (
+        <>
+          <Link href="/account" role="menuitem" onClick={close}>
+            {t('account')}
+          </Link>
+          <Link href="/account" role="menuitem" onClick={close}>
+            {t('myLeads')}
+          </Link>
+          <Link href="/favorites" role="menuitem" onClick={close}>
+            {t('favorites')}
+          </Link>
+          <button type="button" role="menuitem" onClick={() => handleLogout(close)}>
+            {t('logout')}
+          </button>
+        </>
+      )}
     </IconMenu>
   );
 }

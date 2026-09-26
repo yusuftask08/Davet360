@@ -5,24 +5,24 @@
 :root {
   --color-primary: #B8355F;
   --color-primary-dark: #7A2145;
-  --color-primary-light: #F6DCE6;
+  --color-primary-light: #FBE3EC;
   --color-accent: #D9A441;
   --color-accent-dark: #B9822B;
-  --color-ink: #211D1B;
-  --color-paper: #FBF7F2;
-  --color-paper-rgb: 251, 247, 242;
+  --color-ink: #141414;
+  --color-paper: #FFFFFF;
+  --color-paper-rgb: 255, 255, 255;
   --color-surface: #FFFFFF;
-  --color-border: #EAE3DA;
-  --color-neutral-50: #FBF7F2;
-  --color-neutral-100: #F3EDE5;
-  --color-neutral-300: #DED5C8;
-  --color-neutral-500: #70665B;
-  --color-neutral-700: #4A443C;
-  --color-neutral-900: #211D1B;
+  --color-border: #E6E6E6;
+  --color-neutral-50: #F7F7F7;
+  --color-neutral-100: #F1F1F1;
+  --color-neutral-300: #D4D4D4;
+  --color-neutral-500: #6B6B6B;
+  --color-neutral-700: #3D3D3D;
+  --color-neutral-900: #141414;
   --color-success: #2E7D32;
   --color-error: #C62828;
   --color-warning: #B8860B;
-  --gradient-hero: linear-gradient(135deg, #7A2145 0%, #B8355F 55%, #D9A441 130%);
+  --gradient-hero: linear-gradient(135deg, #141414 0%, #3D3D3D 100%);
 
   --space-xs: 4px;
   --space-sm: 8px;

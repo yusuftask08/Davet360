@@ -40,6 +40,7 @@ export {
   Menu,
   X,
   ArrowRight,
+  HelpCircle,
   Mail,
   Lock,
   Eye,
