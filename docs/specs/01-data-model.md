@@ -20,7 +20,7 @@ export const CATEGORIES = [
 export const VENDOR_STATUS = ['pending', 'approved', 'rejected', 'suspended'];
 
 // packages/constants/lead-status.js
-export const LEAD_STATUS = ['new', 'contacted', 'closed'];
+export const LEAD_STATUS = ['new', 'contacted', 'booked', 'declined', 'closed']; // 'closed' sadece eski kayıtlar için
 
 // packages/constants/review-status.js
 export const REVIEW_STATUS = ['pending', 'approved', 'rejected'];
@@ -94,9 +94,14 @@ Müşteri, vendor sahibi ve admin — tek koleksiyon, `role` alanıyla ayrılır
 | `customerEmail` | String | opsiyonel |
 | `eventDate` | Date | opsiyonel |
 | `message` | String | opsiyonel kısa not |
-| `status` | String enum `LEAD_STATUS` | default `new` |
+| `status` | String enum `LEAD_STATUS` | default `new`; vendor'ın ilk cevabı `contacted` yapar, vendor `contacted`/`booked`/`declined` seçebilir |
+| `messages` | Array (gömülü) | `{ senderRole: 'customer'\|'vendor', senderUserId, body (max 2000), createdAt }` — teklif üzerindeki yazışma |
+| `customerUnread` / `vendorUnread` | Number | default `0` — okunmamış mesaj rozetleri |
+| `lastMessageAt` / `lastMessagePreview` | Date / String | liste ekranlarında mesaj dizisini çekmeden önizleme |
 
 **Index:** `vendorId + createdAt` (vendor panelinde listeleme için).
+
+**Not:** Liste endpoint'leri `messages` alanını döndürmez; yazışma sadece `GET /leads/:id` ile gelir (erişim: teklifin müşterisi, vendor sahibi, admin salt okunur — diğerlerine 404).
 
 ---
 

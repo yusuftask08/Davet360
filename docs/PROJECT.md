@@ -39,7 +39,8 @@
 ## İş Modeli
 - **Sadece dizin + teklif alma.** Online ödeme / rezervasyon YOK (MVP kapsamı dışında).
 - Müşteri bir vendor'ı bulur, profiline girer, teklif/mesaj formu doldurur.
-- Vendor bu talebi görür, kendi iletişim kanalından (telefon/mail) döner.
+- Vendor bu talebi görür; platform içi mesajlaşmayla (teklif üzerindeki yazışma) ya da kendi iletişim kanalından (telefon/WhatsApp/mail) döner.
+- Teklifin durumu (`new` → `contacted` → `booked` / `declined`) her iki tarafta da görünür, müşteri süreci `/account` üzerinden takip eder.
 
 ## Roller
 1. **Müşteri (ziyaretçi/kayıtlı kullanıcı)** — arama, filtreleme, vendor profili görüntüleme, teklif isteği gönderme. Giriş yaparsa `/account` sayfasından profilini düzenler, şifresini değiştirir, gönderdiği tüm teklif taleplerini ve yorumlarını görür (teklif formu giriş yapmış kullanıcıyı otomatik tanır — misafir gönderimi de çalışmaya devam eder).
@@ -65,6 +66,9 @@
 - **Leaflet harita** ✅ — Vendor konumu varsa (`react-leaflet` + OpenStreetMap tile, API key yok) vendor sayfasında gösterilir.
 - **Altcha spam koruması** ✅ — Kayıt (`apps/web`, `apps/panel`) ve teklif formunda proof-of-work widget, `apps/api`de `altcha-lib` ile doğrulanır.
 - **Umami analytics** ✅ — `docker-compose.yml`'de self-hosted servis, `NEXT_PUBLIC_UMAMI_URL`/`NEXT_PUBLIC_UMAMI_WEBSITE_ID` set edilirse `apps/web` layout'una tracking script otomatik eklenir.
+- **Teklif üzerinden mesajlaşma** ✅ — Her teklif talebinin içinde müşteri ↔ vendor yazışması tutulur (`LeadRequest.messages`, gömülü). Müşteri `/account/leads/[id]`, vendor `panel /vendor/leads/[id]` sayfasından yazar; admin `apps/admin` `/leads/[id]`'den sadece okur. Her taraf için okunmamış sayacı (`customerUnread`/`vendorUnread`) + son mesaj önizlemesi, liste ekranlarında rozet olarak gösterilir. Teklif formu başarı ekranı doğrudan yazışma sayfasına link verir. Mesaj gönderimi rate-limit'li.
+- **Teklif durum takibi** ✅ — `packages/constants/lead-status.js`: `new`, `contacted`, `booked`, `declined` (eski `closed` sadece geriye uyumluluk için). Vendor'ın ilk cevabı talebi otomatik `new` → `contacted` yapar; vendor panelden `contacted`/`booked`/`declined` seçebilir.
+- **Bildirim e-postaları** ✅ — İlk okunmamış mesajda ve durum değişikliğinde karşı tarafa e-posta (`emailService`, SMTP yoksa konsola loglanır). Her mesajda değil, spam olmasın diye.
 - **Otomatik yedekleme** ✅ — `scripts/backup.sh`, Mongo container'ının kendi `mongodump`'ını kullanır (host'a ekstra araç kurmaya gerek yok), upload klasörünü de tar'lar, 30 günden eski yedekleri siler. Coolify/cron ile zamanlanır.
 
 Veri modeli etkisi: `Review`, `BlogPost` koleksiyonları (favoriler `User.favorites` içine gömülü) — bkz. `specs/01-data-model.md`.
@@ -136,7 +140,17 @@ Tek kaynak (single source of truth) token sistemi — hiçbir bileşende hardcod
 - Bileşenler CSS custom properties (`var(--color-primary)` vs.) üzerinden stillenir → yeni proje açılınca sadece `theme.css` + `colors.js` değişir, bileşen kodu hiç değişmez.
 - Responsive breakpoint'ler de token olarak tanımlanır (`--bp-sm`, `--bp-md`, `--bp-lg`) — hem web hem panel aynı kırılım noktalarını kullanır.
 - Karanlık mod (dark mode) altyapısı token seviyesinde baştan bırakılır (ileride açılabilir, MVP'de zorunlu değil).
-- **Uygulanan marka kimliği:** mürdüm→gül→altın gradyanı (`--gradient-hero`), sıcak kağıt/ivory arka plan (`--color-paper`), `Plus Jakarta Sans` (next/font ile self-hosted, ücretsiz) tipografi, pill-shaped butonlar, yumuşak gölge/elevation ölçeği, hover'da kart kaldırma animasyonu (`motion.js` token'ları) — "yeni nesil" hissi bilinçli olarak buradan geliyor, sonradan eklenmedi.
+- **Uygulanan marka kimliği (The Knot tarzı, güncel):** Referans alınan görünüm The Knot — arayüz geri planda kalır, renk fotoğraflardan gelir.
+  - Beyaz zemin (`--color-paper: #FFFFFF`), neredeyse siyah yazı (`--color-ink: #141414`), nötr gri skala, **tek vurgu rengi gül** (`--color-primary: #B8355F`). Eski mürdüm→gül→altın gradyanı ve krem/ivory zemin **kaldırıldı**; `--gradient-hero` artık sadece görsel yokken kullanılan koyu placeholder gradyanı.
+  - `Plus Jakarta Sans` (next/font ile self-hosted, ücretsiz), pill-shaped butonlar, yumuşak gölge ölçeği, hover'da kart kaldırma animasyonu (`motion.js` token'ları) korunuyor.
+  - Tarayıcı tema rengi (`manifest.json`, `themeColor`) beyaz — web, panel ve admin aynı.
+- **Header (masaüstü, The Knot benzeri iki satır):**
+  - Üst satır: logo + arama / favoriler / mesajlar ikonları + hesap pill'i (`AuthNav`).
+  - Alt satır: hover + klavye ile açılan **mega menüler** (`MainNav.jsx`) — *Planlama*, *Düğün & Nişan*, *Özel Günler*, *İşletmeler İçin*. Her menüde kategori sütunları, kısayollar ve öne çıkan vendor fotoğraf kartları var.
+  - Kategori gruplaması tek yerde: `apps/web/app/[locale]/lib/navGroups.js` (`WEDDING_CATEGORIES`, `SPECIAL_DAY_CATEGORIES`, `SPECIAL_DAY_SERVICES`) — mega menü, mobil çekmece ve footer aynı gruplamayı kullanır. Her kategori tam olarak bir grupta.
+  - Tablet/mobil: hamburger çekmece (`MobileMenu`) korunuyor, mega menüyle aynı gruplarla.
+- **Footer:** Siyah zemin; Planlama / Kategoriler / Şirket sütunları, "İşletmeni Ekle" CTA'sı, dil değiştirici. SEO şehir linkleri footer'ın içine taşındı.
+- Kullanılmayan `SettingsMenu` bileşeni kaldırıldı.
 - `VendorCard` bileşeni (`packages/ui/components/VendorCard.jsx`) vendor listeleme/arama/favoriler gibi her yerde reuse edilir.
 
 ## PWA Gereksinimi
@@ -260,6 +274,18 @@ Kendi sunucumuzda barındığımız için güvenlik tamamen bizim sorumluluğumu
 - `POST /auth/forgot-password` → rastgele token üretilir, sadece **hash'i** DB'ye yazılır (ham token asla saklanmaz), email ile gönderilir (`nodemailer`, SMTP tanımsızsa link dev modunda konsola loglanır — local'de SMTP şart değil)
 - Email var/yok fark etmeksizin aynı cevap döner (enumeration saldırısı önlenir)
 - Token tek kullanımlık, 1 saat geçerli, kullanılınca silinir
+
+## Durum / Son Yapılanlar
+Kronolojik olarak son iş paketleri (en yeni üstte):
+1. **The Knot tarzı görsel dönüşüm** — beyaz/siyah palet + tek gül vurgusu, iki satırlı masaüstü header + mega menüler, siyah footer (bkz. "Tasarım Sistemi").
+2. **Teklif mesajlaşması, durum takibi ve bildirim e-postaları** — `GET /leads/:id`, `POST /leads/:id/messages`, `PATCH /leads/:id/status`. Erişim sadece teklifin müşterisi, vendor sahibi veya (salt okunur) admin; diğer herkese 404. Liste endpoint'leri mesaj dizisini döndürmez.
+3. **Mobil yeniden tasarım** — web (hamburger çekmece, hero arama, kaydırılabilir vendor kartları, mobil sticky "Teklif Al"), panel (`PanelShell`: masaüstünde üst sekme, mobilde alt tab bar; `ImageUploader`), admin (`AdminShell`, Türkçe durum etiketleri).
+
+**Devam eden / sıradaki (The Knot referansıyla):**
+- Ana sayfa ve listeleme sayfalarının yeni header/footer diliyle tam uyumu (hero, kategori kartları, vendor kartları — fotoğraf ağırlıklı, sade).
+- Vendor detay sayfasının The Knot benzeri düzeni (büyük galeri, sabit teklif kutusu, yorum özeti).
+- Panel ve admin'in yeni beyaz/siyah paletle görsel tutarlılık kontrolü.
+- Mega menüdeki "Planlama" kısayollarının arkasındaki araçlar (ör. kontrol listesi, bütçe) henüz yok — MVP sonrası değerlendirilecek.
 
 ## Sonraki Adım
 Bu döküman onaylandıktan sonra aşağıdaki spec dosyalarına bölünecek (her biri ayrı iş paketi):
